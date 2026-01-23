@@ -1,6 +1,11 @@
 # macOS
 .DS_Store
 
+# Project-Level Dev/Test area
+.windsurf/
+.claude/
+.cursor/
+
 # Editors / IDEs
 .idea/
 .vscode/
