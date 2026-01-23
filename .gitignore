@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Editors / IDEs
+.idea/
+.vscode/
+*.swp
+
+# Node / JS artifacts (if used around workflows)
+node_modules/
+.dist/
+
+# Misc
+.env
