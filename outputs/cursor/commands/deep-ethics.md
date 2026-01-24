@@ -29,7 +29,7 @@ This workflow instructs Cascade to surface and address ethical risks, especially
 
 ## 4. Check Legal and Policy Frameworks
 
-- Use `/workflow-deep-search` to identify applicable laws and policies for the jurisdiction and time (e.g., data protection, AI-specific regulations, consumer protection, sector rules).
+- Use the Deep Search (`/deep-search`) workflow to identify applicable laws and policies for the jurisdiction and time (e.g., data protection, AI-specific regulations, consumer protection, sector rules).
 - Distinguish between **legal compliance** and **ethical aspiration**:
   - Note where the system might be legal but still ethically questionable.
 - Align with internal codes of conduct or responsible AI guidelines if available.

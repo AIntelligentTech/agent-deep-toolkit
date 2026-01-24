@@ -173,6 +173,22 @@ This installs plain markdown files to `~/.cursor/commands/` (for global use) and
 
 If you use Cursor together with the Claude Code extension, installing with `--agent claude` makes the deep-* skills available via `.claude/skills`. Cursor will surface these through its Claude integration.
 
+### Command semantics by agent
+
+All deep tools use the same **canonical command name** across agents: `/deep-<tool-id>` (for example `/deep-architect`, `/deep-debug`, `/deep-refactor`). There are no `/workflow-deep-*` commands; older `workflow-` prefixes have been removed in favour of this unified naming.
+
+- **In Cursor**:
+  - Each chat message can apply at most one `/deep-*` command.
+  - Any text you type *after* the command name (for example `/deep-architect Design a new event pipeline`) is treated as that command’s parameters.
+  - The deep-* command bodies may reference other `/deep-*` commands, but Cursor does **not** automatically chain or nest commands. This composability is **conceptual**: it is up to you (and the model) to run follow-up commands in separate turns when helpful.
+
+- **In Windsurf and Claude Code**:
+  - The agent sees the **entire prompt** and can respond to multiple `/deep-*` cues in a single message.
+  - There is no special notion of “trailing parameters”; all text in the message is treated as context.
+  - You can freely mix several deep-* workflows in one prompt (for example `/deep-architect` + `/deep-test`), and the agent will select and combine them as appropriate.
+
+This means Cursor’s stricter `/command <args>` model is **only a limitation for Cursor’s native commands**. The same deep-* content remains fully flexible in Windsurf and Claude Code.
+
 ## Deep tools model and generated outputs (for maintainers)
 
 The canonical sources for the toolkit now live in:
@@ -203,7 +219,7 @@ For exploratory work, there are two complementary workflows:
 
 ## Versioning and upgrades
 
-Agent Deep Toolkit follows [Semantic Versioning](https://semver.org/). The canonical version is stored in the top-level `VERSION` file (for example `0.3.0`).
+Agent Deep Toolkit follows [Semantic Versioning](https://semver.org/). The canonical version is stored in the top-level `VERSION` file (for example `0.3.1`).
 
 Each destination directory that the installer manages also receives a `.agent-deep-toolkit-version` file. Re-running the installer:
 
@@ -212,7 +228,7 @@ Each destination directory that the installer manages also receives a `.agent-de
 
 To upgrade an existing installation to a newer toolkit version:
 
-1. Update your local `agent-deep-toolkit` checkout to the desired version (for example by checking out the `v0.3.0` tag once it exists).
+1. Update your local `agent-deep-toolkit` checkout to the desired version (for example by checking out the `v0.3.1` tag once it exists).
 2. Re-run the same `install.sh` command(s) you used originally (for example `--agent windsurf --level user` or `--agent all --level project`).
 
 The version markers in your workflow/skills directories will be updated to reflect the new toolkit version.

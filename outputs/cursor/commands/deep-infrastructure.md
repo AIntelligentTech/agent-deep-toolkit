@@ -31,7 +31,7 @@ This workflow instructs Cascade to think like an experienced SRE/DevOps/infra en
   - Horizontal vs vertical scaling, autoscaling policies, and capacity buffers.
 - Design for failure:
   - Redundancy, graceful degradation, backpressure, and safe fallbacks.
-- Align with `/workflow-deep-observability` to ensure infra health is visible.
+- Align with the Deep Observability workflow (`/deep-observability`) to ensure infra health is visible.
 
 ## 5. Address Security and Compliance Baselines
 
@@ -45,7 +45,7 @@ This workflow instructs Cascade to think like an experienced SRE/DevOps/infra en
 - Define operational tasks and on-call responsibilities.
 - Create and maintain runbooks for:
   - Common incidents, deployments, rollbacks, and maintenance.
-- Use post-incident learnings (`/workflow-deep-incident`) to refine infra and operations.
+- Use post-incident learnings (`/deep-incident`) to refine infra and operations.
 
 ## 7. Iterate with Measurements and Feedback
 

@@ -7,7 +7,7 @@ user-invocable: true
 
 # Deep Polish Workflow
 
-This workflow instructs Cascade to focus on the final 10–20% of refinement that separates “good enough” from truly excellent. It assumes core UX, architecture, and functionality are already in place (see `/workflow-deep-ux`, `/workflow-deep-code`, and `/workflow-deep-test`).
+This workflow instructs Cascade to focus on the final 10–20% of refinement that separates “good enough” from truly excellent. It assumes core UX, architecture, and functionality are already in place (see `/deep-ux`, `/deep-code`, and `/deep-test`).
 
 ## 1. Clarify the Polish Goal and Quality Bar
 
@@ -20,7 +20,7 @@ This workflow instructs Cascade to focus on the final 10–20% of refinement tha
 
 ## 2. Diagnose Current Rough Edges
 
-- Perform a structured pass (building on `/workflow-deep-ux` where relevant):
+- Perform a structured pass (building on `/deep-ux` where relevant):
   - Visual noise, misalignment, inconsistent spacing.
   - Awkward flows, missing or unclear states.
   - Jarring or absent motion, loading, and error handling.
@@ -83,7 +83,7 @@ This workflow instructs Cascade to focus on the final 10–20% of refinement tha
 - Incorporate feedback selectively:
   - Focus on issues that undermine clarity, trust, or perceived quality.
 - Coordinate with engineering and QA:
-  - Ensure polish changes are testable, captured in `/workflow-deep-test` strategy, and do not introduce regressions.
+  - Ensure polish changes are testable, captured in `/deep-test` strategy, and do not introduce regressions.
 
 ## 9. Capture Patterns and Definition of Done
 
