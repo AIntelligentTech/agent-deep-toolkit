@@ -4,6 +4,52 @@ All notable changes to this project will be documented in this file.
 
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] - 2026-01-24
+
+### Added
+
+- **Full Cursor support**: Native slash commands via `.cursor/commands/` directory.
+  - New `--agent cursor` option in `install.sh` for project and user-level installations.
+  - Cursor commands are plain markdown files (no frontmatter) that Cursor auto-discovers when you type `/` in chat.
+  - Commands install to `.cursor/commands/` (project) or `~/.cursor/commands` (user).
+- New `templates/cursor/command-template.md` template for generating Cursor commands.
+- New `outputs/cursor/commands/` directory with generated Cursor commands (1:1 with Windsurf workflows).
+- Cursor included in `--agent all` for both install and uninstall operations.
+- Generator now writes `outputs/version.txt` with the toolkit version, enabling easy verification of which version generated the current outputs.
+- Integrated **Automated Iterative Development (AID)** methodology into `deep-iterate` and `deep-code` workflows:
+  - AID process loop diagram (Plan → Execute → Validate → Commit → Adapt)
+  - Task list pattern with status tracking (`[x]`, `[ ]`, `[>]`, `[!]`)
+  - Phase decomposition methodology
+  - Validation hierarchy (syntax → unit → integration → e2e)
+  - Commit at phase boundaries discipline
+  - Adaptation triggers and responses table
+  - Code quality checklist and validation commands by artifact type.
+- Intelligent uninstall support in `install.sh` with `--uninstall`, `--clean-up`, and `--detect-only` action flags.
+- A non-interactive mode for uninstall via `--yes` / `--non-interactive`, suitable for scripted use.
+- Detection and reporting of existing Agent Deep Toolkit installs across supported agents without modifying the filesystem when `--detect-only` is specified.
+- README documentation for the automated uninstaller, detect-only mode, and how to use the toolkit with Cursor and Claude Code.
+- A `deep-tools.json` registry plus `bin/generate-deep-tools` script and `outputs/` tree for generating Windsurf workflows, Claude skills, and Cursor commands from a single source of truth.
+- A split between `deep-search` (local/project search) and `deep-research` (web/multi-source research) across Windsurf workflows and the `deep-meta` Claude skill.
+
+### Changed
+
+- Updated `bin/generate-deep-tools` to generate Cursor commands alongside Windsurf workflows and Claude skills.
+- Updated `install.sh` with `copy_cursor_commands`, `install_cursor_to`, and `uninstall_cursor_from` functions.
+- Updated README with comprehensive Cursor documentation including installation, usage, and per-agent independence.
+- Architecture comment in the generator updated to reflect three-agent support.
+- **Breaking**: Claude Code skills are now generated 1:1 with Windsurf workflows. Each deep-* tool gets its own skill directory (`outputs/claude/skills/deep-architect/`, `deep-debug/`, etc.) instead of being grouped into three bundled skills (deep-meta, deep-engineering, deep-ops).
+- Removed the grouped `skills` array from `tools/deep-tools.json`; the `tools` array is now the sole source of truth for both Windsurf workflows and Claude skills.
+- Updated `bin/generate-deep-tools` to produce one Claude skill per tool, matching Windsurf 1:1.
+- Updated `install.sh` uninstaller to dynamically find all `deep-*` skill directories instead of a hardcoded list.
+- Claude skills now use the same workflow body content as Windsurf workflows, ensuring identical behavior across agents.
+- Each Claude skill defaults to `disable-model-invocation: true` and `user-invocable: true` for safe, user-controlled invocation.
+- Bumped toolkit version from `0.2.0` to `0.3.0` in `VERSION` and updated README version examples accordingly.
+
+### Removed
+
+- Removed the grouped Claude skills (`deep-meta`, `deep-engineering`, `deep-ops`) and their `references/` subdirectories.
+- Removed the `skills` array from `tools/deep-tools.json`.
+
 ## [0.2.0] - 2026-01-23
 
 ### Added
