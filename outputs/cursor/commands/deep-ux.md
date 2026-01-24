@@ -83,7 +83,7 @@ This workflow instructs Cascade to evaluate and improve user experience systemat
 - Use **motion and microinteractions** purposefully:
   - Apply subtle, meaningful motion to communicate state changes, reinforce spatial models, and reduce cognitive load.
   - Avoid gratuitous animations that distract from tasks or create motion sickness.
-- When proposing designs, consider at least one alternative layout or component strategy and, using `/workflow-deep-consider` where helpful, justify why the chosen approach best fits the users, content, and brand instead of defaulting to commodity patterns.
+- When proposing designs, consider at least one alternative layout or component strategy and, using `/deep-consider` where helpful, justify why the chosen approach best fits the users, content, and brand instead of defaulting to commodity patterns.
 
 ## 9. Use Whimsy and Delight Responsibly
 
@@ -100,7 +100,7 @@ This workflow instructs Cascade to evaluate and improve user experience systemat
 - Ensure **accessibility and control**:
   - Respect reduced-motion preferences and provide ways to tone down or disable non-essential animation.
   - Keep whimsical copy and visuals understandable for diverse audiences; avoid in-jokes that exclude or confuse.
-- When recommending whimsical patterns, propose at least one **no-whimsy baseline** and one **delight-enhanced variant**, and use `/workflow-deep-consider` reasoning to decide whether the added delight is justified for this product, audience, and moment.
+- When recommending whimsical patterns, propose at least one **no-whimsy baseline** and one **delight-enhanced variant**, and use `/deep-consider` reasoning to decide whether the added delight is justified for this product, audience, and moment.
 
 ## 10. Bridge UX to Frontend Implementation
 
@@ -117,8 +117,8 @@ This workflow instructs Cascade to evaluate and improve user experience systemat
   - Bundle size, code-splitting, lazy loading, and caching strategies.
   - Minimizing unnecessary re-renders and overdraw; efficient list and media handling.
 - Ensure the UX plan is reflected in engineering quality practices:
-  - Map critical flows and edge cases into `/workflow-deep-test` coverage.
+  - Map critical flows and edge cases into `/deep-test` coverage.
   - Align error states, loading states, and empty states with actual API and data behavior.
-- Where trade-offs between UX ideals and engineering constraints emerge, use `/workflow-deep-consider` to make them explicit and document the chosen compromise.
+- Where trade-offs between UX ideals and engineering constraints emerge, use `/deep-consider` to make them explicit and document the chosen compromise.
 
 

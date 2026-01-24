@@ -22,7 +22,7 @@ This workflow instructs Cascade to produce specifications that are precise, acti
 - For each option, outline:
   - High-level architecture/flow.
   - Pros, cons, risks, and dependencies.
-- Optionally apply `/workflow-deep-consider` techniques (decision matrix, cost-benefit thinking, pre-mortem) for important choices.
+- Optionally apply `/deep-consider` techniques (decision matrix, cost-benefit thinking, pre-mortem) for important choices.
 
 ## 4. Choose and Justify the Preferred Approach
 

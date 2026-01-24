@@ -39,7 +39,7 @@ This workflow instructs Cascade to handle production incidents methodically: tri
 
 ## 6. Transition to Retrospective and Systemic Fixes
 
-- Schedule a follow-up using `/workflow-deep-retrospective`.
+- Schedule a follow-up using the Deep Retrospective workflow (`/deep-retrospective`).
 - Ensure action items are captured and prioritized:
   - Code fixes, infra changes, observability upgrades, process improvements.
 - Update runbooks, playbooks, and training based on what was learned.

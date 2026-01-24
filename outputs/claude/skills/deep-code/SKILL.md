@@ -9,6 +9,8 @@ user-invocable: true
 
 This workflow instructs Cascade to focus on implementation quality: clear design, clean code, strong tests, safe integration, and disciplined version control following the **Automated Iterative Development (AID)** methodology.
 
+For command-style agents that support `/deep-code <task>` syntax (such as Cursor), treat any text you type after the command as the specific task description; in agents like Windsurf and Claude Code, the entire prompt is treated as context and you can mention `/deep-code` anywhere without worrying about argument position.
+
 ## 1. Understand Behavioral and Interface Requirements
 
 - Restate what the code must do in precise terms:

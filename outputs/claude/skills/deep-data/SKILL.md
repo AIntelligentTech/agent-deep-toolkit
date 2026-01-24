@@ -41,7 +41,7 @@ This workflow instructs Cascade to treat data as a product: modeled clearly, val
 
 - Classify data sensitivity (e.g., public, internal, personal, special categories).
 - Align access controls, encryption, and retention with classification.
-- Ensure compliance with relevant regulations and policies by using `/workflow-deep-regulation` and `/workflow-deep-ethics` where appropriate.
+- Ensure compliance with relevant regulations and policies by using the Deep Regulation (`/deep-regulation`) and Deep Ethics (`/deep-ethics`) workflows where appropriate.
 
 ## 6. Document Semantics and Usage
 

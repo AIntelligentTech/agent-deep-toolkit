@@ -16,7 +16,7 @@ This workflow instructs Cascade to systematically consider regulatory obligation
 
 ## 2. Identify Potentially Applicable Regimes
 
-- Use `/workflow-deep-search` to find up-to-date legal and regulatory frameworks relevant to the context and time (e.g., data protection, AI-specific laws, consumer protection, digital services, cybersecurity).
+- Use `/deep-search` to find up-to-date legal and regulatory frameworks relevant to the context and time (e.g., data protection, AI-specific laws, consumer protection, digital services, cybersecurity).
 - Consider, as examples (not an exhaustive or authoritative list):
   - Data protection and privacy laws.
   - AI/automated-decision-making regulations.
@@ -33,7 +33,7 @@ This workflow instructs Cascade to systematically consider regulatory obligation
 
 ## 4. Assess Key Obligations and Risks
 
-- For each identified regime, use `/workflow-deep-search` to:
+- For each identified regime, use `/deep-search` to:
   - Outline likely obligations (e.g., transparency, consent, data subject rights, security measures, risk assessments).
   - Identify high-risk processing activities (e.g., profiling, large-scale sensitive data, high-risk AI use cases).
 - Highlight uncertainties or ambiguities that require professional legal interpretation.
@@ -44,7 +44,7 @@ This workflow instructs Cascade to systematically consider regulatory obligation
   - Data minimization, privacy-by-design measures, security controls, audit logging.
 - Encourage creation or refinement of:
   - Policies, records of processing, risk/impact assessments, and user-facing notices.
-- Align recommendations with `/workflow-deep-ethics` to go beyond bare compliance where appropriate.
+- Align recommendations with `/deep-ethics` to go beyond bare compliance where appropriate.
 
 ## 6. Monitor Regulatory Change and Seek Expert Advice
 

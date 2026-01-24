@@ -20,6 +20,8 @@ This workflow instructs Cascade to work iteratively using the **Automated Iterat
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+For command-style agents that support `/deep-iterate <task>` syntax (such as Cursor), treat any text you type after the command as the specific task description; in agents like Windsurf and Claude Code, the entire prompt is treated as context and you can mention `/deep-iterate` anywhere without worrying about argument position.
+
 ## 1. Clarify Goal, Decompose, and Create Task List
 
 - Restate the ultimate goal in observable terms:

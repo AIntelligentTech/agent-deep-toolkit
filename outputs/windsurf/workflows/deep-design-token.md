@@ -64,9 +64,9 @@ This workflow instructs Cascade to reverse-engineer and codify a UI’s visual l
 
 - Ensure components use tokens rather than hard-coded values:
   - Map semantic tokens to component props, variants, and states.
-- Coordinate with `/workflow-deep-ux` and `/workflow-deep-polish`:
+- Coordinate with the Deep UX (`/deep-ux`) and Deep Polish (`/deep-polish`) workflows:
   - Use tokens to implement visual hierarchy, states, and brand expression.
-- Incorporate tokens into `/workflow-deep-test` strategy where relevant:
+- Incorporate tokens into `/deep-test` strategy where relevant:
   - Visual regression tests, snapshot tests, or contract tests for theming.
 
 ## 8. Govern Token Evolution

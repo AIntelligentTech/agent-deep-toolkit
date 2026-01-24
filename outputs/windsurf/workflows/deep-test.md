@@ -50,7 +50,7 @@ This workflow instructs Cascade to approach testing as a first-class design acti
 
 - Periodically review the test suite for:
   - Redundancy, brittleness, gaps, and misalignment with current risk.
-- Refactor tests alongside production code using `/workflow-deep-refactor` guidance.
+- Refactor tests alongside production code using the Deep Refactor workflow (`/deep-refactor`) for guidance.
 - Remove or rewrite low-value tests that hinder change without providing confidence.
 
 ## 7. Document Testing Strategy and Responsibilities

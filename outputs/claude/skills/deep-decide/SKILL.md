@@ -21,7 +21,7 @@ This workflow instructs Cascade to move from options to a clear, justified decis
 - Summarize relevant background, constraints, and goals.
 - Enumerate candidate options, including:
   - Status quo and at least one minimal and one ambitious option.
-- Use `/workflow-deep-consider` if the option space or context is complex.
+- Use the Deep Consider workflow (`/deep-consider`) if the option space or context is complex.
 
 ## 3. Select Decision Frameworks and Criteria
 
@@ -34,7 +34,7 @@ This workflow instructs Cascade to move from options to a clear, justified decis
 ## 4. Gather Evidence and Run Targeted Analyses
 
 - Identify critical unknowns and assumptions.
-- Use `/workflow-deep-search`, `/workflow-deep-experiment`, or `/workflow-deep-investigate` to reduce uncertainty.
+- Use the Deep Search (`/deep-search`), Deep Experiment (`/deep-experiment`), or Deep Investigate (`/deep-investigate`) workflows to reduce uncertainty.
 - Avoid analysis paralysis:
   - Focus effort where it meaningfully changes the decision.
 
