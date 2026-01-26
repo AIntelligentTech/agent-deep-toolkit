@@ -15,12 +15,16 @@ usage() {
 Usage: $SCRIPT_NAME --agent <agent> --level <level> [--project-dir <dir>] [--force] [--dry-run] [--uninstall] [--clean-up] [--detect-only] [--yes]
 
 Agents:
-  windsurf        Install classic Windsurf workflows (.windsurf/workflows, ~/.windsurf/workflows)
-  windsurf-next   Install Windsurf Next global workflows (~/.codeium|~/.codium/windsurf-next/global_workflows)
+  windsurf        Install Windsurf stable channel workflows (auto-detects installation path)
+                  Checks: ~/.windsurf, ~/.codeium/.windsurf, ~/.codeium/windsurf
+                  Default: ~/.windsurf/workflows if none found
+  windsurf-next   Install Windsurf Next channel workflows (auto-detects installations)
+                  Checks: ~/.codeium/windsurf-next
+                  Installs to all detected Next installations
   claude          Install Claude Code skills (.claude/skills, ~/.claude/skills)
   cursor          Install Cursor commands (.cursor/commands, ~/.cursor/commands)
   opencode        Install OpenCode commands (.opencode/commands, ~/.config/opencode/commands)
-  all             Install for all supported agents at the chosen level
+  all             Install for all agents (intelligently detects all Windsurf installations)
 
 Levels:
   project         Install into the specified project (default: current directory)
@@ -37,22 +41,19 @@ Options:
                        Do not prompt for confirmation during uninstall; assume "yes" to prompts
 
 Examples:
-  # Install Windsurf workflows into the current project
-  $SCRIPT_NAME --agent windsurf --level project
+  # Install Windsurf workflows (auto-detects stable installation)
+  $SCRIPT_NAME --agent windsurf --level user
 
-  # Install Windsurf Next workflows into user-level global locations
+  # Install Windsurf Next workflows (auto-detects all Next installations)
   $SCRIPT_NAME --agent windsurf-next --level user
 
-  # Install Claude Code skills into ~/.claude/skills
-  $SCRIPT_NAME --agent claude --level user
-
-  # Install Cursor commands into ~/.cursor/commands
-  $SCRIPT_NAME --agent cursor --level user
-
-  # Install everything for all agents at the user level
+  # Install to all agents and all detected Windsurf installations
   $SCRIPT_NAME --agent all --level user
 
-  # Uninstall everything for all agents at the user level
+  # Detect existing installations without installing
+  $SCRIPT_NAME --agent all --level user --detect-only
+
+  # Uninstall everything from all detected locations
   $SCRIPT_NAME --agent all --level user --uninstall --yes
 USAGE
 }
@@ -74,6 +75,104 @@ prompt_confirm() {
       return 1
       ;;
   esac
+}
+
+detect_windsurf_stable_installation() {
+  # Detect Windsurf stable channel installation (priority order)
+  # Returns the path to the workflows directory if found, defaults to standard location
+
+  # Priority order for stable channel detection:
+  # 1. ~/.windsurf/workflows (traditional/standard location)
+  # 2. ~/.codeium/.windsurf/workflows (codeium subdirectory variant)
+  # 3. ~/.codeium/windsurf/global_workflows (global workflows in codeium)
+
+  local candidates=(
+    "$HOME/.windsurf/workflows"
+    "$HOME/.codeium/.windsurf/workflows"
+    "$HOME/.codeium/windsurf/global_workflows"
+  )
+
+  for path in "${candidates[@]}"; do
+    # Check if parent directory exists (the windsurf installation root)
+    local parent_dir="${path%/*}"
+    if [ -d "$parent_dir" ]; then
+      echo "$path"
+      return 0
+    fi
+  done
+
+  # Default to traditional stable location if nothing found
+  echo "$HOME/.windsurf/workflows"
+  return 0
+}
+
+detect_windsurf_next_installations() {
+  # Detect all Windsurf Next channel installations
+  # Returns array of paths that exist
+
+  local candidates=(
+    "$HOME/.codeium/windsurf-next/global_workflows"
+  )
+
+  local found_paths=()
+  for path in "${candidates[@]}"; do
+    local parent_dir="${path%/*}"
+    if [ -d "$parent_dir" ]; then
+      found_paths+=("$path")
+    fi
+  done
+
+  # Return found paths or default if none exist
+  if [ "${#found_paths[@]}" -eq 0 ]; then
+    echo "$HOME/.codeium/windsurf-next/global_workflows"
+  else
+    printf '%s\n' "${found_paths[@]}"
+  fi
+}
+
+detect_all_windsurf_stable_installations() {
+  # Detect all Windsurf stable channel installations
+  # Returns array of paths that exist
+
+  local candidates=(
+    "$HOME/.windsurf/workflows"
+    "$HOME/.codeium/.windsurf/workflows"
+    "$HOME/.codeium/windsurf/global_workflows"
+  )
+
+  local found_paths=()
+  for path in "${candidates[@]}"; do
+    local parent_dir="${path%/*}"
+    if [ -d "$parent_dir" ]; then
+      found_paths+=("$path")
+    fi
+  done
+
+  # Return found paths or default if none exist
+  if [ "${#found_paths[@]}" -eq 0 ]; then
+    echo "$HOME/.windsurf/workflows"
+  else
+    printf '%s\n' "${found_paths[@]}"
+  fi
+}
+
+detect_all_windsurf_installations() {
+  # Detect all Windsurf installations (all stable + all next)
+  # Returns array of unique paths
+
+  local all_paths=()
+
+  # Add all stable installations
+  while IFS= read -r stable_path; do
+    all_paths+=("$stable_path")
+  done < <(detect_all_windsurf_stable_installations)
+
+  # Add all next installations
+  while IFS= read -r next_path; do
+    all_paths+=("$next_path")
+  done < <(detect_windsurf_next_installations)
+
+  printf '%s\n' "${all_paths[@]}"
 }
 
 copy_windsurf_workflows() {
@@ -657,10 +756,12 @@ case "$AGENT" in
         fi
         ;;
       user)
+        STABLE_PATH="$(detect_windsurf_stable_installation)"
         if [ "$MODE" = "install" ]; then
-          install_windsurf_to "$HOME/.windsurf/workflows" "windsurf user"
+          echo "[info] detected Windsurf stable installation path: $STABLE_PATH"
+          install_windsurf_to "$STABLE_PATH" "windsurf user (auto-detected)"
         else
-          uninstall_windsurf_from "$HOME/.windsurf/workflows" "windsurf user"
+          uninstall_windsurf_from "$STABLE_PATH" "windsurf user (auto-detected)"
         fi
         ;;
       *)
@@ -680,13 +781,29 @@ case "$AGENT" in
         fi
         ;;
       user)
-        if [ "$MODE" = "install" ]; then
-          install_windsurf_to "$HOME/.codeium/windsurf-next/global_workflows" "windsurf-next user (~/.codeium)"
-          install_windsurf_to "$HOME/.codium/windsurf-next/global_workflows" "windsurf-next user (~/.codium)"
+        echo "[info] detecting Windsurf Next installations..."
+        NEXT_PATHS=()
+        while IFS= read -r path; do
+          NEXT_PATHS+=("$path")
+        done < <(detect_windsurf_next_installations)
+
+        if [ "${#NEXT_PATHS[@]}" -eq 0 ]; then
+          echo "[warn] no Windsurf Next installations detected; using default"
+          NEXT_PATHS=(
+            "$HOME/.codeium/windsurf-next/global_workflows"
+          )
         else
-          uninstall_windsurf_from "$HOME/.codeium/windsurf-next/global_workflows" "windsurf-next user (~/.codeium)"
-          uninstall_windsurf_from "$HOME/.codium/windsurf-next/global_workflows" "windsurf-next user (~/.codium)"
+          echo "[info] found ${#NEXT_PATHS[@]} Windsurf Next installation(s)"
         fi
+
+        for next_path in "${NEXT_PATHS[@]}"; do
+          LABEL="windsurf-next user ($(echo "$next_path" | sed "s|$HOME/||"))"
+          if [ "$MODE" = "install" ]; then
+            install_windsurf_to "$next_path" "$LABEL"
+          else
+            uninstall_windsurf_from "$next_path" "$LABEL"
+          fi
+        done
         ;;
       *)
         echo "[error] unsupported level for agent windsurf-next: $LEVEL" >&2
@@ -780,17 +897,29 @@ case "$AGENT" in
         fi
         ;;
       user)
+        echo "[info] detecting all Windsurf installations..."
+        ALL_WINDSURF_PATHS=()
+        while IFS= read -r path; do
+          ALL_WINDSURF_PATHS+=("$path")
+        done < <(detect_all_windsurf_installations)
+
+        echo "[info] found ${#ALL_WINDSURF_PATHS[@]} total Windsurf installation path(s)"
+
         if [ "$MODE" = "install" ]; then
-          install_windsurf_to "$HOME/.windsurf/workflows" "windsurf user"
-          install_windsurf_to "$HOME/.codeium/windsurf-next/global_workflows" "windsurf-next user (~/.codeium)"
-          install_windsurf_to "$HOME/.codium/windsurf-next/global_workflows" "windsurf-next user (~/.codium)"
+          # Install to all detected Windsurf paths
+          for ws_path in "${ALL_WINDSURF_PATHS[@]}"; do
+            WS_LABEL="windsurf ($(echo "$ws_path" | sed "s|$HOME/||"))"
+            install_windsurf_to "$ws_path" "$WS_LABEL"
+          done
           install_claude_to "$HOME/.claude/skills" "claude user"
           install_cursor_to "$HOME/.cursor/commands" "cursor user"
           install_opencode_to "$HOME/.config/opencode/commands" "opencode user"
         else
-          uninstall_windsurf_from "$HOME/.windsurf/workflows" "windsurf user"
-          uninstall_windsurf_from "$HOME/.codeium/windsurf-next/global_workflows" "windsurf-next user (~/.codeium)"
-          uninstall_windsurf_from "$HOME/.codium/windsurf-next/global_workflows" "windsurf-next user (~/.codium)"
+          # Uninstall from all detected Windsurf paths
+          for ws_path in "${ALL_WINDSURF_PATHS[@]}"; do
+            WS_LABEL="windsurf ($(echo "$ws_path" | sed "s|$HOME/||"))"
+            uninstall_windsurf_from "$ws_path" "$WS_LABEL"
+          done
           uninstall_claude_from "$HOME/.claude/skills" "claude user"
           uninstall_cursor_from "$HOME/.cursor/commands" "cursor user"
           uninstall_opencode_from "$HOME/.config/opencode/commands" "opencode user"
