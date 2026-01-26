@@ -1,3 +1,11 @@
+# Deep Document
+
+## Objective
+
+Create high-quality, durable technical documentation and specs aligned with modern docs-as-code and architecture practices
+
+## Requirements
+
 # Deep Document Workflow
 
 This workflow instructs Cascade to write documentation that is clear, useful, and maintainable, not just descriptive prose.
@@ -23,7 +31,7 @@ This workflow instructs Cascade to write documentation that is clear, useful, an
 
 - Collect relevant artifacts:
   - Code, diagrams, tickets, discussions, metrics, existing docs.
-- Use `code_search` and `grep_search` to anchor statements in actual behavior and structure.
+- Use `search the codebase` and `search for patterns` to anchor statements in actual behavior and structure.
 - When needed, use `search_web` for current best practices in documenting the specific technology or pattern.
 
 ## 4. Draft for Clarity, Then Detail
@@ -54,4 +62,3 @@ This workflow instructs Cascade to write documentation that is clear, useful, an
 - State how and when the document should be updated (triggers such as releases, major refactors, or dependency upgrades).
 - Where possible, keep documentation close to code (docs-as-code) and reference it from tests or CI checks.
 - Encourage lightweight ADRs or changelogs to record future significant decisions that affect this doc.
-

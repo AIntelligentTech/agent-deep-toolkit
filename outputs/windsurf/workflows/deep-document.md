@@ -1,8 +1,13 @@
 ---
 description: Create high-quality, durable technical documentation and specs aligned with modern docs-as-code and architecture practices
 auto_execution_mode: 3
+tags:
+  - architecture
+  - design
+  - testing
+  - refactoring
+  - documentation
 ---
-
 # Deep Document Workflow
 
 This workflow instructs Cascade to write documentation that is clear, useful, and maintainable, not just descriptive prose.
@@ -59,4 +64,3 @@ This workflow instructs Cascade to write documentation that is clear, useful, an
 - State how and when the document should be updated (triggers such as releases, major refactors, or dependency upgrades).
 - Where possible, keep documentation close to code (docs-as-code) and reference it from tests or CI checks.
 - Encourage lightweight ADRs or changelogs to record future significant decisions that affect this doc.
-

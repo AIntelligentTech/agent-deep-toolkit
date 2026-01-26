@@ -1,10 +1,8 @@
 ---
 name: deep-ux
 description: Perform a deep UX review using research insights, user journeys, and established usability heuristics
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep UX Workflow
 
 This workflow instructs Cascade to evaluate and improve user experience systematically, grounded in modern UX practice.
@@ -127,5 +125,3 @@ This workflow instructs Cascade to evaluate and improve user experience systemat
   - Map critical flows and edge cases into `/deep-test` coverage.
   - Align error states, loading states, and empty states with actual API and data behavior.
 - Where trade-offs between UX ideals and engineering constraints emerge, use `/deep-consider` to make them explicit and document the chosen compromise.
-
-

@@ -1,8 +1,10 @@
 ---
 description: Design and run high-quality experiments to validate ideas with evidence
 auto_execution_mode: 3
+tags:
+  - design
+  - documentation
 ---
-
 # Deep Experiment Workflow
 
 This workflow instructs Cascade to design and run rigorous experiments so decisions are grounded in evidence, not opinion.
@@ -69,4 +71,3 @@ This workflow instructs Cascade to design and run rigorous experiments so decisi
   - Hypothesis, design, metrics, results, and final decision.
 - Record non-obvious insights and surprising null results.
 - Link the experiment to specs, roadmaps, and documentation so future work benefits from the learning.
-

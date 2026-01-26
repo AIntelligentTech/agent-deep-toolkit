@@ -1,8 +1,12 @@
 ---
-description: 
-auto_execution_mode: 
+description: "Claude skill: deep-git"
+tags:
+  - design
+  - testing
+  - refactoring
+  - documentation
+  - security
 ---
-
 # Deep Git Workflow
 
 This workflow instructs Cascade to act as an expert **git / GitHub partner** that:
@@ -255,4 +259,3 @@ When acting as `*-deep-git`:
   - Prefer concise, high-signal explanations over verbose tutorials.
 
 This workflow should enable Cascade to act as a **senior git/GitHub collaborator**, elevating both the technical safety of operations and the social etiquette of collaboration.
-

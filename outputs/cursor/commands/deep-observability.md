@@ -1,3 +1,11 @@
+# Deep Observability
+
+## Objective
+
+Design and evolve robust observability for applications, data, and AI systems
+
+## Requirements
+
 # Deep Observability Workflow
 
 This workflow instructs Cascade to create and refine observability so teams can understand, debug, and improve systems quickly.
@@ -55,4 +63,3 @@ This workflow instructs Cascade to create and refine observability so teams can 
   - What signals helped? What was missing?
 - Incorporate lessons into updated instrumentation, dashboards, and runbooks.
 - Keep a lightweight observability roadmap aligned with product and infrastructure evolution.
-

@@ -1,10 +1,8 @@
 ---
 name: deep-alternative
 description: Systematically explore and evaluate alternative approaches, tools, patterns, and architectures
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Alternative Workflow
 
 This workflow instructs Cascade to deeply consider alternative approaches for a problem, comparing tools, patterns, data structures, algorithms, and architectures.

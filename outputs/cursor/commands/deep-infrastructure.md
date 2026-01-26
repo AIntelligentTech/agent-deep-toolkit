@@ -1,3 +1,11 @@
+# Deep Infrastructure
+
+## Objective
+
+Design and operate resilient, secure, and automatable infrastructure
+
+## Requirements
+
 # Deep Infrastructure Workflow
 
 This workflow instructs Cascade to think like an experienced SRE/DevOps/infra engineer.
@@ -52,4 +60,3 @@ This workflow instructs Cascade to think like an experienced SRE/DevOps/infra en
 - Monitor infra-related costs, performance, and reliability trends.
 - Plan incremental improvements rather than large, risky overhauls.
 - Keep documentation and diagrams in sync with reality to avoid configuration drift.
-

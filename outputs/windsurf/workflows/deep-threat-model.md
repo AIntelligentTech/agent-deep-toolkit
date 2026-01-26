@@ -1,8 +1,11 @@
 ---
 description: Systematically identify and mitigate security and privacy threats using modern threat-modeling practices
 auto_execution_mode: 3
+tags:
+  - architecture
+  - design
+  - security
 ---
-
 # Deep Threat Model Workflow
 
 This workflow instructs Cascade to assess security and privacy risks in a structured, repeatable way.
@@ -54,4 +57,3 @@ This workflow instructs Cascade to assess security and privacy risks in a struct
 - Link findings to tickets, backlog items, or security requirements.
 - Plan periodic updates:
   - Re-run or extend the model when introducing new features, integrations, or data flows.
-

@@ -1,8 +1,14 @@
 ---
 description: Systematically enumerate and characterize items within a target area (entities, code, patterns, concepts, systems) to produce a rich, actionable inventory with contextual metadata
 auto_execution_mode: 3
+tags:
+  - architecture
+  - design
+  - testing
+  - refactoring
+  - documentation
+  - performance
 ---
-
 # Deep Inventory Workflow
 
 This workflow instructs Cascade to **deeply inventory** a target:

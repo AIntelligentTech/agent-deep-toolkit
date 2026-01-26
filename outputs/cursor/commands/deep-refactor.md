@@ -1,3 +1,11 @@
+# Deep Refactor
+
+## Objective
+
+Plan and execute safe, incremental refactors to improve design and maintainability without changing behavior
+
+## Requirements
+
 # Deep Refactor Workflow
 
 This workflow instructs Cascade to refactor codebases safely, evolving design while preserving behavior.
@@ -13,7 +21,7 @@ This workflow instructs Cascade to refactor codebases safely, evolving design wh
 
 ## 2. Identify Smells, Hotspots, and Seams
 
-- Use `code_search` and `grep_search` plus any metrics to locate:
+- Use `search the codebase` and `search for patterns` plus any metrics to locate:
   - Complex or frequently changed modules.
   - God classes/modules, long functions, duplicated logic, cyclical dependencies.
 - Look for natural **seams**:
@@ -57,4 +65,3 @@ This workflow instructs Cascade to refactor codebases safely, evolving design wh
 - Consider adding:
   - Lint rules, architecture tests, or CI checks to prevent regression into old patterns.
 - Identify adjacent areas that would benefit from similar incremental refactors and schedule them appropriately.
-

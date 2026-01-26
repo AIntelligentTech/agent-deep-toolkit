@@ -1,3 +1,11 @@
+# Deep Prune
+
+## Objective
+
+Systematically identify and remove dead or low-value code, configuration, and dependencies while preserving behavior
+
+## Requirements
+
 # Deep Prune Workflow
 
 This workflow instructs Cascade to clean a codebase thoughtfully, minimizing risk while reducing complexity and surface area.
@@ -51,4 +59,3 @@ This workflow instructs Cascade to clean a codebase thoughtfully, minimizing ris
   - Linters or build steps that flag unused code, imports, and dependencies.
   - Dashboards or queries that track rarely used features over time.
 - Capture guidelines for when to deprecate vs immediately remove, and how to communicate removals to stakeholders.
-

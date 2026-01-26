@@ -1,8 +1,14 @@
 ---
 description: Design and implement robust Bash/Linux CLI automations and workflows (including tmux/nvim orchestration) with expert-level efficiency and safety.
 auto_execution_mode: 3
+tags:
+  - architecture
+  - design
+  - testing
+  - refactoring
+  - documentation
+  - performance
 ---
-
 # Deep Bash Workflow
 
 This workflow instructs Cascade to think and act like an expert Bash/Linux/CLI engineer:

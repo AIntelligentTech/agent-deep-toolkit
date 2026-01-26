@@ -1,3 +1,11 @@
+# Deep Search
+
+## Objective
+
+Perform structured local and repository search to locate relevant code, docs, and context inside the project
+
+## Requirements
+
 # Deep Search Workflow (Local and Repository Search)
 
 This workflow instructs Cascade to search **within the current project and its immediate environment** before reaching for the wider web. It focuses on ripgrep/grep-style search, file navigation, and repository introspection.
@@ -13,7 +21,7 @@ This workflow instructs Cascade to search **within the current project and its i
 ## 2. Plan Local Search Strategy
 
 - Choose one or more search dimensions:
-  - **Text search**: use `rg`/`grep_search` across the repo for key identifiers, error messages, or config keys.
+  - **Text search**: use `rg`/`search for patterns` across the repo for key identifiers, error messages, or config keys.
   - **Filename/path search**: locate files or directories whose names suggest relevance.
   - **Git history search**: search commits for the term when relevant (e.g., `deep-git` patterns).
 - Prefer narrow, high-signal queries first (exact identifiers, error codes) before broad ones.
@@ -42,4 +50,3 @@ This workflow instructs Cascade to search **within the current project and its i
 - If local search is insufficient or points to external systems:
   - Escalate to `deep-research` (web/multi-source research) to gather missing background.
 - Document key search queries and findings briefly so they can be reused later.
-

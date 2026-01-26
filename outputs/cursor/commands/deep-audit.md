@@ -1,3 +1,11 @@
+# Deep Audit
+
+## Objective
+
+Perform a structured audit of a codebase or system across architecture, quality, security, and operational readiness
+
+## Requirements
+
 # Deep Audit Workflow
 
 This workflow instructs Cascade to conduct a systematic review, producing a clear, prioritized findings report rather than ad-hoc comments.
@@ -59,4 +67,3 @@ This workflow instructs Cascade to conduct a systematic review, producing a clea
   - Propose concrete remediation steps or next investigations.
 - Summarize systemic themes (e.g., testing gaps, architectural drift, repeated security smells).
 - Produce a concise report that can be tracked as work items in the backlog.
-

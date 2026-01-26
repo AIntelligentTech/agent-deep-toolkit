@@ -1,10 +1,8 @@
 ---
 name: deep-data
 description: Design trustworthy data models, quality controls, and governance for analytics and AI
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Data Workflow
 
 This workflow instructs Cascade to treat data as a product: modeled clearly, validated continuously, and governed responsibly.
@@ -55,4 +53,3 @@ This workflow instructs Cascade to treat data as a product: modeled clearly, val
 - Manage schema changes with deprecation plans and migration paths.
 - Use feature flags, dual-write/read strategies, or views to smooth transitions.
 - Periodically review data models and quality metrics to ensure they still fit evolving product and AI needs.
-

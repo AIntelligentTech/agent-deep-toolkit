@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+# Migrate from JSON + current outputs to enriched Claude source
+#
+# This script creates the skills/ directory with Claude-native SKILL.md files
+# that include all the metadata needed for CACE to properly convert to other agents.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+TOOLS_JSON="${REPO_ROOT}/tools/deep-tools.json"
+OUTPUTS_DIR="${REPO_ROOT}/outputs"
+SKILLS_DIR="${REPO_ROOT}/skills"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+log_info() {
+  echo -e "${BLUE}[INFO]${NC} $1"
+}
+
+log_success() {
+  echo -e "${GREEN}[OK]${NC} $1"
+}
+
+log_error() {
+  echo -e "${RED}[ERROR]${NC} $1"
+}
+
+log_step() {
+  echo -e "${CYAN}[STEP]${NC} $1"
+}
+
+main() {
+  echo ""
+  echo "═══════════════════════════════════════════════════════════"
+  echo "  Migrate to Claude-Native Source"
+  echo "═══════════════════════════════════════════════════════════"
+  echo ""
+
+  log_step "Extracting tool metadata from deep-tools.json..."
+
+  # Check dependencies
+  if ! command -v jq &> /dev/null; then
+    log_error "jq is required but not installed"
+    exit 1
+  fi
+
+  if [[ ! -f "$TOOLS_JSON" ]]; then
+    log_error "Tools JSON not found: $TOOLS_JSON"
+    exit 1
+  fi
+
+  # Create skills directory
+  mkdir -p "$SKILLS_DIR"
+
+  # Get tool count
+  tool_count=$(jq '.tools | length' "$TOOLS_JSON")
+  log_info "Found $tool_count tools to migrate"
+  echo ""
+
+  # Process each tool
+  tool_num=0
+  while IFS= read -r tool; do
+    tool_num=$((tool_num + 1))
+
+    # Extract metadata
+    tool_id=$(echo "$tool" | jq -r '.id')
+    description=$(echo "$tool" | jq -r 'if .claude.description then .claude.description elif .windsurf.description then .windsurf.description else empty end // .windsurf.description')
+    body=$(echo "$tool" | jq -r '.body')
+    command=$(echo "$tool" | jq -r '.claude.command // .windsurf.command // ""')
+
+    # Determine activation mode from windsurf autoExecutionMode
+    auto_exec_mode=$(echo "$tool" | jq -r '.windsurf.autoExecutionMode // 0')
+
+    activation_mode="manual"
+    case "$auto_exec_mode" in
+      0) activation_mode="manual" ;;
+      1) activation_mode="suggested" ;;
+      2) activation_mode="contextual" ;;
+      3) activation_mode="auto" ;;
+    esac
+
+    echo -e "${CYAN}[$tool_num/$tool_count]${NC} Migrating: ${YELLOW}$tool_id${NC} (activation: $activation_mode)"
+
+    # Create skill directory
+    skill_dir="${SKILLS_DIR}/${tool_id}"
+    mkdir -p "$skill_dir"
+
+    # Create SKILL.md with enhanced frontmatter
+    skill_file="${skill_dir}/SKILL.md"
+
+    cat > "$skill_file" <<EOF
+---
+name: $tool_id
+description: $description
+command: $command
+activation-mode: $activation_mode
+user-invocable: true
+disable-model-invocation: true
+---
+$body
+EOF
+
+  done < <(jq -c '.tools[]' "$TOOLS_JSON")
+
+  echo ""
+  log_success "Migration complete! Created skills directory with enriched Claude sources."
+  echo ""
+  log_info "Next steps:"
+  echo "  1. Review the generated skills/ directory"
+  echo "  2. Run: ./bin/build-all-agents"
+  echo "  3. Run: ./tests/test-cace-conversion.sh"
+  echo ""
+}
+
+main "$@"

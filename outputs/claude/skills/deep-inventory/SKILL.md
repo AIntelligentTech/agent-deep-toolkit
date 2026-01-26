@@ -1,10 +1,8 @@
 ---
 name: deep-inventory
 description: Systematically enumerate and characterize items within a target area (entities, code, patterns, concepts, systems) to produce a rich, actionable inventory with contextual metadata
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Inventory Workflow
 
 This workflow instructs Cascade to **deeply inventory** a target:

@@ -1,10 +1,8 @@
 ---
 name: deep-consider
 description: Carefully consider complex decisions, options, and edge cases using formal decision-making frameworks and scenario analysis
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Consider Workflow
 
 This workflow instructs Cascade to slow down and apply structured decision-making and foresight techniques before recommending a path.
@@ -93,4 +91,3 @@ This workflow instructs Cascade to slow down and apply structured decision-makin
   - Recommendation and next steps.
 - Capture remaining open questions and suggested experiments to further de-risk the path.
 - When appropriate, structure the summary so it can be recorded as an ADR or decision log entry.
-

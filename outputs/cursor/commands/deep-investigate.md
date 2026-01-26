@@ -1,3 +1,11 @@
+# Deep Investigate
+
+## Objective
+
+Conduct rigorous, multi-method investigations into issues, claims, ideas, and feasibility using structured problem-solving frameworks
+
+## Requirements
+
 # Deep Investigate Workflow
 
 This workflow instructs Cascade to investigate systematically, combining scientific-method thinking, root-cause analysis tools, and creative exploration.
@@ -19,7 +27,7 @@ This workflow instructs Cascade to investigate systematically, combining scienti
 - Gather available artifacts:
   - Logs, traces, metrics, error messages.
   - User reports, tickets, acceptance criteria, existing docs.
-- Map where in the codebase and system this likely lives using `code_search` and `grep_search`.
+- Map where in the codebase and system this likely lives using `search the codebase` and `search for patterns`.
 - Use `search_web` for quick orientation when relevant (framework behavior, platform quirks, known bugs), confirming versions and dates.
 
 ## 3. Generate Hypotheses Broadly
@@ -81,4 +89,3 @@ This workflow instructs Cascade to investigate systematically, combining scienti
   - Structural or process changes to prevent recurrence.
   - Monitoring/observability improvements to detect similar issues earlier.
 - Explicitly list remaining open questions and suggest next investigative steps if higher confidence is required.
-

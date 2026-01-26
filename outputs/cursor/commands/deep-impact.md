@@ -1,3 +1,11 @@
+# Deep Impact
+
+## Objective
+
+Deeply assess the impact of a proposed change across code, performance, UX, security, governance, and cost
+
+## Requirements
+
 # Deep Impact Workflow
 
 This workflow instructs Cascade to perform a structured impact assessment for a proposed change, before implementation or propagation. It synthesizes architecture, code, UX, ops, and governance considerations.

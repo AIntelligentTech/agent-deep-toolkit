@@ -1,3 +1,11 @@
+# Deep Docs
+
+## Objective
+
+Discover, version-align, and deeply map official docs for all tools in a project, using llms.txt where available and rigorous web/GitHub search otherwise.
+
+## Requirements
+
 # Deep Docs Workflow
 
 This workflow instructs Cascade to **identify the actual tools and versions in use**, then **systematically locate and map the best documentation** for them:
@@ -53,7 +61,7 @@ Use this when:
 
 - **2.1 Crawl dependency definitions**
 
-  Use `code_search` / Fast Context to find:
+  Use `search the codebase` / Fast Context to find:
 
   - JavaScript/TypeScript:
     - `package.json`, `package-lock.json`, `pnpm-lock.yaml`, `yarn.lock`

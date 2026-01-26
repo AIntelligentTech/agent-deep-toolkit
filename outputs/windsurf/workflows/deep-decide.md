@@ -1,8 +1,10 @@
 ---
 description: Make rigorous, well-documented decisions using structured frameworks and evidence
 auto_execution_mode: 3
+tags:
+  - documentation
+  - performance
 ---
-
 # Deep Decision Workflow
 
 This workflow instructs Cascade to move from options to a clear, justified decision and follow-through.
@@ -57,4 +59,3 @@ This workflow instructs Cascade to move from options to a clear, justified decis
 - Capture lessons:
   - How to improve future decision-making processes and heuristics.
 - Update documentation, playbooks, or strategies based on what was learned.
-

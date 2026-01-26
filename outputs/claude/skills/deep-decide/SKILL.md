@@ -1,10 +1,8 @@
 ---
 name: deep-decide
 description: Make rigorous, well-documented decisions using structured frameworks and evidence
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Decision Workflow
 
 This workflow instructs Cascade to move from options to a clear, justified decision and follow-through.
@@ -59,4 +57,3 @@ This workflow instructs Cascade to move from options to a clear, justified decis
 - Capture lessons:
   - How to improve future decision-making processes and heuristics.
 - Update documentation, playbooks, or strategies based on what was learned.
-

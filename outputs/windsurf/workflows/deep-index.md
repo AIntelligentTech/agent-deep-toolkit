@@ -1,8 +1,16 @@
 ---
 description: Index and navigator for all deep-* workflows, their categories, and dependencies
 auto_execution_mode: 3
+tags:
+  - architecture
+  - design
+  - testing
+  - debugging
+  - refactoring
+  - documentation
+  - security
+  - performance
 ---
-
 # Deep Index Workflow
 
 This workflow provides an index over all deep-* workflows, showing when to use each one, how they relate, and which core workflows they depend on.

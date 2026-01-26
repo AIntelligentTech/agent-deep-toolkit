@@ -1,8 +1,13 @@
 ---
 description: Design, implement, and evolve high-value automated tests for robust software
 auto_execution_mode: 3
+tags:
+  - design
+  - testing
+  - refactoring
+  - documentation
+  - security
 ---
-
 # Deep Test Workflow
 
 This workflow instructs Cascade to approach testing as a first-class design activity, not an afterthought.
@@ -60,4 +65,3 @@ This workflow instructs Cascade to approach testing as a first-class design acti
 - Clarify ownership:
   - Who maintains which test suites and environments.
 - Link tests and strategy to specs, ADRs, and CI/CD configuration for traceability.
-

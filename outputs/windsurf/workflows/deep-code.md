@@ -1,8 +1,15 @@
 ---
 description: Implement high-quality code using solid design principles, refactoring, and thorough testing
 auto_execution_mode: 3
+tags:
+  - design
+  - testing
+  - debugging
+  - refactoring
+  - documentation
+  - security
+  - performance
 ---
-
 # Deep Code Workflow
 
 This workflow instructs Cascade to focus on implementation quality: clear design, clean code, strong tests, safe integration, and disciplined version control following the **Automated Iterative Development (AID)** methodology.
@@ -113,4 +120,3 @@ For command-style agents that support `/deep-code <task>` syntax (such as Cursor
 - Remove temporary instrumentation or debugging code before finalizing.
 - Summarize key implementation decisions briefly in comments or linked specs/ADRs where appropriate.
 - **Provide summary** of commits made, deliverables created, and validation results.
-

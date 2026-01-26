@@ -1,10 +1,8 @@
 ---
 name: deep-search
 description: Perform structured local and repository search to locate relevant code, docs, and context inside the project
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Search Workflow (Local and Repository Search)
 
 This workflow instructs Cascade to search **within the current project and its immediate environment** before reaching for the wider web. It focuses on ripgrep/grep-style search, file navigation, and repository introspection.
@@ -49,4 +47,3 @@ This workflow instructs Cascade to search **within the current project and its i
 - If local search is insufficient or points to external systems:
   - Escalate to `deep-research` (web/multi-source research) to gather missing background.
 - Document key search queries and findings briefly so they can be reused later.
-

@@ -1,8 +1,11 @@
 ---
 description: Extract and systematize design tokens from existing interfaces into a reliable design system foundation
 auto_execution_mode: 3
+tags:
+  - design
+  - testing
+  - documentation
 ---
-
 # Deep Design Token Workflow
 
 This workflow instructs Cascade to reverse-engineer and codify a UI’s visual language as robust design tokens, ready for use in design tools and frontend code.
@@ -77,4 +80,3 @@ This workflow instructs Cascade to reverse-engineer and codify a UI’s visual l
   - Identify unused tokens and hard-coded values that should be migrated.
 - Keep documentation current:
   - Token catalogs, usage guidelines, and examples for designers and engineers.
-

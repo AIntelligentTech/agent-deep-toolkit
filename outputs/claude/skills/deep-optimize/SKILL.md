@@ -1,10 +1,8 @@
 ---
 name: deep-optimize
 description: Analyze and improve performance and scalability using a measurement-driven methodology
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Optimize Workflow
 
 This workflow instructs Cascade to optimize performance and scalability using evidence, not guesswork.
@@ -58,4 +56,3 @@ This workflow instructs Cascade to optimize performance and scalability using ev
   - Automated performance checks, budgets, or alerts for key endpoints and jobs.
   - Dashboards tracking latency, throughput, and resource utilization over time.
 - Document optimization decisions and their rationale so future changes respect the same constraints.
-

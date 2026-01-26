@@ -1,8 +1,11 @@
 ---
 description: Identify and align with relevant regulatory obligations for software and AI systems
 auto_execution_mode: 3
+tags:
+  - design
+  - documentation
+  - security
 ---
-
 # Deep Regulation Workflow
 
 This workflow instructs Cascade to systematically consider regulatory obligations, especially in UK/EU contexts, while recognizing that it does **not** replace qualified legal advice.
@@ -59,4 +62,3 @@ This workflow instructs Cascade to systematically consider regulatory obligation
 - Document which laws and guidance were considered, and which were out of scope.
 - Record assumptions, known gaps, and questions to be addressed with legal experts.
 - Link this analysis to specs, risk registers, and decision logs for traceability.
-

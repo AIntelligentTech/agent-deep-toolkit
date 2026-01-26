@@ -1,10 +1,8 @@
 ---
 name: deep-polish
 description: Refine products and interfaces to a world-class level of craft and cohesion
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Polish Workflow
 
 This workflow instructs Cascade to focus on the final 10–20% of refinement that separates “good enough” from truly excellent. It assumes core UX, architecture, and functionality are already in place (see `/deep-ux`, `/deep-code`, and `/deep-test`).
@@ -91,4 +89,3 @@ This workflow instructs Cascade to focus on the final 10–20% of refinement tha
   - Layout rules, spacing scales, state patterns, microcopy conventions, and motion guidelines.
 - Update the team’s "definition of done" for relevant workstreams to include key polish checks.
 - Note follow-up polish opportunities that exceed current constraints, so they are not lost.
-

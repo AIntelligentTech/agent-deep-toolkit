@@ -1,3 +1,11 @@
+# Deep Incident
+
+## Objective
+
+Respond to and learn from incidents in a structured, blameless way
+
+## Requirements
+
 # Deep Incident Workflow
 
 This workflow instructs Cascade to handle production incidents methodically: triage, stabilize, communicate, and learn.
@@ -43,4 +51,3 @@ This workflow instructs Cascade to handle production incidents methodically: tri
 - Ensure action items are captured and prioritized:
   - Code fixes, infra changes, observability upgrades, process improvements.
 - Update runbooks, playbooks, and training based on what was learned.
-

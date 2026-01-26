@@ -1,10 +1,8 @@
 ---
 name: deep-ideas
 description: Generate high-leverage product, feature, and workflow ideas using current trends, tools, and constraints
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Ideas Workflow
 
 This workflow instructs Cascade to deeply understand the current state of the product or workstream and generate innovative, valuable, and feasible ideas grounded in current technology and trends.

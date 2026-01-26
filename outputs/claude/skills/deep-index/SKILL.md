@@ -1,10 +1,8 @@
 ---
 name: deep-index
 description: Index and navigator for all deep-* workflows, their categories, and dependencies
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Index Workflow
 
 This workflow provides an index over all deep-* workflows, showing when to use each one, how they relate, and which core workflows they depend on.

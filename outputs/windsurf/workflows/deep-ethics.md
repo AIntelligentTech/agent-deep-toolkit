@@ -1,8 +1,12 @@
 ---
 description: Evaluate and mitigate ethical risks in AI systems and product decisions
 auto_execution_mode: 3
+tags:
+  - architecture
+  - design
+  - testing
+  - documentation
 ---
-
 # Deep Ethics Workflow
 
 This workflow instructs Cascade to surface and address ethical risks, especially in AI-enabled and data-intensive systems.
@@ -59,4 +63,3 @@ This workflow instructs Cascade to surface and address ethical risks, especially
 - Summarize ethical issues considered, mitigations chosen, and open questions.
 - Document trade-offs and rationales, including what values were prioritized.
 - Encourage periodic re-evaluation as norms, laws, and usage patterns evolve.
-

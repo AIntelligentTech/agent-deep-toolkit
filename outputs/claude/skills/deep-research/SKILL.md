@@ -1,10 +1,8 @@
 ---
 name: deep-research
 description: Conduct extensive, multi-source web research to gather the latest (Dec 2025) context and best practices
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Search Workflow
 
 This workflow instructs Cascade to perform rigorous, multi-step web research to ensure all solutions are grounded in the most current (December 2025) information.
@@ -42,4 +40,3 @@ This workflow instructs Cascade to perform rigorous, multi-step web research to 
 - Summarize findings, highlighting consensus and conflicts.
 - Explicitly state *why* a particular approach is chosen based on the research.
 - Cite sources to provide evidence for decisions.
-

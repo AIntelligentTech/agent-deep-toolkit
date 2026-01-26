@@ -1,10 +1,8 @@
 ---
 name: deep-debug
 description: Perform deep, systematic debugging to find true root causes and design robust, well-tested fixes
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Debug Workflow
 
 This workflow instructs Cascade to debug like an experienced tester and engineer combined: methodical reproduction, deep code understanding, hypothesis-driven experiments, and prevention-focused fixes.
@@ -111,4 +109,3 @@ This workflow instructs Cascade to debug like an experienced tester and engineer
   - Root cause.
   - How it was found and fixed.
   - What changed in tests/monitoring/process to prevent similar bugs in future.
-

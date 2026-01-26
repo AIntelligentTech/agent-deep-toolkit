@@ -1,3 +1,11 @@
+# Deep Retrospective
+
+## Objective
+
+Run effective, blameless retrospectives and postmortems that lead to real improvements
+
+## Requirements
+
 # Deep Retrospective Workflow
 
 This workflow instructs Cascade to help teams learn from incidents and projects, not just document them.
@@ -47,4 +55,3 @@ This workflow instructs Cascade to help teams learn from incidents and projects,
   - Process and collaboration (on-call rotations, review practices, escalation paths).
 - Assign rough priority and ownership where applicable.
 - Encourage tracking follow-up actions in the regular backlog.
-

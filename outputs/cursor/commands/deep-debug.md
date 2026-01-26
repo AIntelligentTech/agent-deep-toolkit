@@ -1,3 +1,11 @@
+# Deep Debug
+
+## Objective
+
+Perform deep, systematic debugging to find true root causes and design robust, well-tested fixes
+
+## Requirements
+
 # Deep Debug Workflow
 
 This workflow instructs Cascade to debug like an experienced tester and engineer combined: methodical reproduction, deep code understanding, hypothesis-driven experiments, and prevention-focused fixes.
@@ -19,7 +27,7 @@ This workflow instructs Cascade to debug like an experienced tester and engineer
 
 - Start from the **entrypoint** used in your repro:
   - HTTP route, RPC handler, CLI command, queue consumer, cron job, etc.
-  - Locate the corresponding handler/controller using `code_search` and `grep_search`.
+  - Locate the corresponding handler/controller using `search the codebase` and `search for patterns`.
 - Use stack traces and logs to identify the **observed call stack** at the failure point:
   - Note the top few frames (entry) and the bottom frames (where the failure surfaced).
   - Distinguish framework/runtime plumbing from your own application code.
@@ -104,4 +112,3 @@ This workflow instructs Cascade to debug like an experienced tester and engineer
   - Root cause.
   - How it was found and fixed.
   - What changed in tests/monitoring/process to prevent similar bugs in future.
-

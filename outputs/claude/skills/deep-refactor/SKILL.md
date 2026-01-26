@@ -1,10 +1,8 @@
 ---
 name: deep-refactor
 description: Plan and execute safe, incremental refactors to improve design and maintainability without changing behavior
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Refactor Workflow
 
 This workflow instructs Cascade to refactor codebases safely, evolving design while preserving behavior.
@@ -64,4 +62,3 @@ This workflow instructs Cascade to refactor codebases safely, evolving design wh
 - Consider adding:
   - Lint rules, architecture tests, or CI checks to prevent regression into old patterns.
 - Identify adjacent areas that would benefit from similar incremental refactors and schedule them appropriately.
-

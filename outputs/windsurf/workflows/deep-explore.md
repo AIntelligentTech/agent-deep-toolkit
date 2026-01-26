@@ -1,8 +1,10 @@
 ---
 description: Deeply explore the codebase for comprehensive understanding of structure, components, and execution paths
 auto_execution_mode: 3
+tags:
+  - architecture
+  - refactoring
 ---
-
 # Deep Explore Workflow
 
 This workflow instructs Cascade to go beyond surface-level reading and build a deep, structural, and execution-flow understanding of the codebase.
@@ -37,4 +39,3 @@ This workflow instructs Cascade to go beyond surface-level reading and build a d
 - Synthesize the gathered information into a coherent mental model of the system.
 - Explain *why* the code is structured this way, not just *what* it is.
 - Identify potential bottlenecks, complexity hotspots, or areas for refactoring.
-

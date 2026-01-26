@@ -1,10 +1,8 @@
 ---
 name: deep-docs
 description: Discover, version-align, and deeply map official docs for all tools in a project, using llms.txt where available and rigorous web/GitHub search otherwise.
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Docs Workflow
 
 This workflow instructs Cascade to **identify the actual tools and versions in use**, then **systematically locate and map the best documentation** for them:

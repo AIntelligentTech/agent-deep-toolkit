@@ -1,3 +1,11 @@
+# Deep Alternative
+
+## Objective
+
+Systematically explore and evaluate alternative approaches, tools, patterns, and architectures
+
+## Requirements
+
 # Deep Alternative Workflow
 
 This workflow instructs Cascade to deeply consider alternative approaches for a problem, comparing tools, patterns, data structures, algorithms, and architectures.

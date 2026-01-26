@@ -1,8 +1,14 @@
 ---
 description: Discover, version-align, and deeply map official docs for all tools in a project, using llms.txt where available and rigorous web/GitHub search otherwise.
 auto_execution_mode: 3
+tags:
+  - architecture
+  - design
+  - testing
+  - debugging
+  - refactoring
+  - documentation
 ---
-
 # Deep Docs Workflow
 
 This workflow instructs Cascade to **identify the actual tools and versions in use**, then **systematically locate and map the best documentation** for them:

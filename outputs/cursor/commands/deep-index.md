@@ -1,3 +1,11 @@
+# Deep Index
+
+## Objective
+
+Index and navigator for all deep-* workflows, their categories, and dependencies
+
+## Requirements
+
 # Deep Index Workflow
 
 This workflow provides an index over all deep-* workflows, showing when to use each one, how they relate, and which core workflows they depend on.

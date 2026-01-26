@@ -1,8 +1,12 @@
 ---
 description: Propose, refine, and prioritize follow-up work based on current tasks, progress, and roadmap
 auto_execution_mode: 3
+tags:
+  - architecture
+  - testing
+  - refactoring
+  - documentation
 ---
-
 # Deep Followup Workflow
 
 This workflow instructs Cascade to look at the current task, its context, and the broader roadmap to propose valuable, well-reasoned follow-up work.

@@ -1,8 +1,15 @@
 ---
 description: Act as a world-class software architect and principal engineer to design robust systems using 2026 best practices
 auto_execution_mode: 3
+tags:
+  - architecture
+  - design
+  - testing
+  - refactoring
+  - documentation
+  - security
+  - performance
 ---
-
 # Deep Architect Workflow
 
 This workflow instructs Cascade to think and act like a principal engineer / software architect, applying modern (2026) architecture practices, computer science fundamentals, and structured trade-off analysis.
@@ -114,4 +121,3 @@ This workflow instructs Cascade to think and act like a principal engineer / sof
 - Encourage regular, time-boxed architecture reviews or katas:
   - Revisit earlier decisions in light of new information.
   - Capture outcomes as updated ADRs so the evolution path remains explicit and explainable.
-

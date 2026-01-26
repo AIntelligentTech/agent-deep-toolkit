@@ -1,3 +1,11 @@
+# Deep Think
+
+## Objective
+
+Perform deep reasoning and analysis on a subject, considering patterns, edge cases, and multiple perspectives
+
+## Requirements
+
 # Deep Think Workflow
 
 This workflow instructs Cascade to pause and reason deeply before acting, ensuring solutions are robust, well-considered, and comprehensive.
@@ -35,4 +43,3 @@ This workflow instructs Cascade to pause and reason deeply before acting, ensuri
 - Combine the analysis into a cohesive plan.
 - Weigh trade-offs explicitly (e.g., "This approach is faster but uses more memory").
 - Produce a solution that is not just "working code" but "well-engineered software".
-

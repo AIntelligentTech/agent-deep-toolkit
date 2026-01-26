@@ -1,8 +1,13 @@
 ---
 description: Conduct rigorous, multi-method investigations into issues, claims, ideas, and feasibility using structured problem-solving frameworks
 auto_execution_mode: 3
+tags:
+  - architecture
+  - design
+  - testing
+  - security
+  - performance
 ---
-
 # Deep Investigate Workflow
 
 This workflow instructs Cascade to investigate systematically, combining scientific-method thinking, root-cause analysis tools, and creative exploration.
@@ -86,4 +91,3 @@ This workflow instructs Cascade to investigate systematically, combining scienti
   - Structural or process changes to prevent recurrence.
   - Monitoring/observability improvements to detect similar issues earlier.
 - Explicitly list remaining open questions and suggest next investigative steps if higher confidence is required.
-

@@ -1,10 +1,8 @@
 ---
 name: deep-design
 description: Apply structured product and interaction design thinking (Double Diamond) to shape solutions before implementation
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Design Workflow
 
 This workflow instructs Cascade to use modern design-thinking patterns to move from problem to solution in a disciplined way.
@@ -52,4 +50,3 @@ This workflow instructs Cascade to use modern design-thinking patterns to move f
   - UX metrics, behavioral analytics, qualitative feedback.
 - Propose small experiments or A/B tests where appropriate.
 - Capture a short design rationale so future changes can understand trade-offs made today.
-

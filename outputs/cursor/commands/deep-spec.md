@@ -1,3 +1,11 @@
+# Deep Spec
+
+## Objective
+
+Write high-quality specs, design docs, and ADRs that align stakeholders and guide implementation
+
+## Requirements
+
 # Deep Spec Workflow
 
 This workflow instructs Cascade to produce specifications that are precise, actionable, and durable.
@@ -14,7 +22,7 @@ This workflow instructs Cascade to produce specifications that are precise, acti
   - Existing behavior, related systems, previous incidents, competing priorities.
 - Identify constraints:
   - Deadlines, budget, regulatory requirements, tech stack limitations, team capacity.
-- Use `code_search` and existing docs to ensure the spec reflects reality, not wishful thinking.
+- Use `search the codebase` and existing docs to ensure the spec reflects reality, not wishful thinking.
 
 ## 3. Explore Options and Trade-offs
 
@@ -49,4 +57,3 @@ This workflow instructs Cascade to produce specifications that are precise, acti
 - Review the spec for clarity, completeness, and testability.
 - Link it from relevant code locations, tickets, and documentation indexes.
 - Encourage capturing significant changes as follow-up ADRs or spec revisions rather than informal chat decisions.
-

@@ -1,8 +1,11 @@
 ---
 description: Execute work in small, validated iterations until a clearly defined end goal is reached
 auto_execution_mode: 3
+tags:
+  - testing
+  - debugging
+  - documentation
 ---
-
 # Deep Iterate Workflow
 
 This workflow instructs Cascade to work iteratively using the **Automated Iterative Development (AID)** methodology: plan phases, execute steps, validate outputs, commit at boundaries, adapt when issues arise, and repeat.
@@ -167,4 +170,3 @@ For command-style agents that support `/deep-iterate <task>` syntax (such as Cur
 - If the goal wasn't fully achieved, clearly state:
   - What remains, and what you recommend as the next actions.
 - Await user review before considering the task fully complete.
-

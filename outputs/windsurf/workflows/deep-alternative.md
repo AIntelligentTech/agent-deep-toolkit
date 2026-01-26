@@ -1,8 +1,11 @@
 ---
 description: Systematically explore and evaluate alternative approaches, tools, patterns, and architectures
 auto_execution_mode: 3
+tags:
+  - architecture
+  - testing
+  - performance
 ---
-
 # Deep Alternative Workflow
 
 This workflow instructs Cascade to deeply consider alternative approaches for a problem, comparing tools, patterns, data structures, algorithms, and architectures.

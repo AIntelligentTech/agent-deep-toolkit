@@ -1,10 +1,8 @@
 ---
 name: deep-followup
 description: Propose, refine, and prioritize follow-up work based on current tasks, progress, and roadmap
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Followup Workflow
 
 This workflow instructs Cascade to look at the current task, its context, and the broader roadmap to propose valuable, well-reasoned follow-up work.

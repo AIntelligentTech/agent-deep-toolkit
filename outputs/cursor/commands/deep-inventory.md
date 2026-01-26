@@ -1,3 +1,11 @@
+# Deep Inventory
+
+## Objective
+
+Systematically enumerate and characterize items within a target area (entities, code, patterns, concepts, systems) to produce a rich, actionable inventory with contextual metadata
+
+## Requirements
+
 # Deep Inventory Workflow
 
 This workflow instructs Cascade to **deeply inventory** a target:
@@ -40,7 +48,7 @@ The goal is to produce a **rich, structured list** of items with helpful context
   - Domain: specs, ADRs, docs, diagrams, spreadsheets, existing lists.
 - **2.2 Use structural tools to map the territory**
   - For code/system targets, call `/deep-explore` to understand where relevant items live structurally.
-  - Use `code_search` and `grep_search` to locate likely definitions and registrations (e.g. route registries, job schedulers, model definitions).
+  - Use `search the codebase` and `search for patterns` to locate likely definitions and registrations (e.g. route registries, job schedulers, model definitions).
 - **2.3 Define inclusion/exclusion rules**
   - In scope: which projects, directories, environments, or domains.
   - Out of scope: legacy areas, experimental branches, or generated code (unless explicitly relevant).
@@ -79,7 +87,7 @@ The goal is to produce a **rich, structured list** of items with helpful context
 
 - **4.1 Generate an initial raw list**
   - For code:
-    - Use `code_search` and `grep_search` for patterns (e.g. route registries, controller decorators, job schedulers, model definitions).
+    - Use `search the codebase` and `search for patterns` for patterns (e.g. route registries, controller decorators, job schedulers, model definitions).
     - Traverse key directories identified in `/deep-explore`.
   - For infrastructure:
     - Parse IaC, deployment manifests, and config files for resources (services, queues, topics, buckets, clusters).

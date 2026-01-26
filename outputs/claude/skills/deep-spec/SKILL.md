@@ -1,10 +1,8 @@
 ---
 name: deep-spec
 description: Write high-quality specs, design docs, and ADRs that align stakeholders and guide implementation
-disable-model-invocation: true
 user-invocable: true
 ---
-
 # Deep Spec Workflow
 
 This workflow instructs Cascade to produce specifications that are precise, actionable, and durable.
@@ -56,4 +54,3 @@ This workflow instructs Cascade to produce specifications that are precise, acti
 - Review the spec for clarity, completeness, and testability.
 - Link it from relevant code locations, tickets, and documentation indexes.
 - Encourage capturing significant changes as follow-up ADRs or spec revisions rather than informal chat decisions.
-
