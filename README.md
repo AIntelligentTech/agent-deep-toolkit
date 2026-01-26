@@ -7,6 +7,7 @@ This directory is designed to become the **root of a standalone repo** that pack
 - **Windsurf** – `.windsurf/workflows`-style deep workflows.
 - **Claude Code** – SKILL-based slash commands using the Agent Skills standard.
 - **Cursor** – `.cursor/commands`-style slash commands.
+- **OpenCode** – `.opencode/commands`-style commands with native OpenCode frontmatter.
 
 The goal is to keep procedures conceptually identical across agents while keeping their implementations **independent** so you can install Windsurf, Claude Code, or Cursor tooling separately.
 
@@ -17,26 +18,30 @@ agent-deep-toolkit/
   README.md          # This file (agent-agnostic overview)
   LICENSE            # MIT license for the toolkit
   .gitignore         # Ignore rules for this repo
-  install.sh         # Unified installer for Windsurf, Claude Code, and Cursor
+  install.sh         # Unified installer for Windsurf, Claude Code, Cursor, and OpenCode
 
   templates/
     windsurf/
-      workflow-template.md  # Single Windsurf workflow template (metadata + injected deep-* content)
+      workflow-template.md      # Single Windsurf workflow template (metadata + injected deep-* content)
     claude-code/
-      skill-template.md     # Single Claude skill template (metadata + injected deep-* content)
+      skill-template.md         # Single Claude skill template (metadata + injected deep-* content)
     cursor/
-      command-template.md   # Single Cursor command template (plain markdown)
+      command-template.md       # Single Cursor command template (plain markdown)
+    open-code/
+      command-template.md       # Single OpenCode command template (frontmatter + injected deep-* content)
 
   tools/
-    deep-tools.json       # Single-source-of-truth registry: metadata + content for all deep-* tools
+    deep-tools.json             # Single-source-of-truth registry: metadata + content for all deep-* tools
 
   outputs/
     windsurf/
-      workflows/     # Generated Windsurf workflows used by the installer
+      workflows/                # Generated Windsurf workflows used by the installer
     claude/
-      skills/        # Generated Claude Code skills used by the installer
+      skills/                   # Generated Claude Code skills used by the installer
     cursor/
-      commands/      # Generated Cursor commands used by the installer
+      commands/                 # Generated Cursor commands used by the installer
+    opencode/
+      commands/                 # Generated OpenCode commands used by the installer
 ```
 
 Each skill directory is structured according to the **Agent Skills** standard:
@@ -85,6 +90,7 @@ These commands copy the **entire generated skill directories** from `outputs/cla
 - **Windsurf** installation only touches Windsurf workflow locations and only depends on files under `templates/windsurf/` and `outputs/windsurf/`.
 - **Claude Code** installation only touches `.claude/skills` locations and only depends on files under `templates/claude-code/` and `outputs/claude/`.
 - **Cursor** installation only touches `.cursor/commands` locations and only depends on files under `templates/cursor/` and `outputs/cursor/`.
+- **OpenCode** installation only touches `.opencode/commands` or `~/.config/opencode/commands` locations and only depends on files under `templates/open-code/` and `outputs/opencode/`.
 
 You can:
 
@@ -110,6 +116,9 @@ The `install.sh` script is intentionally simple and conservative. For the option
   - Write a `.agent-deep-toolkit-version` file into that directory.
 - **Cursor**
   - Copy `cursor/commands/deep-*.md` into the target `.cursor/commands` directory.
+  - Write a `.agent-deep-toolkit-version` file into that directory recording the toolkit version that was installed.
+- **OpenCode**
+  - Copy `opencode/commands/deep-*.md` into the target `.opencode/commands` (project-level) or `~/.config/opencode/commands` (user-level) directory.
   - Write a `.agent-deep-toolkit-version` file into that directory recording the toolkit version that was installed.
 
 For uninstall and detection, the same script exposes additional flags:
@@ -148,6 +157,41 @@ From the `agent-deep-toolkit/` directory:
 ```
 
 These commands copy the generated `outputs/cursor/commands/deep-*.md` files into the appropriate Cursor commands locations. Once installed, type `/` in Cursor's AI chat to access all deep-* commands (e.g. `/deep-architect`, `/deep-debug`, `/deep-refactor`).
+
+## Installing OpenCode commands
+
+From the `agent-deep-toolkit/` directory:
+
+```bash
+# Install OpenCode commands into the current project (.opencode/commands)
+./install.sh --agent opencode --level project
+
+# Install OpenCode commands into your user-level commands (~/.config/opencode/commands)
+./install.sh --agent opencode --level user
+
+# Install for all supported agents (including OpenCode) at the user level
+./install.sh --agent all --level user
+```
+
+These commands copy the generated `outputs/opencode/commands/deep-*.md` files into the appropriate OpenCode command locations. Once installed, type `/` in OpenCode and use the same deep-* canonical command names (for example `/deep-architect`, `/deep-debug`, `/deep-refactor`).
+
+### OpenCode compatibility commands
+
+When you install the OpenCode commands, you also get a small family of **compatibility-focused commands** designed to help you migrate from Claude Code to native OpenCode setups:
+
+- `/compatibility:status` – scan the project (and key user-level locations) for Claude Code, OpenCode, Windsurf, and Cursor artifacts and summarise overall compatibility.
+- `/compatibility:claude:status` – deep, Claude-specific analysis showing how Claude features (such as `context: fork`, `allowed-tools`, `disable-model-invocation`) map to OpenCode.
+- `/compatibility:claude:diff` – dry-run preview of what a Claude → OpenCode migration would change, without modifying any files.
+- `/compatibility:claude:optimise` – perform the actual migration from Claude Code artifacts to native OpenCode commands and `AGENTS.md`, preserving originals and producing a migration summary.
+
+**Recommended flow:**
+
+1. Run `/compatibility:status` to understand what is currently installed and where fallback vs native behaviour is coming from.
+2. Run `/compatibility:claude:status` to see detailed per-artifact analysis and any feature gaps.
+3. Run `/compatibility:claude:diff` to preview a migration and confirm that the proposed changes look sensible.
+4. When you are comfortable, run `/compatibility:claude:optimise` to generate OpenCode-native equivalents. Re-run `/compatibility:status` afterwards to verify.
+
+The compatibility commands are written so that they can orchestrate a dedicated compatibility CLI (such as one provided by the `cross-agent-compatibility-engine` project) where available, but they remain useful as *executable documentation* even before that CLI is wired in.
 
 ## Using Agent Deep Toolkit with Cursor
 
@@ -203,12 +247,14 @@ Agent-specific templates are defined once per agent:
 - `templates/windsurf/workflow-template.md` – Windsurf workflow frontmatter + body placeholder.
 - `templates/claude-code/skill-template.md` – Claude SKILL frontmatter + body placeholder.
 - `templates/cursor/command-template.md` – Cursor command (plain markdown body).
+- `templates/open-code/command-template.md` – OpenCode command frontmatter (`description`, `agent`, `subtask`) + body placeholder.
 
 From these, a small helper script, `bin/generate-deep-tools`, regenerates the **generated outputs** under `outputs/`:
 
 - `outputs/windsurf/workflows/` – generated Windsurf workflows used by the installer.
 - `outputs/claude/skills/` – generated Claude Code skills (one per tool, 1:1 with Windsurf) used by the installer.
 - `outputs/cursor/commands/` – generated Cursor commands (one per tool, 1:1 with Windsurf) used by the installer.
+- `outputs/opencode/commands/` – generated OpenCode commands (one per tool, 1:1 with Windsurf) used by the installer.
 
 Maintainers edit `tools/deep-tools.json` and rerun `bin/generate-deep-tools` when changing workflows; end-users only need `install.sh`.
 

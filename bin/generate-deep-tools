@@ -39,13 +39,13 @@ fi
 TOOLKIT_VERSION="$(cat "$VERSION_FILE" | tr -d '[:space:]')"
 echo "[info] generating version $TOOLKIT_VERSION from $TOOLS_JSON"
 
-python3 - "$TOOLS_JSON" "$WINDSURF_TEMPLATE" "$CLAUDE_SKILL_TEMPLATE" "$CURSOR_TEMPLATE" "$WINDSURF_OUT_DIR" "$CLAUDE_OUT_ROOT" "$CURSOR_OUT_DIR" <<'PY'
+python3 - "$TOOLS_JSON" "$WINDSURF_TEMPLATE" "$CLAUDE_SKILL_TEMPLATE" "$CURSOR_TEMPLATE" "$ROOT_DIR/templates/open-code/command-template.md" "$WINDSURF_OUT_DIR" "$CLAUDE_OUT_ROOT" "$CURSOR_OUT_DIR" "$OUTPUTS_ROOT/opencode/commands" <<'PY'
 import json
 import shutil
 import sys
 from pathlib import Path
 
-cfg_path, windsurf_tpl_path, skill_tpl_path, cursor_tpl_path, windsurf_out_dir, claude_out_root, cursor_out_dir = sys.argv[1:]
+cfg_path, windsurf_tpl_path, skill_tpl_path, cursor_tpl_path, opencode_tpl_path, windsurf_out_dir, claude_out_root, cursor_out_dir, opencode_out_dir = sys.argv[1:]
 
 cfg_file = Path(cfg_path)
 if not cfg_file.is_file():
@@ -57,6 +57,7 @@ with cfg_file.open("r", encoding="utf-8") as f:
 windsurf_tpl_file = Path(windsurf_tpl_path)
 skill_tpl_file = Path(skill_tpl_path)
 cursor_tpl_file = Path(cursor_tpl_path)
+opencode_tpl_file = Path(opencode_tpl_path)
 
 if not windsurf_tpl_file.is_file():
     raise SystemExit(f"[error] Windsurf template not found at {windsurf_tpl_file}")
@@ -64,14 +65,18 @@ if not skill_tpl_file.is_file():
     raise SystemExit(f"[error] Claude skill template not found at {skill_tpl_file}")
 if not cursor_tpl_file.is_file():
     raise SystemExit(f"[error] Cursor template not found at {cursor_tpl_file}")
+if not opencode_tpl_file.is_file():
+    raise SystemExit(f"[error] OpenCode template not found at {opencode_tpl_file}")
 
 windsurf_template = windsurf_tpl_file.read_text(encoding="utf-8")
 skill_template = skill_tpl_file.read_text(encoding="utf-8")
 cursor_template = cursor_tpl_file.read_text(encoding="utf-8")
+opencode_template = opencode_tpl_file.read_text(encoding="utf-8")
 
 windsurf_out = Path(windsurf_out_dir)
 claude_root = Path(claude_out_root)
 cursor_out = Path(cursor_out_dir)
+opencode_out = Path(opencode_out_dir)
 
 shutil.rmtree(windsurf_out, ignore_errors=True)
 shutil.rmtree(claude_root, ignore_errors=True)
@@ -79,6 +84,8 @@ shutil.rmtree(cursor_out, ignore_errors=True)
 windsurf_out.mkdir(parents=True, exist_ok=True)
 claude_root.mkdir(parents=True, exist_ok=True)
 cursor_out.mkdir(parents=True, exist_ok=True)
+shutil.rmtree(opencode_out, ignore_errors=True)
+opencode_out.mkdir(parents=True, exist_ok=True)
 
 def render_windsurf_workflow(tool: dict) -> str:
     """Render a Windsurf workflow from a tool definition."""
@@ -132,6 +139,21 @@ def render_cursor_command(tool: dict) -> str:
     text = text.replace("{{BODY}}", body)
     return text
 
+def render_opencode_command(tool: dict) -> str:
+    """Render an OpenCode command from a tool definition.
+
+    OpenCode commands are markdown files with YAML frontmatter and a body.
+    We reuse the Windsurf description as the OpenCode command description
+    to avoid introducing new metadata fields.
+    """
+    windsurf_meta = tool.get("windsurf") or {}
+    description = windsurf_meta.get("description", "")
+    body = tool.get("body", "").lstrip("\n")
+    text = opencode_template
+    text = text.replace("{{DESCRIPTION}}", description)
+    text = text.replace("{{BODY}}", body)
+    return text
+
 tools = cfg.get("tools", [])
 
 print(f"[info] generating Windsurf workflows into {windsurf_out}")
@@ -162,6 +184,15 @@ for tool in tools:
     dest = cursor_out / f"{tool_id}.md"
     dest.write_text(render_cursor_command(tool), encoding="utf-8")
     print(f"[ok] wrote Cursor command {dest.name}")
+
+print(f"[info] generating OpenCode commands into {opencode_out}")
+for tool in tools:
+    tool_id = tool.get("id")
+    if not tool_id:
+        continue
+    dest = opencode_out / f"{tool_id}.md"
+    dest.write_text(render_opencode_command(tool), encoding="utf-8")
+    print(f"[ok] wrote OpenCode command {dest.name}")
 PY
 
 # Write version.txt to outputs root

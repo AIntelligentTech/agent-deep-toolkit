@@ -1,0 +1,2 @@
+- `/deep-code /deep-iterate Can you implement a new repository in ~/businesses/repositories called 'cross-agent-compatibilty-engine' and then iterate uninterupted to implement @cross-agent-compatibility-engine.md the plan in that repository.`
+- `/deep-relentless /deep-consider /deep-ideas Consider further ideas, refinements, encrichments, improvements and polish. Then implement them cohesively and cleanly. /deep-code`

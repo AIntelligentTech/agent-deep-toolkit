@@ -7,6 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WINDSURF_WORKFLOWS_DIR="$SCRIPT_DIR/outputs/windsurf/workflows"
 CLAUDE_SKILLS_DIR="$SCRIPT_DIR/outputs/claude/skills"
 CURSOR_COMMANDS_DIR="$SCRIPT_DIR/outputs/cursor/commands"
+OPENCODE_COMMANDS_DIR="$SCRIPT_DIR/outputs/opencode/commands"
 TOOLKIT_VERSION="$(cat "$SCRIPT_DIR/VERSION" 2>/dev/null || echo "0.0.0")"
 
 usage() {
@@ -18,6 +19,7 @@ Agents:
   windsurf-next   Install Windsurf Next global workflows (~/.codeium|~/.codium/windsurf-next/global_workflows)
   claude          Install Claude Code skills (.claude/skills, ~/.claude/skills)
   cursor          Install Cursor commands (.cursor/commands, ~/.cursor/commands)
+  opencode        Install OpenCode commands (.opencode/commands, ~/.config/opencode/commands)
   all             Install for all supported agents at the chosen level
 
 Levels:
@@ -179,6 +181,39 @@ copy_cursor_commands() {
   done
 }
 
+copy_opencode_commands() {
+  local dest="$1"
+
+  if [ ! -d "$OPENCODE_COMMANDS_DIR" ]; then
+    echo "[error] OpenCode commands directory not found: $OPENCODE_COMMANDS_DIR" >&2
+    exit 1
+  fi
+
+  if [ "${DRY_RUN:-false}" = true ]; then
+    echo "[dry-run] would ensure directory exists: $dest"
+  else
+    mkdir -p "$dest"
+  fi
+
+  shopt -s nullglob
+  local files=("$OPENCODE_COMMANDS_DIR"/deep-*.md "$OPENCODE_COMMANDS_DIR"/compatibility-*.md)
+  if [ "${#files[@]}" -eq 0 ]; then
+    echo "[warn] no deep-*.md or compatibility-*.md files found in $OPENCODE_COMMANDS_DIR" >&2
+    return 0
+  fi
+
+  for file in "${files[@]}"; do
+    local base
+    base="$(basename "$file")"
+    if [ "${DRY_RUN:-false}" = true ]; then
+      echo "[dry-run] would install OpenCode command $base -> $dest"
+    else
+      cp "$file" "$dest/$base"
+      echo "[ok] installed OpenCode command $base -> $dest"
+    fi
+  done
+}
+
 install_windsurf_to() {
   local dest="$1"
   local label="$2"
@@ -244,6 +279,30 @@ install_cursor_to() {
   fi
 
   copy_cursor_commands "$dest"
+  if [ "${DRY_RUN:-false}" = true ]; then
+    echo "[dry-run] would record toolkit version $TOOLKIT_VERSION in $version_file"
+  else
+    echo "$TOOLKIT_VERSION" >"$version_file"
+  fi
+}
+
+install_opencode_to() {
+  local dest="$1"
+  local label="$2"
+  local version_file="$dest/.agent-deep-toolkit-version"
+
+  if [ -f "$version_file" ] && [ "${FORCE:-false}" != "true" ]; then
+    local existing
+    existing="$(cat "$version_file" 2>/dev/null || echo "unknown")"
+    if [ "${DRY_RUN:-false}" = true ]; then
+      echo "[dry-run] would detect existing agent-deep-toolkit version $existing in $dest ($label); rerun with --force to overwrite."
+    else
+      echo "[info] existing agent-deep-toolkit version $existing detected in $dest ($label); use --force to overwrite." >&2
+    fi
+    return 0
+  fi
+
+  copy_opencode_commands "$dest"
   if [ "${DRY_RUN:-false}" = true ]; then
     echo "[dry-run] would record toolkit version $TOOLKIT_VERSION in $version_file"
   else
@@ -365,6 +424,66 @@ uninstall_windsurf_from() {
   fi
 
   echo "[info] the following Windsurf workflows would be removed from $dest ($label):"
+  for file in "${files[@]}"; do
+    echo "  - $(basename "$file")"
+  done
+  if [ -f "$version_file" ]; then
+    echo "  - .agent-deep-toolkit-version"
+  fi
+
+  if [ "$MODE" = "detect" ]; then
+    return 0
+  fi
+
+  if ! prompt_confirm "Proceed with uninstall from $dest ($label)?"; then
+    return 0
+  fi
+
+  if [ "${DRY_RUN:-false}" = true ]; then
+    for file in "${files[@]}"; do
+      echo "[dry-run] would remove $file"
+    done
+    if [ -f "$version_file" ]; then
+      echo "[dry-run] would remove $version_file"
+    fi
+  else
+    for file in "${files[@]}"; do
+      rm -f "$file"
+      echo "[ok] removed $file"
+    done
+    if [ -f "$version_file" ]; then
+      rm -f "$version_file"
+      echo "[ok] removed $version_file"
+    fi
+  fi
+}
+
+uninstall_opencode_from() {
+  local dest="$1"
+  local label="$2"
+
+  if [ ! -d "$dest" ]; then
+    echo "[info] no OpenCode commands directory found at $dest ($label); nothing to do."
+    return 0
+  fi
+
+  local version_file="$dest/.agent-deep-toolkit-version"
+  if [ -f "$version_file" ]; then
+    local existing
+    existing="$(cat "$version_file" 2>/dev/null || echo "unknown")"
+    echo "[info] detected agent-deep-toolkit version $existing in $dest ($label)."
+  else
+    echo "[info] no .agent-deep-toolkit-version found in $dest ($label); will still look for deep-*.md commands."
+  fi
+
+  shopt -s nullglob
+  local files=("$dest"/deep-*.md)
+  if [ "${#files[@]}" -eq 0 ] && [ ! -f "$version_file" ]; then
+    echo "[info] no deep-*.md commands or version file found in $dest ($label); nothing to uninstall."
+    return 0
+  fi
+
+  echo "[info] the following OpenCode commands would be removed from $dest ($label):"
   for file in "${files[@]}"; do
     echo "  - $(basename "$file")"
   done
@@ -622,6 +741,29 @@ case "$AGENT" in
         ;;
     esac
     ;;
+  opencode)
+    case "$LEVEL" in
+      project)
+        if [ "$MODE" = "install" ]; then
+          install_opencode_to "$PROJECT_DIR/.opencode/commands" "opencode project"
+        else
+          uninstall_opencode_from "$PROJECT_DIR/.opencode/commands" "opencode project"
+        fi
+        ;;
+      user)
+        if [ "$MODE" = "install" ]; then
+          install_opencode_to "$HOME/.config/opencode/commands" "opencode user"
+        else
+          uninstall_opencode_from "$HOME/.config/opencode/commands" "opencode user"
+        fi
+        ;;
+      *)
+        echo "[error] unsupported level for agent opencode: $LEVEL" >&2
+        usage
+        exit 1
+        ;;
+    esac
+    ;;
   all)
     case "$LEVEL" in
       project)
@@ -629,10 +771,12 @@ case "$AGENT" in
           install_windsurf_to "$PROJECT_DIR/.windsurf/workflows" "windsurf project"
           install_claude_to "$PROJECT_DIR/.claude/skills" "claude project"
           install_cursor_to "$PROJECT_DIR/.cursor/commands" "cursor project"
+          install_opencode_to "$PROJECT_DIR/.opencode/commands" "opencode project"
         else
           uninstall_windsurf_from "$PROJECT_DIR/.windsurf/workflows" "windsurf project"
           uninstall_claude_from "$PROJECT_DIR/.claude/skills" "claude project"
           uninstall_cursor_from "$PROJECT_DIR/.cursor/commands" "cursor project"
+          uninstall_opencode_from "$PROJECT_DIR/.opencode/commands" "opencode project"
         fi
         ;;
       user)
@@ -642,12 +786,14 @@ case "$AGENT" in
           install_windsurf_to "$HOME/.codium/windsurf-next/global_workflows" "windsurf-next user (~/.codium)"
           install_claude_to "$HOME/.claude/skills" "claude user"
           install_cursor_to "$HOME/.cursor/commands" "cursor user"
+          install_opencode_to "$HOME/.config/opencode/commands" "opencode user"
         else
           uninstall_windsurf_from "$HOME/.windsurf/workflows" "windsurf user"
           uninstall_windsurf_from "$HOME/.codeium/windsurf-next/global_workflows" "windsurf-next user (~/.codeium)"
           uninstall_windsurf_from "$HOME/.codium/windsurf-next/global_workflows" "windsurf-next user (~/.codium)"
           uninstall_claude_from "$HOME/.claude/skills" "claude user"
           uninstall_cursor_from "$HOME/.cursor/commands" "cursor user"
+          uninstall_opencode_from "$HOME/.config/opencode/commands" "opencode user"
         fi
         ;;
       *)
