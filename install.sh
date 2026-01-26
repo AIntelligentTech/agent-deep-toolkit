@@ -16,10 +16,10 @@ Usage: $SCRIPT_NAME --agent <agent> --level <level> [--project-dir <dir>] [--for
 
 Agents:
   windsurf        Install Windsurf stable channel workflows (auto-detects installation path)
-                  Checks: ~/.windsurf, ~/.codeium/.windsurf, ~/.codium/.windsurf, ~/.codeium/windsurf
+                  Checks: ~/.windsurf, ~/.codeium/.windsurf, ~/.codeium/windsurf
                   Default: ~/.windsurf/workflows if none found
-  windsurf-next   Install Windsurf Next channel workflows (auto-detects all installations)
-                  Checks: ~/.codeium/windsurf-next, ~/.codium/windsurf-next
+  windsurf-next   Install Windsurf Next channel workflows (auto-detects installations)
+                  Checks: ~/.codeium/windsurf-next
                   Installs to all detected Next installations
   claude          Install Claude Code skills (.claude/skills, ~/.claude/skills)
   cursor          Install Cursor commands (.cursor/commands, ~/.cursor/commands)
@@ -84,16 +84,12 @@ detect_windsurf_stable_installation() {
   # Priority order for stable channel detection:
   # 1. ~/.windsurf/workflows (traditional/standard location)
   # 2. ~/.codeium/.windsurf/workflows (codeium subdirectory variant)
-  # 3. ~/.codium/.windsurf/workflows (codium subdirectory variant)
-  # 4. ~/.codeium/windsurf/global_workflows (global workflows in codeium)
-  # 5. ~/.codium/windsurf/global_workflows (global workflows in codium)
+  # 3. ~/.codeium/windsurf/global_workflows (global workflows in codeium)
 
   local candidates=(
     "$HOME/.windsurf/workflows"
     "$HOME/.codeium/.windsurf/workflows"
-    "$HOME/.codium/.windsurf/workflows"
     "$HOME/.codeium/windsurf/global_workflows"
-    "$HOME/.codium/windsurf/global_workflows"
   )
 
   for path in "${candidates[@]}"; do
@@ -116,7 +112,6 @@ detect_windsurf_next_installations() {
 
   local candidates=(
     "$HOME/.codeium/windsurf-next/global_workflows"
-    "$HOME/.codium/windsurf-next/global_workflows"
   )
 
   local found_paths=()
@@ -127,10 +122,9 @@ detect_windsurf_next_installations() {
     fi
   done
 
-  # Return found paths or defaults if none exist
+  # Return found paths or default if none exist
   if [ "${#found_paths[@]}" -eq 0 ]; then
     echo "$HOME/.codeium/windsurf-next/global_workflows"
-    echo "$HOME/.codium/windsurf-next/global_workflows"
   else
     printf '%s\n' "${found_paths[@]}"
   fi
@@ -143,9 +137,7 @@ detect_all_windsurf_stable_installations() {
   local candidates=(
     "$HOME/.windsurf/workflows"
     "$HOME/.codeium/.windsurf/workflows"
-    "$HOME/.codium/.windsurf/workflows"
     "$HOME/.codeium/windsurf/global_workflows"
-    "$HOME/.codium/windsurf/global_workflows"
   )
 
   local found_paths=()
@@ -796,10 +788,9 @@ case "$AGENT" in
         done < <(detect_windsurf_next_installations)
 
         if [ "${#NEXT_PATHS[@]}" -eq 0 ]; then
-          echo "[warn] no Windsurf Next installations detected; using defaults"
+          echo "[warn] no Windsurf Next installations detected; using default"
           NEXT_PATHS=(
             "$HOME/.codeium/windsurf-next/global_workflows"
-            "$HOME/.codium/windsurf-next/global_workflows"
           )
         else
           echo "[info] found ${#NEXT_PATHS[@]} Windsurf Next installation(s)"

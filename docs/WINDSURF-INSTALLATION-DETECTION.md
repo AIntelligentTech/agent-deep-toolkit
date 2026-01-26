@@ -14,23 +14,20 @@ stable channel installations in priority order:
 
 1. `~/.windsurf/workflows` - Traditional/standard Windsurf stable configuration
 2. `~/.codeium/.windsurf/workflows` - Stable in codeium subdirectory variant
-3. `~/.codium/.windsurf/workflows` - Stable in codium subdirectory variant
-4. `~/.codeium/windsurf/global_workflows` - Global workflows in codeium app data
-5. `~/.codium/windsurf/global_workflows` - Global workflows in codium app data
+3. `~/.codeium/windsurf/global_workflows` - Global workflows in codeium app data
 
 **Behavior:** Installs to the **first detected** location. If none exist,
 defaults to `~/.windsurf/workflows`.
 
 ### Next Channel Detection (`--agent windsurf-next`)
 
-When using `--agent windsurf-next --level user`, the installer detects all
-Windsurf Next channel installations:
+When using `--agent windsurf-next --level user`, the installer detects Windsurf
+Next channel installations:
 
 1. `~/.codeium/windsurf-next/global_workflows`
-2. `~/.codium/windsurf-next/global_workflows`
 
 **Behavior:** Installs to **all detected** Next installations. If none exist,
-installs to both default locations.
+installs to the default location.
 
 ### All Agents Detection (`--agent all`)
 
@@ -53,25 +50,17 @@ Windsurf can be installed in different configurations:
 - Workflows location: `~/.windsurf/workflows/`
 - Used by: Standard Windsurf stable channel installations
 
-#### Codeium/Codium App Data Stable
+#### Codeium App Data Stable
 
-- App data directory: `~/.codeium/windsurf/` or `~/.codium/windsurf/`
-- Global workflows: `~/.codeium/windsurf/global_workflows/` or
-  `~/.codium/windsurf/global_workflows/`
+- App data directory: `~/.codeium/windsurf/`
+- Global workflows: `~/.codeium/windsurf/global_workflows/`
 - Used by: Windsurf stable channel for global (cross-project) workflows
 
 #### Next Channel
 
-- App data directory: `~/.codeium/windsurf-next/` or `~/.codium/windsurf-next/`
-- Global workflows: `~/.codeium/windsurf-next/global_workflows/` or
-  `~/.codium/windsurf-next/global_workflows/`
+- App data directory: `~/.codeium/windsurf-next/`
+- Global workflows: `~/.codeium/windsurf-next/global_workflows/`
 - Used by: Windsurf Next (preview) channel
-
-### Why Both `.codeium` and `.codium`?
-
-Some Windsurf installations use `~/.codeium/` (Codeium branded) while others use
-`~/.codium/` (VSCodium/Codium branded). The installer checks both to ensure
-compatibility with all variants.
 
 ## Examples
 
@@ -115,13 +104,11 @@ compatibility with all variants.
 **System state:**
 
 - `~/.codeium/windsurf-next/` exists
-- `~/.codium/windsurf-next/` exists
 
 ```bash
 ./install.sh --agent windsurf-next --level user
-# → Installs to both:
+# → Installs to:
 #   - ~/.codeium/windsurf-next/global_workflows
-#   - ~/.codium/windsurf-next/global_workflows
 ```
 
 ### Example 5: Mixed Stable and Next
@@ -137,7 +124,7 @@ compatibility with all variants.
 # → Installs to: ~/.windsurf/workflows only
 
 ./install.sh --agent windsurf-next --level user
-# → Installs to: ~/.codeium/windsurf-next/global_workflows only
+# → Installs to: ~/.codeium/windsurf-next/global_workflows
 
 ./install.sh --agent all --level user
 # → Installs to all detected:
@@ -192,16 +179,14 @@ To see what the installer would detect on your system:
 **Old behavior:**
 
 - `--agent windsurf`: Always installed to `~/.windsurf/workflows`
-- `--agent windsurf-next`: Always installed to both `~/.codeium/windsurf-next`
-  and `~/.codium/windsurf-next`
+- `--agent windsurf-next`: Always installed to `~/.codeium/windsurf-next`
 - `--agent all`: Hardcoded to specific paths
 
 **New behavior (v0.4.0+):**
 
 - `--agent windsurf`: Intelligently detects stable installation, prioritizes
   `~/.windsurf/workflows`
-- `--agent windsurf-next`: Detects and installs to all existing Next
-  installations
+- `--agent windsurf-next`: Detects and installs to existing Next installations
 - `--agent all`: Detects and installs to all existing Windsurf installations
   (stable + next)
 
