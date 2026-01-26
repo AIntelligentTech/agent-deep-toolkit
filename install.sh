@@ -477,9 +477,9 @@ uninstall_opencode_from() {
   fi
 
   shopt -s nullglob
-  local files=("$dest"/deep-*.md)
+  local files=("$dest"/deep-*.md "$dest"/compatibility-*.md)
   if [ "${#files[@]}" -eq 0 ] && [ ! -f "$version_file" ]; then
-    echo "[info] no deep-*.md commands or version file found in $dest ($label); nothing to uninstall."
+    echo "[info] no deep-*.md or compatibility-*.md commands or version file found in $dest ($label); nothing to uninstall."
     return 0
   fi
 
