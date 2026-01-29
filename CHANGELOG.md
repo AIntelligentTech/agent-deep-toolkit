@@ -6,6 +6,87 @@ The format is loosely based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.0] - 2026-01-29
+
+### ⚠️ Breaking Changes
+
+- **Removed `deep-` prefix from all skills**: All commands are now invoked without
+  the `deep-` prefix (e.g., `/think` instead of `/deep-think`, `/debug` instead of
+  `/deep-debug`).
+- **Skill consolidation**: 10 skill pairs have been merged to reduce overlap:
+  - `deep-consider` + `deep-decide` → `/decide`
+  - `deep-docs` + `deep-document` → `/document`
+  - `deep-search` + `deep-research` → `/search`
+  - `deep-explore` + `deep-understand` → `/explore`
+  - `deep-relentless` + `deep-iterate` → `/iterate`
+  - `deep-prune` + `deep-refactor` → `/refactor`
+  - `deep-incident` + `deep-retrospective` → `/incident`
+  - `deep-ethics` + `deep-regulation` → `/compliance`
+  - `deep-alternative` + `deep-ideas` → `/brainstorm`
+- **Removed legacy skill directories**: All `deep-*` directories have been removed
+  from `skills/`.
+
+### Added
+
+- **10 new skills** to fill conceptual gaps:
+  - `/plan` - Implementation planning with phases, dependencies, milestones
+  - `/migrate` - Safe data/schema/API migrations with rollback strategies
+  - `/review` - Structured code review workflow
+  - `/deploy` - Deployment strategy and rollout patterns
+  - `/estimate` - Effort estimation and complexity analysis
+  - `/onboard` - Developer onboarding materials
+  - `/api` - API design, contracts, versioning, documentation
+  - `/dependency` - Dependency management and security
+  - `/benchmark` - Performance benchmarking and regression tracking
+  - `/simplify` - Complexity reduction beyond basic refactoring
+- **Alias support**: Each skill now supports multiple aliases for natural language
+  triggering:
+  - `/think` → `/reason`, `/analyze`, `/ponder`
+  - `/code` → `/implement`, `/build`, `/develop`
+  - `/debug` → `/fix`, `/troubleshoot`, `/diagnose`
+  - `/test` → `/verify`, `/validate`, `/check`
+  - `/architect` → `/design-system`, `/structure`, `/blueprint`
+  - `/optimize` → `/perf`, `/performance`, `/speedup`
+  - `/search` → `/find`, `/lookup`, `/locate`, `/research`
+  - `/document` → `/docs`, `/write-docs`, `/docstring`
+  - `/investigate` → `/dig`, `/probe`, `/examine`
+  - `/explore` → `/understand`, `/learn`, `/discover`
+  - And many more...
+- **Updated `/index` skill**: Now serves as a comprehensive navigator showing all
+  45 skills organized by category with common workflow combinations.
+
+### Changed
+
+- **Skill count**: Now 45 skills (was 44), despite consolidation, due to new
+  additions.
+- **Skill organization**: Skills reorganized into 7 clear categories:
+  - Core Reasoning (5)
+  - Architecture & Design (9)
+  - Implementation (10)
+  - Operations (9)
+  - Governance (2)
+  - Change Management (5)
+  - Meta (5)
+- **README.md**: Completely rewritten to document the new skill naming, aliases,
+  and organization.
+
+### Migration Guide
+
+To migrate from v0.x to v2.0:
+
+1. Update all command references from `/deep-*` to the new names:
+   - `/deep-think` → `/think`
+   - `/deep-code` → `/code`
+   - etc.
+2. For consolidated skills, use the new combined skill:
+   - `/deep-consider` or `/deep-decide` → `/decide`
+   - `/deep-search` or `/deep-research` → `/search`
+   - etc.
+3. Re-run the installer to update your workflow/skill files:
+   ```bash
+   ./install.sh --agent all --level user --force
+   ```
+
 ## [0.4.0] - 2026-01-26
 
 ### Added
