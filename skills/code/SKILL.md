@@ -3,6 +3,7 @@ name: code
 description: Implement high-quality code using solid design principles, refactoring, and thorough testing
 command: /code
 aliases: ["/implement", "/build", "/develop"]
+synonyms: ["/coding", "/coded", "/codes", "/implement", "/implementation"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

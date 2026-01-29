@@ -2,6 +2,7 @@
 name: design
 description: Apply structured product and interaction design thinking (Double Diamond) to shape solutions before implementation
 command: /design
+synonyms: ["/designing", "/designed", "/designs", "/shaping"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

@@ -2,6 +2,7 @@
 name: ux
 description: Perform a deep UX review using research insights, user journeys, and established usability heuristics
 command: /ux
+synonyms: ["/usability", "/interface", "/design", "/interaction", "/interfacing", "/usableness", "/ux-review"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
@@ -15,6 +16,7 @@ This workflow instructs Cascade to evaluate and improve user experience systemat
 
 - Identify key user segments and their primary goals.
 - List critical tasks and scenarios this interface must support.
+- **Cognitive Load Analysis**: Evaluate the mental effort required to complete tasks. Identify where the user is forced to hold too much information in memory or face unnecessary decision paralysis (Hick's Law).
 - Note environmental factors:
   - Devices, assistive technologies, network conditions, time pressure.
 
@@ -44,6 +46,7 @@ This workflow instructs Cascade to evaluate and improve user experience systemat
 
 - Check for basic accessibility practices:
   - Semantic HTML/roles, focus order, keyboard navigation, contrast, text sizing.
+- **Screen Reader Simulation**: Mentally (or via tools) simulate the experience for a screen reader user. Are labels descriptive? Is the focus order logical? Are dynamic changes announced (ARIA live regions)?
 - Consider diverse users:
   - Different abilities, cultural contexts, and levels of expertise.
 - Where appropriate, reference relevant guidelines (e.g., WCAG) when evaluating issues.

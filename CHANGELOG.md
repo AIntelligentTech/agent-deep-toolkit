@@ -1,5 +1,29 @@
 # Changelog
 
+## [2.0.0] - 2025-05-15
+
+### Added
+- **Variant Generation System**: Skills now support a `synonyms` tag in frontmatter.
+- **Improved Build Pipeline**: New Python-based generator produces multiple entry points for Windsurf, Cursor, and OpenCode, and populates `aliases` for Claude Code.
+- **Synonyms for Key Tools**:
+  - `/think` -> `/thought`, `/thinking`, `/thinks`
+  - `/decide` -> `/decision`, `/choice`, `/choose`, `/pick`, `/select`
+  - `/debug` -> `/fix`, `/troubleshoot`, `/solve`, `/repair`, `/patch`
+  - ... and many more.
+
+### Changed
+- **Cleaner Naming Convention**: Removed `deep-` prefix from all source directories and skill names (e.g., `deep-think` becomes `think`).
+- **Enhanced Content Frameworks**:
+  - `/think`: Integrated Second-Order and Inversion thinking.
+  - `/decide`: Formally distinguishes Type 1 (Irreversible) and Type 2 (Reversible) decisions.
+  - `/search`: Multi-source keyword expansion.
+  - `/refactor`: Added Characterization Tests and Rewrite vs Refactor analysis.
+  - `/architect`: Added Sustainability/Green IT lens and Fitness Functions.
+- **Updated Installer**: `install.sh` now handles non-prefixed files and all generated variants automatically.
+
+### Fixed
+- Fixed broken build dependency on missing `cace` tool by implementing internal Python-based conversion.
+
 All notable changes to this project will be documented in this file.
 
 The format is loosely based on

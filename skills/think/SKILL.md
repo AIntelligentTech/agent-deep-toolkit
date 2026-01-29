@@ -3,6 +3,7 @@ name: think
 description: Perform deep reasoning and analysis on a subject, considering patterns, edge cases, and multiple perspectives
 command: /think
 aliases: ["/reason", "/analyze", "/ponder"]
+synonyms: ["/thought", "/thinking", "/thinks", "/reasoning", "/pondering", "/pondered", "/analysis"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
@@ -17,6 +18,8 @@ This workflow instructs Cascade to pause and reason deeply before acting, ensuri
 - Break the problem down into its fundamental truths and constraints.
 - Question assumptions. Is the standard approach the best one here?
 - Identify the core "job to be done" for the code or feature.
+- **Second-Order Thinking**: Ask "And then what?" for every proposed solution to understand downstream consequences.
+- **Inversion Thinking**: Ask "What would make this fail?" to identify hidden risks and failure modes before they happen.
 
 ## 2. Multi-Perspective Analysis
 

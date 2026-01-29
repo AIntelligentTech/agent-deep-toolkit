@@ -190,9 +190,9 @@ copy_windsurf_workflows() {
   fi
 
   shopt -s nullglob
-  local files=("$WINDSURF_WORKFLOWS_DIR"/deep-*.md)
+  local files=("$WINDSURF_WORKFLOWS_DIR"/*.md)
   if [ "${#files[@]}" -eq 0 ]; then
-    echo "[warn] no deep-*.md files found in $WINDSURF_WORKFLOWS_DIR" >&2
+    echo "[warn] no .md files found in $WINDSURF_WORKFLOWS_DIR" >&2
     return 0
   fi
 
@@ -262,9 +262,9 @@ copy_cursor_commands() {
   fi
 
   shopt -s nullglob
-  local files=("$CURSOR_COMMANDS_DIR"/deep-*.md)
+  local files=("$CURSOR_COMMANDS_DIR"/*.md)
   if [ "${#files[@]}" -eq 0 ]; then
-    echo "[warn] no deep-*.md files found in $CURSOR_COMMANDS_DIR" >&2
+    echo "[warn] no .md files found in $CURSOR_COMMANDS_DIR" >&2
     return 0
   fi
 
@@ -295,9 +295,9 @@ copy_opencode_commands() {
   fi
 
   shopt -s nullglob
-  local files=("$OPENCODE_COMMANDS_DIR"/deep-*.md "$OPENCODE_COMMANDS_DIR"/compatibility-*.md)
+  local files=("$OPENCODE_COMMANDS_DIR"/*.md)
   if [ "${#files[@]}" -eq 0 ]; then
-    echo "[warn] no deep-*.md or compatibility-*.md files found in $OPENCODE_COMMANDS_DIR" >&2
+    echo "[warn] no .md files found in $OPENCODE_COMMANDS_DIR" >&2
     return 0
   fi
 
@@ -516,9 +516,9 @@ uninstall_windsurf_from() {
   fi
 
   shopt -s nullglob
-  local files=("$dest"/deep-*.md)
+  local files=("$dest"/*.md)
   if [ "${#files[@]}" -eq 0 ] && [ ! -f "$version_file" ]; then
-    echo "[info] no deep-*.md workflows or version file found in $dest ($label); nothing to uninstall."
+    echo "[info] no .md workflows or version file found in $dest ($label); nothing to uninstall."
     return 0
   fi
 
@@ -576,9 +576,9 @@ uninstall_opencode_from() {
   fi
 
   shopt -s nullglob
-  local files=("$dest"/deep-*.md "$dest"/compatibility-*.md)
+  local files=("$dest"/*.md)
   if [ "${#files[@]}" -eq 0 ] && [ ! -f "$version_file" ]; then
-    echo "[info] no deep-*.md or compatibility-*.md commands or version file found in $dest ($label); nothing to uninstall."
+    echo "[info] no .md commands or version file found in $dest ($label); nothing to uninstall."
     return 0
   fi
 
@@ -636,7 +636,7 @@ uninstall_claude_from() {
   fi
 
   shopt -s nullglob
-  local skill_dirs=("$dest_root"/deep-*)
+  local skill_dirs=("$dest_root"/*)
   local found=false
   echo "[info] the following Claude skills/directories would be removed from $dest_root ($label) if present:"
   for sd in "${skill_dirs[@]}"; do
@@ -704,9 +704,9 @@ uninstall_cursor_from() {
   fi
 
   shopt -s nullglob
-  local files=("$dest"/deep-*.md)
+  local files=("$dest"/*.md)
   if [ "${#files[@]}" -eq 0 ] && [ ! -f "$version_file" ]; then
-    echo "[info] no deep-*.md commands or version file found in $dest ($label); nothing to uninstall."
+    echo "[info] no .md commands or version file found in $dest ($label); nothing to uninstall."
     return 0
   fi
 

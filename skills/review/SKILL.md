@@ -3,6 +3,7 @@ name: review
 description: Structured code review with security, performance, and maintainability lenses
 command: /review
 aliases: ["/code-review", "/cr"]
+synonyms: ["/reviewing", "/reviewed", "/reviews", "/critique"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

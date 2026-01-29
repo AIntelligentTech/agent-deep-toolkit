@@ -3,6 +3,7 @@ name: test
 description: Design, implement, and evolve high-value automated tests for robust software
 command: /test
 aliases: ["/verify", "/validate", "/check"]
+synonyms: ["/verify", "/validate", "/check", "/testing", "/tested", "/tests", "/verifying", "/verified", "/validating", "/validated", "/checking", "/checked"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
@@ -33,6 +34,7 @@ This workflow instructs Cascade to approach testing as a first-class design acti
   - Equivalence partitioning, boundary value analysis, and state transition testing.
 - Enumerate scenarios:
   - Happy paths, edge cases, error conditions, concurrency and timing issues.
+- **Visual Regression**: For UI-heavy features, design tests that capture and compare visual states to detect unintended styling changes.
 - For APIs and services, design contract tests that capture expectations between components.
 
 ## 4. Implement Readable, Maintainable Tests
@@ -49,7 +51,8 @@ This workflow instructs Cascade to approach testing as a first-class design acti
   - Fast feedback for unit tests; scheduled or gated runs for heavier suites.
 - Detect and address flaky tests:
   - Quarantine while investigating, then fix or remove.
-- Use coverage and mutation testing as **signals**, not absolute targets.
+- **Mutation Testing**: Periodically use mutation testing (introducing small bugs into code) to verify that your tests actually fail when they should.
+- Use coverage as a **signal**, not an absolute target.
 
 ## 6. Evolve the Test Suite with the System
 

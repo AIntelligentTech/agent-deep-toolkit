@@ -3,6 +3,7 @@ name: refactor
 description: Plan and execute safe, incremental refactors to improve design and maintainability, including pruning dead code
 command: /refactor
 aliases: ["/prune", "/cleanup", "/restructure"]
+synonyms: ["/refactoring", "/refactored", "/refactors", "/pruning", "/pruned", "/cleanup", "/restructuring", "/restructured", "/reorganizing", "/reorganized", "/reorganize"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
@@ -17,6 +18,7 @@ This workflow instructs Cascade to refactor codebases safely, evolving design wh
 - Clarify the motivation for refactoring:
   - Pain points (hard to change, bugs clustering, performance issues).
   - Desired properties (simpler interfaces, clearer boundaries, better testability).
+- **Rewrite vs. Refactor**: Formally decide if a full rewrite is justified or if incremental refactoring is more appropriate (favoring refactoring for most cases).
 - Identify constraints:
   - Timebox, risk tolerance, deployment cadence, availability of tests.
 - Confirm that behavior must remain functionally equivalent except where explicitly stated.
@@ -46,6 +48,7 @@ When pruning dead code:
 ## 4. Design an Incremental Refactor Plan
 
 - Define a series of **small, reversible steps** rather than a big-bang change.
+- **Characterization Tests**: Before making changes, ensure that current behavior is documented with tests (even if it's "broken" or has quirks you want to preserve).
 - For each step, specify:
   - Target code area and intended structural change (e.g., extract function, introduce interface, split module).
   - Tests that must continue to pass.

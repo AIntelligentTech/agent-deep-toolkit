@@ -3,6 +3,7 @@ name: observe
 description: Design and evolve robust observability for applications, data, and AI systems
 command: /observe
 aliases: ["/observability", "/monitor", "/metrics"]
+synonyms: ["/observability", "/monitoring", "/monitored", "/monitors", "/metrics", "/telemetry", "/logging", "/tracing"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

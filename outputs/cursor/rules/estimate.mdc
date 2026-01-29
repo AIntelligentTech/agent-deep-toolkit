@@ -1,0 +1,99 @@
+---
+description: Effort estimation, complexity analysis, and time/resource planning
+globs:
+- '**/*'
+alwaysApply: true
+---
+
+# Estimate Workflow
+
+This workflow instructs Cascade to provide thoughtful, realistic estimates that account for uncertainty and complexity.
+
+## 1. Clarify What's Being Estimated
+
+- Define the work:
+  - Specific feature, project, or task.
+- Identify what estimate is needed:
+  - Effort (person-hours, story points).
+  - Duration (calendar time).
+  - Resources (people, infrastructure, budget).
+- Understand the purpose:
+  - Planning, prioritization, commitment, budgeting.
+
+## 2. Break Down the Work
+
+- Decompose into estimable units:
+  - Features → tasks → subtasks.
+- Aim for tasks small enough to estimate confidently:
+  - Generally 1-3 days or less.
+- Identify all activities:
+  - Design, implementation, testing, documentation.
+  - Reviews, meetings, coordination.
+
+## 3. Assess Complexity Factors
+
+For each component, consider:
+
+- **Technical complexity**:
+  - Known vs novel technology.
+  - Algorithmic difficulty.
+  - Integration touchpoints.
+- **Uncertainty**:
+  - Requirements clarity.
+  - Technical unknowns.
+  - External dependencies.
+- **Risk factors**:
+  - Performance requirements.
+  - Security considerations.
+  - Regulatory constraints.
+
+## 4. Apply Estimation Techniques
+
+### Analogous Estimation
+- Compare to similar past work.
+- Adjust for differences.
+
+### Three-Point Estimation
+- Best case (everything goes right).
+- Likely case (realistic expectations).
+- Worst case (significant problems).
+- Expected = (Best + 4×Likely + Worst) / 6
+
+### T-Shirt Sizing
+- Relative sizing for quick comparisons.
+- XS, S, M, L, XL.
+
+### Planning Poker
+- Team-based estimation for consensus.
+
+## 5. Account for Hidden Work
+
+Add time for:
+- Meetings and communication (15-20%).
+- Code reviews and rework.
+- Testing and bug fixes.
+- Documentation.
+- Deployment and monitoring setup.
+- Learning curves.
+
+## 6. Add Appropriate Buffer
+
+- Low uncertainty: 10-20% buffer.
+- Medium uncertainty: 30-50% buffer.
+- High uncertainty: 50-100% buffer or spike first.
+
+## 7. Present the Estimate
+
+- Provide a range, not a single number:
+  - "Most likely 3-5 days, could extend to 8 days if X."
+- State assumptions explicitly.
+- Identify risks that could affect the estimate.
+- Note dependencies.
+
+## 8. Track and Improve
+
+- Compare estimates to actuals.
+- Analyze variances:
+  - What was underestimated?
+  - What was unexpected?
+- Improve estimation over time.

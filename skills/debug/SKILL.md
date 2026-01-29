@@ -3,6 +3,7 @@ name: debug
 description: Perform deep, systematic debugging to find true root causes and design robust, well-tested fixes
 command: /debug
 aliases: ["/fix", "/troubleshoot", "/diagnose"]
+synonyms: ["/debugging", "/debugged", "/debugs", "/fixing", "/fixed", "/fixes", "/troubleshooting", "/troubleshoot", "/troubleshot", "/diagnosing", "/diagnosed"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
@@ -20,9 +21,11 @@ This workflow instructs Cascade to debug like an experienced tester and engineer
 - Capture environment details:
   - Versions (app, dependencies, platform, browser/OS).
   - Config flags, feature toggles, data conditions.
+- **Rubber Ducking**: Explain the problem aloud (or in chat) to another "entity" or the user. Often, the act of precise explanation reveals the flaw.
 - Establish a reliable reproduction path:
   - Document exact steps.
   - Strive to minimize the repro to the smallest scenario that still fails.
+- **Git Bisect**: Use `git bisect` to identify exactly which commit introduced the regression, if the history is available.
 - Assess impact and urgency (severity, affected users, business risk) to guide depth vs speed.
 
 ## 2. Map and Trace the Code Path in Detail

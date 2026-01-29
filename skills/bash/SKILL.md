@@ -3,6 +3,7 @@ name: bash
 description: Design and implement robust Bash/Linux CLI automations, workflows, and terminal orchestration
 command: /bash
 aliases: ["/shell", "/cli", "/terminal"]
+synonyms: ["/shell", "/scripting", "/scripted", "/scripts", "/terminal", "/cli", "/command-line", "/orchestration"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

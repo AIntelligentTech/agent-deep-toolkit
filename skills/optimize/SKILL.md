@@ -3,6 +3,7 @@ name: optimize
 description: Analyze and improve performance and scalability using a measurement-driven methodology
 command: /optimize
 aliases: ["/perf", "/performance", "/speedup"]
+synonyms: ["/optimizing", "/optimized", "/optimizes", "/performance", "/speedup"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

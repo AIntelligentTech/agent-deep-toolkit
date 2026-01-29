@@ -3,6 +3,7 @@ name: search
 description: Perform structured search across local repositories and the web to locate relevant code, docs, and context
 command: /search
 aliases: ["/find", "/lookup", "/locate", "/research"]
+synonyms: ["/searching", "/searched", "/searches", "/researching", "/researched", "/find", "/locate", "/gather"]
 activation-mode: contextual
 user-invocable: true
 disable-model-invocation: true
@@ -41,6 +42,8 @@ This workflow instructs Cascade to search systematically—starting locally, the
 If local search is insufficient:
 
 - Use `search_web` aggressively with multiple distinct queries.
+- **Keyword Expansion**: Explicitly search for synonyms, acronyms, and outdated terminology related to the target.
+- **Expand Context**: Include **Slack/Discord/Email** or internal knowledge bases as explicit search targets for "team context" if accessible.
 - Target multiple dimensions: syntax, best practices, security, recent changes/deprecations.
 - Prioritize authoritative sources:
   - Official Documentation

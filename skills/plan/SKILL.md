@@ -3,6 +3,7 @@ name: plan
 description: Create structured implementation plans with phases, dependencies, milestones, and risk mitigation
 command: /plan
 aliases: ["/roadmap", "/schedule"]
+synonyms: ["/planning", "/planned", "/plans", "/strategy"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

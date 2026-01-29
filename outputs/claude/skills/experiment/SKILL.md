@@ -1,0 +1,88 @@
+---
+name: experiment
+description: Design and run high-quality experiments to validate ideas with evidence
+command: /experiment
+aliases:
+- /ab-test
+- /test-hypothesis
+activation-mode: auto
+user-invocable: true
+disable-model-invocation: true
+allowed-tools:
+- '*'
+---
+
+# Experiment Workflow
+
+This workflow instructs Cascade to design and run experiments that produce reliable, actionable insights.
+
+## 1. Clarify Hypothesis and Goals
+
+- State the hypothesis clearly:
+  - "We believe [change] will cause [effect] for [users]."
+- Define what you're trying to learn:
+  - Validate an assumption, measure an impact, compare alternatives.
+- Ensure the hypothesis is testable.
+
+## 2. Define Success Metrics and Guardrails
+
+- Identify primary metrics:
+  - What will tell you if the hypothesis is true?
+- Define guardrail metrics:
+  - What must not get worse?
+- Set success criteria before running:
+  - What result would confirm/reject the hypothesis?
+
+## 3. Choose Experiment Design
+
+- Select appropriate design:
+  - A/B test, multivariate, before/after, feature flag.
+- Consider:
+  - Sample size and statistical power.
+  - Duration for reliable results.
+  - Segment selection.
+- Account for confounding variables.
+
+## 4. Plan Implementation and Instrumentation
+
+- Define how the experiment will be implemented:
+  - Feature flags, code branches, configuration.
+- Set up data collection:
+  - Events, metrics, logging.
+- Ensure proper tracking and attribution.
+- Plan for debugging and monitoring.
+
+## 5. Run Safely and Ethically
+
+- Start small:
+  - Canary or limited rollout first.
+- Monitor for issues:
+  - Performance problems, user complaints, metric anomalies.
+- Have a kill switch ready.
+- Consider ethical implications:
+  - User consent, potential harm, fairness.
+
+## 6. Analyze Results
+
+- Wait for sufficient data.
+- Apply appropriate statistical analysis.
+- Check for:
+  - Statistical significance.
+  - Practical significance.
+  - Segment-level effects.
+- Look for unexpected results or side effects.
+
+## 7. Decide and Act
+
+- Based on results:
+  - Roll out, iterate, or abandon.
+- Document findings:
+  - What was learned, regardless of outcome.
+- Share insights with the team.
+
+## 8. Capture Learnings
+
+- Add to knowledge base:
+  - What worked, what didn't, what surprised.
+- Update hypotheses and assumptions.
+- Inform future experiments.

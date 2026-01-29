@@ -3,6 +3,7 @@ name: simplify
 description: Reduce complexity without changing behavior - architectural and cognitive simplification
 command: /simplify
 aliases: ["/reduce-complexity", "/declutter"]
+synonyms: ["/simplifying", "/simplified", "/simplifies", "/simplification", "/decluttering", "/decluttered", "/reducing-complexity"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

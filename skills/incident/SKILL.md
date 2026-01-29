@@ -3,6 +3,7 @@ name: incident
 description: Respond to incidents and run blameless retrospectives that lead to real improvements
 command: /incident
 aliases: ["/retrospective", "/postmortem", "/outage"]
+synonyms: ["/retro", "/postmortem", "/outage", "/incident-report", "/retrospective"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
@@ -60,6 +61,7 @@ This workflow combines incident response with blameless retrospectives, covering
   - Specific incident, release, sprint, or project.
 - Clarify objectives:
   - Understanding root causes, improving processes.
+- **Psychological Safety**: Explicitly establish a safe environment where everyone feels comfortable sharing mistakes and truths without fear.
 - Emphasize a **blameless** approach focused on systems, not individuals.
 
 ### 7. Reconstruct the Timeline
@@ -74,6 +76,7 @@ This workflow combines incident response with blameless retrospectives, covering
 - Describe impacts across dimensions:
   - Users and customers.
   - Business metrics and reputation.
+  - **Metrics**: Include reliability metrics like **MTTR** (Mean Time to Repair) and **TTO** (Time to Outage/Detection).
   - Technical health (incurred debt, instability).
   - Team well-being (stress, burnout).
 

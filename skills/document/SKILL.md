@@ -3,6 +3,7 @@ name: document
 description: Discover, create, and maintain high-quality technical documentation aligned with modern docs-as-code practices
 command: /document
 aliases: ["/docs", "/write-docs", "/docstring"]
+synonyms: ["/documenting", "/documented", "/documents", "/documentation"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

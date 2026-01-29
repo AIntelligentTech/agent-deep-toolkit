@@ -3,6 +3,7 @@ name: explore
 description: Deeply explore and build understanding of a codebase, concept, technology, or system through structural analysis, execution tracing, and multi-source research
 command: /explore
 aliases: ["/understand", "/learn", "/discover"]
+synonyms: ["/exploring", "/explored", "/explores", "/understand", "/understanding", "/learn", "/discovery"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

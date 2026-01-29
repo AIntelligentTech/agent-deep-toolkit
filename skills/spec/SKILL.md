@@ -2,6 +2,7 @@
 name: spec
 description: Write high-quality specs, design docs, and ADRs that align stakeholders and guide implementation
 command: /spec
+synonyms: ["/requirement", "/design-doc", "/adr", "/specification", "/specifying", "/specified", "/specs", "/requirements", "/specifications"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
@@ -15,6 +16,7 @@ This workflow instructs Cascade to produce specifications that are precise, acti
 
 - Restate the problem in clear business and technical terms.
 - Identify goals and success metrics (functional and non-functional).
+- **Risk-Based Scoping**: Categorize requirements by risk and uncertainty. Identify which parts of the spec are "safe bets" vs "high-risk spikes" that need early validation.
 - Explicitly list non-goals to prevent scope creep.
 
 ## 2. Gather Context and Constraints
@@ -44,6 +46,7 @@ This workflow instructs Cascade to produce specifications that are precise, acti
 
 - Choose an appropriate format:
   - Design doc, ADR, RFC, or implementation plan.
+- **Gherkin Acceptance Criteria**: Use the **Given-When-Then** format for acceptance criteria to ensure they are unambiguous and easily translatable into automated tests.
 - Include sections such as:
   - Background and problem statement.
   - Goals and non-goals.

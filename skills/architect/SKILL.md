@@ -3,6 +3,7 @@ name: architect
 description: Act as a world-class software architect and principal engineer to design robust systems using modern best practices
 command: /architect
 aliases: ["/design-system", "/structure", "/blueprint"]
+synonyms: ["/architecting", "/architected", "/architecture", "/modeling", "/blueprint", "/structuring", "/structured"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
@@ -17,6 +18,7 @@ This workflow instructs Cascade to think and act like a principal engineer / sof
 - Restate the problem or task in architectural terms.
 - Identify business goals and primary user journeys this work serves.
 - Elicit and list key quality attributes (performance, scalability, reliability, security, operability, compliance, cost, time-to-market, maintainability).
+- **Sustainability & Green IT**: Evaluate the environmental and energy impact of the architecture. Consider data center efficiency, carbon footprint of cloud providers, and energy-efficient coding/data processing patterns (FinOps + GreenOps).
 - Capture hard constraints:
   - Existing systems and data that must be integrated.
   - Regulatory / data residency limits.
@@ -104,15 +106,12 @@ This workflow instructs Cascade to think and act like a principal engineer / sof
 
 ## 9. Evolve and Safeguard the Architecture
 
-- Treat the architecture as **evolutionary**, not static:
-  - Expect requirements, scale, and team structure to change over time.
-  - Prefer options that keep future choices open (high reversibility, low lock-in) when uncertainty is high.
-- Define lightweight **fitness functions** for key quality attributes:
-  - Automated checks or metrics that continuously assert properties such as performance thresholds, dependency rules, security baselines, or latency budgets.
-  - Integrate these checks into CI where feasible so architectural regressions are caught early.
+- Treat the architecture as **evolutionary**, not static.
+- **Architectural Fitness Functions**: Define automated checks or metrics that continuously assert architectural properties (e.g., dependency rules, performance thresholds, security baselines, latency budgets).
+- Integrate these checks into CI/CD where feasible so architectural regressions are caught early (e.g., netflix/archunit, checkstyle, or custom lint rules).
 - Periodically review architecture against real usage:
   - Compare assumed vs actual traffic patterns, data growth, and failure modes.
-  - Use production telemetry (logs, metrics, traces) to validate that the architecture is behaving as intended.
-- Use code- and architecture-level safeguards:
-  - Enforce boundaries with module/dependency rules or architecture tests.
-  - Watch for erosion indicators (growing God modules, cyclic dependencies, repeated ad-hoc integrations) and schedule targeted refactors.
+  - Use production telemetry (logs, metrics, traces) to validate results.
+- Use code-level safeguards:
+  - Enforce boundaries with module/dependency rules.
+  - Watch for erosion indicators (growing God modules, cyclic dependencies).

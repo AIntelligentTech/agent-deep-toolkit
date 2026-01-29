@@ -3,6 +3,7 @@ name: decide
 description: Carefully consider and make rigorous decisions using structured frameworks, trade-off analysis, and evidence
 command: /decide
 aliases: ["/consider", "/choose", "/weigh"]
+synonyms: ["/decision", "/choice", "/choose", "/choosing", "/chose", "/chosen", "/pick", "/select", "/deciding", "/decided", "/decides", "/selections", "/considering", "/considered", "/weighing", "/tradeoff", "/trade-off", "/comparison", "/compare"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
@@ -29,6 +30,9 @@ This workflow combines deep consideration with decisive action. It instructs Cas
   - Certainties (facts, constraints, invariants).
   - Suppositions (assumptions that need validation).
   - Doubts (unknowns and knowledge gaps).
+- **Classify the Decision (Type 1 vs Type 2)**:
+  - **Type 1 (Irreversible)**: High stakes, hard to reverse (e.g., changing database engines, major architectural shift). Requires maximum rigor.
+  - **Type 2 (Reversible)**: Low stakes, easy to undo (e.g., adjusting a UI color, adding a non-breaking API field). Move fast and iterate.
 - Classify the situation via the **Cynefin framework**:
   - Simple, Complicated, Complex, or Chaotic.
 - Choose decision posture based on Cynefin:

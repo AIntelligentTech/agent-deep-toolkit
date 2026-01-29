@@ -1,0 +1,51 @@
+---
+name: compare
+description: Perform structured comparison and differential analysis between options, architectures, libraries, or code implementations
+command: /compare
+aliases: ["/diff", "/tradeoff", "/contrast"]
+synonyms: ["/comparison", "/comparing", "/compared", "/compares", "/differential", "/trade-off", "/tradeoffs", "/contrasting"]
+activation-mode: auto
+user-invocable: true
+disable-model-invocation: true
+---
+
+# Compare Workflow
+
+This workflow instructs Cascade to perform rigorous side-by-side analysis, highlighting differences and trade-offs between multiple options or states.
+
+## 1. Define the Comparison Scope
+
+- Identify exactly which artifacts, options, or versions are being compared.
+- State the goal: decision support, migration planning, or debugging.
+- Define the comparison dimensions (e.g., performance, cost, complexity, maintainability).
+
+## 2. Structural & Differential Analysis (The "Diff")
+
+- For code/files:
+  - Identify what has changed, what is new, and what has been removed.
+  - Explain the *intent* behind the differences, not just the text changes.
+- For architectures/libraries:
+  - Map core functionalities side-by-side.
+  - Identify unique features and shared capabilities.
+  - Note differences in implementation patterns or paradigms.
+
+## 3. Explicit Trade-off Mapping
+
+- Use a structured format (e.g., Pros/Cons, Advantage/Disadvantage) for each option.
+- Highlight the **Zero-Sum** aspects:
+  - If we gain X (e.g., speed), what are we losing (e.g., memory, simplicity)?
+- Identify the "ideal" use case for each option.
+
+## 4. Multi-Dimensional Evaluation
+
+- Create a comparison matrix across key criteria:
+  - **Runtime**: Performance, scalability, resource usage.
+  - **Development**: Ease of use, learning curve, tooling, ecosystem.
+  - **Business**: Cost, licensing, vendor lock-in, time-to-market.
+- Assign relative ratings (High/Medium/Low or 1-5) to normalize the comparison.
+
+## 5. Synthesis and Recommendations
+
+- Summarize the fundamental differences.
+- Call out "deal-breakers" or critical risks associated with specific options.
+- Provide a recommendation based on the user's specific constraints (link to `/decide` for formal decision-making).

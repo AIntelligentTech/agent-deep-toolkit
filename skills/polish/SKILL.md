@@ -2,6 +2,8 @@
 name: polish
 description: Refine products and interfaces to a world-class level of craft and cohesion
 command: /polish
+aliases: ["/refine", "/enrich", "/touch-up", "/finesse", "/fine-tune"]
+synonyms: ["/polishing", "/polished", "/polishes", "/refining", "/refined", "/refines", "/refine", "/enriching", "/enriched", "/finesse", "/fine-tuning", "/fine-tuned"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

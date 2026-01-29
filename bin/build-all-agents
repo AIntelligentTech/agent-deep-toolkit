@@ -1,62 +1,214 @@
-#!/usr/bin/env bash
-# Simplified build script using find and parallel execution
+#!/usr/bin/env python3
+import os
+import yaml
+import re
+import shutil
+from pathlib import Path
 
-set -euo pipefail
+REPO_ROOT = Path(__file__).parent.parent.absolute()
+SKILLS_DIR = REPO_ROOT / "skills"
+OUTPUTS_DIR = REPO_ROOT / "outputs"
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+def parse_skill(skill_path):
+    with open(skill_path, 'r') as f:
+        content = f.read()
+    
+    # Simple YAML frontmatter parser
+    match = re.match(r'^---\s*(.*?)\s*---\s*(.*)$', content, re.DOTALL)
+    if not match:
+        return None, content
+    
+    try:
+        frontmatter = yaml.safe_load(match.group(1))
+        body = match.group(2)
+        return frontmatter, body
+    except Exception as e:
+        print(f"Error parsing {skill_path}: {e}")
+        return None, content
 
-SKILLS_DIR="${REPO_ROOT}/skills"
-OUTPUTS_DIR="${REPO_ROOT}/outputs"
+def clean_command(cmd):
+    if cmd.startswith('/'):
+        return cmd[1:]
+    return cmd
 
-echo "Building all agent outputs from Claude sources..."
-echo ""
+def build_windsurf(name, fm, body, dest_dir):
+    """
+    Windsurf Workflows and Skills.
+    Supports auto_execution_mode: 0 (manual), 1 (contextual), 2 (auto)
+    """
+    description = fm.get('description', '')
+    activation = fm.get('activation-mode', 'auto')
+    mode = 1 if activation == 'contextual' else (2 if activation == 'auto' else 0)
+    
+    # Workflow Format (.md)
+    wf_fm = {
+        'description': description,
+        'auto_execution_mode': mode
+    }
+    wf_fm_str = yaml.dump(wf_fm, sort_keys=False)
+    wf_content = f"---\n{wf_fm_str}---\n\n{body.strip()}"
+    
+    (dest_dir / "workflows" / f"{name}.md").write_text(wf_content)
+    
+    # Handle variants (aliases + synonyms)
+    aliases = fm.get('aliases', [])
+    synonyms = fm.get('synonyms', [])
+    variants = sorted(list(set([clean_command(v) for v in (aliases + synonyms)])))
+    
+    for var in variants:
+        (dest_dir / "workflows" / f"{var}.md").write_text(wf_content)
 
-# Clean outputs directory
-echo "Cleaning outputs directory..."
-rm -rf "$OUTPUTS_DIR"/{claude,windsurf,cursor,opencode}
-mkdir -p "$OUTPUTS_DIR"/{claude/skills,windsurf/workflows,cursor/commands,opencode/commands}
+    # Skill Format (SKILL.md in subfolder)
+    skill_dir = dest_dir / "skills" / name
+    skill_dir.mkdir(parents=True, exist_ok=True)
+    skill_fm = {
+        'name': name,
+        'description': description,
+        'activation': activation
+    }
+    skill_fm_str = yaml.dump(skill_fm, sort_keys=False)
+    (skill_dir / "SKILL.md").write_text(f"---\n{skill_fm_str}---\n\n{body.strip()}")
 
-# Count skills
-skill_count=$(find "$SKILLS_DIR" -name "SKILL.md" | wc -l | tr -d ' ')
-echo "Found $skill_count skills to convert"
-echo ""
+def build_cursor(name, fm, body, dest_dir):
+    """
+    Cursor Commands (.md) and Rules (.mdc).
+    """
+    description = fm.get('description', '')
+    
+    # 1. Command Library (.md) - Body only (Cursor style)
+    cmd_content = body.strip()
+    (dest_dir / "commands" / f"{name}.md").write_text(cmd_content)
+    
+    aliases = fm.get('aliases', [])
+    synonyms = fm.get('synonyms', [])
+    variants = sorted(list(set([clean_command(v) for v in (aliases + synonyms)])))
+    
+    for var in variants:
+        (dest_dir / "commands" / f"{var}.md").write_text(cmd_content)
 
-# Convert each skill
-skill_num=0
-find "$SKILLS_DIR" -name "SKILL.md" | while read -r source_file; do
-  skill_num=$((skill_num + 1))
+    # 2. Cursor Rules (.mdc) - With Frontmatter
+    # Rules are contextual and apply based on globs or alwaysApply
+    rule_fm = {
+        'description': description,
+        'globs': fm.get('globs', ["**/*"]),
+        'alwaysApply': fm.get('activation-mode', 'auto') == 'auto'
+    }
+    rule_fm_str = yaml.dump(rule_fm, sort_keys=False)
+    rule_content = f"---\n{rule_fm_str}---\n\n{body.strip()}"
+    (dest_dir / "rules" / f"{name}.mdc").write_text(rule_content)
 
-  # Extract skill name
-  skill_dir=$(dirname "$source_file")
-  skill_name=$(basename "$skill_dir")
+def build_opencode(name, fm, body, dest_dir):
+    """
+    OpenCode Commands (.md) with specific agent/model metadata.
+    """
+    cmd_fm = {
+        'description': fm.get('description', ''),
+        'agent': fm.get('agent', 'auto'),
+        'model': fm.get('model', 'auto'),
+        'subtask': fm.get('subtask', False),
+        'allowed-tools': fm.get('allowed-tools', ["*"])
+    }
+    cmd_fm_str = yaml.dump(cmd_fm, sort_keys=False)
+    # Template includes $ARGUMENTS for parametric parsing
+    template_body = body.strip()
+    if "$ARGUMENTS" not in template_body:
+        template_body = f"Context: $ARGUMENTS\n\n{template_body}"
+        
+    full_content = f"---\n{cmd_fm_str}---\n\n{template_body}"
+    (dest_dir / "commands" / f"{name}.md").write_text(full_content)
+    
+    aliases = fm.get('aliases', [])
+    synonyms = fm.get('synonyms', [])
+    variants = sorted(list(set([clean_command(v) for v in (aliases + synonyms)])))
+    
+    for var in variants:
+        (dest_dir / "commands" / f"{var}.md").write_text(full_content)
 
-  echo "[$skill_num/$skill_count] $skill_name"
+def build_claude(name, fm, body, dest_dir):
+    """
+    Claude Code Skills (Agent Skills Standard).
+    Unifies skills and slash commands.
+    """
+    # Merge synonyms into aliases
+    synonyms = fm.get('synonyms', [])
+    existing_aliases = fm.get('aliases', [])
+    all_aliases = sorted(list(set(existing_aliases + synonyms)))
+    
+    skill_fm = {
+        'name': name,
+        'description': fm.get('description', ''),
+        'command': fm.get('command', f"/{name}"),
+        'aliases': all_aliases,
+        'activation-mode': fm.get('activation-mode', 'auto'),
+        'user-invocable': fm.get('user-invocable', True),
+        'disable-model-invocation': fm.get('disable-model-invocation', False),
+        'allowed-tools': fm.get('allowed-tools', ["*"])
+    }
+    
+    skill_dir = dest_dir / "skills" / name
+    skill_dir.mkdir(parents=True, exist_ok=True)
+    
+    fm_str = yaml.dump(skill_fm, sort_keys=False)
+    full_content = f"---\n{fm_str}---\n\n{body.strip()}"
+    
+    (skill_dir / "SKILL.md").write_text(full_content)
 
-  # Define output paths
-  claude_out="${OUTPUTS_DIR}/claude/skills/${skill_name}/SKILL.md"
-  windsurf_out="${OUTPUTS_DIR}/windsurf/workflows/${skill_name}.md"
-  cursor_out="${OUTPUTS_DIR}/cursor/commands/${skill_name}.md"
-  opencode_out="${OUTPUTS_DIR}/opencode/commands/${skill_name}.md"
+def main():
+    print("Building Agent Deep Toolkit (v2.1.0-compatibility)...")
+    print(f"Project context: January 2026 update.")
+    
+    # 1. Setup Directories
+    if OUTPUTS_DIR.exists():
+        shutil.rmtree(OUTPUTS_DIR)
+    OUTPUTS_DIR.mkdir(parents=True)
 
-  # Convert to each format
-  mkdir -p "$(dirname "$claude_out")"
-  TMPDIR=/tmp cace convert "$source_file" -t claude -o "$claude_out" 2>/dev/null && echo -n "." || echo -n "x"
-  TMPDIR=/tmp cace convert "$source_file" -t windsurf -o "$windsurf_out" 2>/dev/null && echo -n "." || echo -n "x"
-  TMPDIR=/tmp cace convert "$source_file" -t cursor -o "$cursor_out" 2>/dev/null && echo -n "." || echo -n "x"
-  TMPDIR=/tmp cace convert "$source_file" -t opencode -o "$opencode_out" 2>/dev/null && echo -n "." || echo -n "x"
-  echo ""
-done
+    agent_paths = {
+        'claude': OUTPUTS_DIR / "claude",
+        'windsurf': OUTPUTS_DIR / "windsurf",
+        'cursor': OUTPUTS_DIR / "cursor",
+        'opencode': OUTPUTS_DIR / "opencode"
+    }
 
-# Update version
-echo "0.4.0" > "$OUTPUTS_DIR/version.txt"
+    for agent, path in agent_paths.items():
+        path.mkdir(parents=True)
+        if agent == 'claude':
+            (path / "skills").mkdir()
+        elif agent == 'windsurf':
+            (path / "workflows").mkdir()
+            (path / "skills").mkdir()
+        elif agent == 'cursor':
+            (path / "commands").mkdir()
+            (path / "rules").mkdir()
+        elif agent == 'opencode':
+            (path / "commands").mkdir()
 
-echo ""
-echo "Build complete!"
-echo ""
-echo "Generated:"
-echo "  Claude:   $(find "$OUTPUTS_DIR/claude" -name "*.md" | wc -l | tr -d ' ') files"
-echo "  Windsurf: $(find "$OUTPUTS_DIR/windsurf" -name "*.md" | wc -l | tr -d ' ') files"
-echo "  Cursor:   $(find "$OUTPUTS_DIR/cursor" -name "*.md" | wc -l | tr -d ' ') files"
-echo "  OpenCode: $(find "$OUTPUTS_DIR/opencode" -name "*.md" | wc -l | tr -d ' ') files"
-echo ""
+    # 2. Process Skills
+    skills = list(SKILLS_DIR.glob("*/SKILL.md"))
+    print(f"Found {len(skills)} source skills.")
+
+    for skill_path in skills:
+        name = skill_path.parent.name
+        fm, body = parse_skill(skill_path)
+        if not fm:
+            print(f"Skipping {name} (invalid frontmatter)")
+            continue
+            
+        print(f"  -> {name} [variants: {len(fm.get('synonyms', []))}]")
+        
+        build_windsurf(name, fm, body, agent_paths['windsurf'])
+        build_cursor(name, fm, body, agent_paths['cursor'])
+        build_opencode(name, fm, body, agent_paths['opencode'])
+        build_claude(name, fm, body, agent_paths['claude'])
+
+    # 3. Update version.txt
+    version_file = REPO_ROOT / "VERSION"
+    version = "2.1.0"
+    if version_file.exists():
+        version = version_file.read_text().strip()
+    (OUTPUTS_DIR / "version.txt").write_text(version)
+
+    print("\nBuild complete!")
+    print("Scaffolding optimized for Claude 2.1, Cursor 2026, Windsurf Cascade, and OpenCode.")
+
+if __name__ == "__main__":
+    main()
