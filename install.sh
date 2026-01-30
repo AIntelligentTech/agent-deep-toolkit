@@ -66,6 +66,98 @@ cleanup_wizard() {
 
 trap cleanup_wizard EXIT INT TERM
 
+compute_windsurf_skills_dest() {
+  # Given a Windsurf workflow destination directory, compute the corresponding skills directory.
+  #
+  # Expected layouts:
+  # - Project: <project>/.windsurf/workflows  -> <project>/.windsurf/skills
+  # - User stable: ~/.windsurf/workflows      -> ~/.windsurf/skills
+  # - Codeium global: ~/.codeium/windsurf/global_workflows -> ~/.codeium/windsurf/skills
+  #
+  # We intentionally keep skills as a sibling of workflows, not nested under the workflows dir.
+  local workflows_dir="$1"
+  local base
+  base="$(dirname "$workflows_dir")"
+  echo "$base/skills"
+}
+
+ensure_outputs_present_for_install() {
+  # The installer copies from build-time generated outputs/. If outputs are missing (common when
+  # installing from a source checkout where outputs/ is not committed) or if representative
+  # alias variants are missing, generate outputs via bin/cace-convert.
+  if [ "$MODE" != "install" ]; then
+    return 0
+  fi
+
+  # In dry-run mode, don't build anything—just report what would happen later.
+  if [ "$DRY_RUN" = true ]; then
+    return 0
+  fi
+
+  local need_build=false
+
+  # Minimal existence checks per agent selection
+  case "$AGENT" in
+    windsurf|windsurf-next)
+      if [ ! -d "$WINDSURF_WORKFLOWS_DIR" ]; then
+        need_build=true
+      fi
+      ;;
+    claude)
+      if [ ! -d "$CLAUDE_SKILLS_DIR" ]; then
+        need_build=true
+      fi
+      ;;
+    cursor)
+      if [ ! -d "$CURSOR_COMMANDS_DIR" ] || [ ! -d "$CURSOR_SKILLS_DIR" ]; then
+        need_build=true
+      fi
+      ;;
+    opencode)
+      if [ ! -d "$OPENCODE_COMMANDS_DIR" ]; then
+        need_build=true
+      fi
+      ;;
+    all)
+      if [ ! -d "$SCRIPT_DIR/outputs" ]; then
+        need_build=true
+      fi
+      ;;
+  esac
+
+  # Representative variant checks (ensure alias surfaces exist)
+  # - explore -> understand
+  # - relentless -> try-hard
+  if [ "$AGENT" = "windsurf" ] || [ "$AGENT" = "windsurf-next" ] || [ "$AGENT" = "all" ]; then
+    if [ -d "$WINDSURF_WORKFLOWS_DIR" ]; then
+      if [ ! -f "$WINDSURF_WORKFLOWS_DIR/understand.md" ] || [ ! -f "$WINDSURF_WORKFLOWS_DIR/try-hard.md" ]; then
+        need_build=true
+      fi
+    fi
+  fi
+
+  if [ "$need_build" != true ]; then
+    return 0
+  fi
+
+  echo "[info] outputs/ missing or incomplete; generating via ./bin/cace-convert ..."
+
+  if [ ! -x "$SCRIPT_DIR/bin/cace-convert" ]; then
+    echo "[error] cannot generate outputs: missing executable $SCRIPT_DIR/bin/cace-convert" >&2
+    exit 1
+  fi
+
+  # Build only what we need for the selected agent for speed.
+  local build_agents="$AGENT"
+  if [ "$AGENT" = "windsurf-next" ]; then
+    build_agents="windsurf"
+  elif [ "$AGENT" = "all" ]; then
+    build_agents="claude,windsurf,cursor,opencode"
+  fi
+
+  (cd "$SCRIPT_DIR" && ./bin/cace-convert --agents "$build_agents" --skip-validation)
+}
+
 check_cace_prerequisites() {
   log_info "Checking CACE prerequisites..."
   
@@ -972,7 +1064,8 @@ install_windsurf_to() {
   copy_windsurf_workflows "$dest"
   
   # Also install Windsurf skills for dual-output parity (auto-invocation support)
-  local skills_dest="$dest/.windsurf/skills"
+  local skills_dest
+  skills_dest="$(compute_windsurf_skills_dest "$dest")"
   copy_windsurf_skills "$skills_dest"
   
   if [ "${DRY_RUN:-false}" = true ]; then
@@ -1178,6 +1271,9 @@ if [ "$DRY_RUN" = true ]; then
   echo "[info] running in dry-run mode; no filesystem changes will be made."
 fi
 
+# Ensure we have generated outputs/ before attempting to install.
+ensure_outputs_present_for_install
+
 uninstall_windsurf_from() {
   local dest="$1"
   local label="$2"
@@ -1219,12 +1315,27 @@ uninstall_windsurf_from() {
     return 0
   fi
 
+  local skills_dest
+  skills_dest="$(compute_windsurf_skills_dest "$dest")"
+  local skill_dirs=()
+  if [ -d "$skills_dest" ]; then
+    shopt -s nullglob
+    skill_dirs=("$skills_dest"/*)
+    shopt -u nullglob
+  fi
+
   if [ "${DRY_RUN:-false}" = true ]; then
     for file in "${files[@]}"; do
       echo "[dry-run] would remove $file"
     done
     if [ -f "$version_file" ]; then
       echo "[dry-run] would remove $version_file"
+    fi
+    if [ -d "$skills_dest" ]; then
+      for sd in "${skill_dirs[@]}"; do
+        [ -d "$sd" ] || continue
+        echo "[dry-run] would remove directory $sd"
+      done
     fi
   else
     for file in "${files[@]}"; do
@@ -1234,6 +1345,13 @@ uninstall_windsurf_from() {
     if [ -f "$version_file" ]; then
       rm -f "$version_file"
       echo "[ok] removed $version_file"
+    fi
+    if [ -d "$skills_dest" ]; then
+      for sd in "${skill_dirs[@]}"; do
+        [ -d "$sd" ] || continue
+        rm -rf "$sd"
+        echo "[ok] removed directory $sd"
+      done
     fi
   fi
 }
@@ -1578,29 +1696,58 @@ case "$AGENT" in
         fi
         ;;
       user)
-        echo "[info] detecting all Windsurf installations..."
-        ALL_WINDSURF_PATHS=()
-        while IFS= read -r path; do
-          ALL_WINDSURF_PATHS+=("$path")
-        done < <(detect_all_windsurf_installations)
-
-        echo "[info] found ${#ALL_WINDSURF_PATHS[@]} total Windsurf installation path(s)"
-
         if [ "$MODE" = "install" ]; then
-          # Install to all detected Windsurf paths
-          for ws_path in "${ALL_WINDSURF_PATHS[@]}"; do
+          echo "[info] detecting all Windsurf installations (stable + next)..."
+
+          STABLE_PATHS=()
+          while IFS= read -r path; do
+            STABLE_PATHS+=("$path")
+          done < <(detect_all_windsurf_stable_installations)
+
+          NEXT_PATHS=()
+          while IFS= read -r path; do
+            NEXT_PATHS+=("$path")
+          done < <(detect_windsurf_next_installations)
+
+          echo "[info] found ${#STABLE_PATHS[@]} stable Windsurf installation path(s)"
+          echo "[info] found ${#NEXT_PATHS[@]} Windsurf Next installation path(s)"
+
+          for ws_path in "${STABLE_PATHS[@]}"; do
             WS_LABEL="windsurf ($(echo "$ws_path" | sed "s|$HOME/||"))"
             install_windsurf_to "$ws_path" "$WS_LABEL"
           done
+
+          for ws_path in "${NEXT_PATHS[@]}"; do
+            WS_LABEL="windsurf-next ($(echo "$ws_path" | sed "s|$HOME/||"))"
+            install_windsurf_to "$ws_path" "$WS_LABEL"
+          done
+
           install_claude_to "$HOME/.claude/skills" "claude user"
           install_cursor_to "$HOME/.cursor/commands" "cursor user"
           install_opencode_to "$HOME/.config/opencode/commands" "opencode user"
         else
-          # Uninstall from all detected Windsurf paths
-          for ws_path in "${ALL_WINDSURF_PATHS[@]}"; do
+          echo "[info] detecting all Windsurf installations (stable + next)..."
+
+          STABLE_PATHS=()
+          while IFS= read -r path; do
+            STABLE_PATHS+=("$path")
+          done < <(detect_all_windsurf_stable_installations)
+
+          NEXT_PATHS=()
+          while IFS= read -r path; do
+            NEXT_PATHS+=("$path")
+          done < <(detect_windsurf_next_installations)
+
+          for ws_path in "${STABLE_PATHS[@]}"; do
             WS_LABEL="windsurf ($(echo "$ws_path" | sed "s|$HOME/||"))"
             uninstall_windsurf_from "$ws_path" "$WS_LABEL"
           done
+
+          for ws_path in "${NEXT_PATHS[@]}"; do
+            WS_LABEL="windsurf-next ($(echo "$ws_path" | sed "s|$HOME/||"))"
+            uninstall_windsurf_from "$ws_path" "$WS_LABEL"
+          done
+
           uninstall_claude_from "$HOME/.claude/skills" "claude user"
           uninstall_cursor_from "$HOME/.cursor/commands" "cursor user"
           uninstall_opencode_from "$HOME/.config/opencode/commands" "opencode user"
