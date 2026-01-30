@@ -1169,29 +1169,58 @@ case "$AGENT" in
         fi
         ;;
       user)
-        echo "[info] detecting all Windsurf installations..."
-        ALL_WINDSURF_PATHS=()
-        while IFS= read -r path; do
-          ALL_WINDSURF_PATHS+=("$path")
-        done < <(detect_all_windsurf_installations)
-
-        echo "[info] found ${#ALL_WINDSURF_PATHS[@]} total Windsurf installation path(s)"
-
         if [ "$MODE" = "install" ]; then
-          # Install to all detected Windsurf paths
-          for ws_path in "${ALL_WINDSURF_PATHS[@]}"; do
+          echo "[info] detecting all Windsurf installations (stable + next)..."
+
+          STABLE_PATHS=()
+          while IFS= read -r path; do
+            STABLE_PATHS+=("$path")
+          done < <(detect_all_windsurf_stable_installations)
+
+          NEXT_PATHS=()
+          while IFS= read -r path; do
+            NEXT_PATHS+=("$path")
+          done < <(detect_windsurf_next_installations)
+
+          echo "[info] found ${#STABLE_PATHS[@]} stable Windsurf installation path(s)"
+          echo "[info] found ${#NEXT_PATHS[@]} Windsurf Next installation path(s)"
+
+          for ws_path in "${STABLE_PATHS[@]}"; do
             WS_LABEL="windsurf ($(echo "$ws_path" | sed "s|$HOME/||"))"
             install_windsurf_to "$ws_path" "$WS_LABEL"
           done
+
+          for ws_path in "${NEXT_PATHS[@]}"; do
+            WS_LABEL="windsurf-next ($(echo "$ws_path" | sed "s|$HOME/||"))"
+            install_windsurf_to "$ws_path" "$WS_LABEL"
+          done
+
           install_claude_to "$HOME/.claude/skills" "claude user"
           install_cursor_to "$HOME/.cursor/commands" "cursor user"
           install_opencode_to "$HOME/.config/opencode/commands" "opencode user"
         else
-          # Uninstall from all detected Windsurf paths
-          for ws_path in "${ALL_WINDSURF_PATHS[@]}"; do
+          echo "[info] detecting all Windsurf installations (stable + next)..."
+
+          STABLE_PATHS=()
+          while IFS= read -r path; do
+            STABLE_PATHS+=("$path")
+          done < <(detect_all_windsurf_stable_installations)
+
+          NEXT_PATHS=()
+          while IFS= read -r path; do
+            NEXT_PATHS+=("$path")
+          done < <(detect_windsurf_next_installations)
+
+          for ws_path in "${STABLE_PATHS[@]}"; do
             WS_LABEL="windsurf ($(echo "$ws_path" | sed "s|$HOME/||"))"
             uninstall_windsurf_from "$ws_path" "$WS_LABEL"
           done
+
+          for ws_path in "${NEXT_PATHS[@]}"; do
+            WS_LABEL="windsurf-next ($(echo "$ws_path" | sed "s|$HOME/||"))"
+            uninstall_windsurf_from "$ws_path" "$WS_LABEL"
+          done
+
           uninstall_claude_from "$HOME/.claude/skills" "claude user"
           uninstall_cursor_from "$HOME/.cursor/commands" "cursor user"
           uninstall_opencode_from "$HOME/.config/opencode/commands" "opencode user"

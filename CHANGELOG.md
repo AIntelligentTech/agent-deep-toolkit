@@ -52,6 +52,13 @@
 - **Installer now generates `outputs/` when missing/incomplete** by running `./bin/cace-convert`, so alias/variant tools like `/understand` are available after install.
 - **Windsurf uninstall also removes installed skills** from the computed skills directory.
 
+## [3.1.7] - 2026-01-30
+
+### 🔁 Ensure `--agent all` installs Windsurf Next too
+
+- In `--agent all --level user`, explicitly detect and install to **Windsurf stable** *and* **Windsurf Next** destinations (with correct labels).
+- Same for uninstall mode, so Next installs are cleaned up too.
+
 ## [3.1.0] - 2026-01-30
 
 ### ✨ Cursor Skills Support + CACE v2.5.0 Upgrade
