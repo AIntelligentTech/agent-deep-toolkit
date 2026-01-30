@@ -2,7 +2,7 @@
 name: iterate
 description: Execute work in small, validated iterations until a clearly defined end goal is reached
 command: /iterate
-aliases: ["/relentless", "/loop", "/cycle"]
+aliases: ["/loop", "/cycle"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

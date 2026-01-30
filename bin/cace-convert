@@ -162,6 +162,40 @@ convert_skills() {
   done
 }
 
+rewrite_skill_frontmatter_for_variant() {
+  local skill_file="$1"
+  local new_name="$2"
+  local new_command="/$2"
+
+  # Rewrite only inside the first YAML frontmatter block.
+  # Cursor/Windsurf require `name` to match the parent folder name.
+  local tmp
+  tmp="$(mktemp)"
+  awk -v name="$new_name" -v cmd="$new_command" '
+    BEGIN { in_front = 0; seen_front = 0; wrote_name = 0; wrote_cmd = 0; wrote_aliases = 0; wrote_synonyms = 0 }
+    seen_front == 0 && $0 ~ /^---[[:space:]]*$/ { in_front = 1; seen_front = 1; print; next }
+    in_front == 1 {
+      if ($0 ~ /^---[[:space:]]*$/) {
+        if (wrote_name == 0) { print "name: " name }
+        if (wrote_cmd == 0) { print "command: " cmd }
+        if (wrote_aliases == 0) { print "aliases: []" }
+        if (wrote_synonyms == 0) { print "synonyms: []" }
+        in_front = 0
+        print
+        next
+      }
+      if ($0 ~ /^name:[[:space:]]*/) { print "name: " name; wrote_name = 1; next }
+      if ($0 ~ /^command:[[:space:]]*/) { print "command: " cmd; wrote_cmd = 1; next }
+      if ($0 ~ /^aliases:[[:space:]]*/) { print "aliases: []"; wrote_aliases = 1; next }
+      if ($0 ~ /^synonyms:[[:space:]]*/) { print "synonyms: []"; wrote_synonyms = 1; next }
+      print
+      next
+    }
+    { print }
+  ' "$skill_file" > "$tmp"
+  mv "$tmp" "$skill_file"
+}
+
 generate_variants() {
   local outputs_dir="$REPO_ROOT/outputs"
   local skills_dir="$REPO_ROOT/skills"
@@ -232,6 +266,9 @@ generate_variants() {
           for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -d "$skills_root/$alias" ]; then
               cp -R "$skill_dir" "$skills_root/$alias"
+              if [ -f "$skills_root/$alias/SKILL.md" ]; then
+                rewrite_skill_frontmatter_for_variant "$skills_root/$alias/SKILL.md" "$alias"
+              fi
               ((variant_count++)) || true
             fi
           done
@@ -239,6 +276,9 @@ generate_variants() {
           for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -d "$skills_root/$synonym" ]; then
               cp -R "$skill_dir" "$skills_root/$synonym"
+              if [ -f "$skills_root/$synonym/SKILL.md" ]; then
+                rewrite_skill_frontmatter_for_variant "$skills_root/$synonym/SKILL.md" "$synonym"
+              fi
               ((variant_count++)) || true
             fi
           done
@@ -294,6 +334,9 @@ generate_variants() {
           for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -d "$skills_root/$alias" ]; then
               cp -R "$skill_dir" "$skills_root/$alias"
+              if [ -f "$skills_root/$alias/SKILL.md" ]; then
+                rewrite_skill_frontmatter_for_variant "$skills_root/$alias/SKILL.md" "$alias"
+              fi
               ((variant_count++)) || true
             fi
           done
@@ -301,6 +344,9 @@ generate_variants() {
           for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -d "$skills_root/$synonym" ]; then
               cp -R "$skill_dir" "$skills_root/$synonym"
+              if [ -f "$skills_root/$synonym/SKILL.md" ]; then
+                rewrite_skill_frontmatter_for_variant "$skills_root/$synonym/SKILL.md" "$synonym"
+              fi
               ((variant_count++)) || true
             fi
           done
@@ -324,6 +370,9 @@ generate_variants() {
           for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -d "$opencode_root/$alias" ]; then
               cp -R "$skill_dir" "$opencode_root/$alias"
+              if [ -f "$opencode_root/$alias/SKILL.md" ]; then
+                rewrite_skill_frontmatter_for_variant "$opencode_root/$alias/SKILL.md" "$alias"
+              fi
               ((variant_count++)) || true
             fi
           done
@@ -331,6 +380,9 @@ generate_variants() {
           for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -d "$opencode_root/$synonym" ]; then
               cp -R "$skill_dir" "$opencode_root/$synonym"
+              if [ -f "$opencode_root/$synonym/SKILL.md" ]; then
+                rewrite_skill_frontmatter_for_variant "$opencode_root/$synonym/SKILL.md" "$synonym"
+              fi
               ((variant_count++)) || true
             fi
           done
@@ -354,6 +406,9 @@ generate_variants() {
           for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -d "$skills_root/$alias" ]; then
               cp -R "$skill_dir" "$skills_root/$alias"
+              if [ -f "$skills_root/$alias/SKILL.md" ]; then
+                rewrite_skill_frontmatter_for_variant "$skills_root/$alias/SKILL.md" "$alias"
+              fi
               ((variant_count++)) || true
             fi
           done
@@ -361,6 +416,9 @@ generate_variants() {
           for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -d "$skills_root/$synonym" ]; then
               cp -R "$skill_dir" "$skills_root/$synonym"
+              if [ -f "$skills_root/$synonym/SKILL.md" ]; then
+                rewrite_skill_frontmatter_for_variant "$skills_root/$synonym/SKILL.md" "$synonym"
+              fi
               ((variant_count++)) || true
             fi
           done

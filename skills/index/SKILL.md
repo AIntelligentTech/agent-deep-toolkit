@@ -74,6 +74,7 @@ This skill serves as a navigator for all available workflows, helping you unders
 | Skill | Purpose | Use When |
 |-------|---------|----------|
 | `/iterate` | Iterative development | Sustained development work |
+| `/relentless` | Maximum-effort iteration | High-stakes work where thoroughness matters more than speed |
 | `/index` | This navigator | Finding the right workflow |
 | `/audit` | Systematic review | Comprehensive codebase review |
 | `/plan` | Implementation planning | Complex multi-phase work |

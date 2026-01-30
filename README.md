@@ -82,7 +82,8 @@ The toolkit provides **45 specialized workflows** organized into 7 categories:
 ### 🔧 Meta (5)
 | Command | Aliases | Purpose |
 |---------|---------|---------|
-| `/iterate` | `/relentless`, `/loop`, `/cycle` | Iterative development (AID methodology) |
+| `/iterate` | `/loop`, `/cycle` | Iterative development (AID methodology) |
+| `/relentless` | `/try-hard`, `/dont-stop`, `/ultrathink` | Multiply effort and depth for high-stakes work |
 | `/index` | `/help`, `/workflows`, `/skills` | Navigator for all workflows |
 | `/audit` | - | Comprehensive system review |
 | `/plan` | `/roadmap`, `/schedule` | Implementation planning |

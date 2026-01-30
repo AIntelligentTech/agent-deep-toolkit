@@ -20,6 +20,16 @@
   - Windsurf: `.windsurf/skills/<alias>/SKILL.md`
 - Keeps command/workflow variants so `/refine` works everywhere while skill selection/autoinvocation also sees the aliases.
 
+## [3.1.3] - 2026-01-30
+
+### 🧠 Restore `/relentless` as a first-class skill
+
+- **Add `/relentless` skill** as a dedicated maximum-effort workflow (instead of only an alias of `/iterate`)
+- **New aliases**: `/try-hard`, `/dont-stop`, `/ultrathink` (variants generated across agents)
+- Keep `/iterate` focused on the AID loop (`/loop`, `/cycle`)
+- **Fix skill alias variants so they actually load as skills** (e.g. `/understand`, `/docs`, `/research`):
+  - When we generate alias skill directories, we now rewrite `name:` (and `command:`) to match the alias folder.
+
 ## [3.1.0] - 2026-01-30
 
 ### ✨ Cursor Skills Support + CACE v2.5.0 Upgrade
