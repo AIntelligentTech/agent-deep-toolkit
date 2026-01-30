@@ -233,14 +233,14 @@ generate_variants() {
           aliases=$(grep -E '^\s*aliases:' "$source_skill" 2>/dev/null || echo "")
           synonyms=$(grep -E '^\s*synonyms:' "$source_skill" 2>/dev/null || echo "")
 
-          for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+          for alias in $(echo "$aliases" | grep -oE '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -f "$workflows_dir/${alias}.md" ]; then
               cp "$md_file" "$workflows_dir/${alias}.md"
               ((variant_count++)) || true
             fi
           done
 
-          for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+          for synonym in $(echo "$synonyms" | grep -oE '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -f "$workflows_dir/${synonym}.md" ]; then
               cp "$md_file" "$workflows_dir/${synonym}.md"
               ((variant_count++)) || true
@@ -263,7 +263,7 @@ generate_variants() {
           aliases=$(grep -E '^\s*aliases:' "$source_skill" 2>/dev/null || echo "")
           synonyms=$(grep -E '^\s*synonyms:' "$source_skill" 2>/dev/null || echo "")
 
-          for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+          for alias in $(echo "$aliases" | grep -oE '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -d "$skills_root/$alias" ]; then
               cp -R "$skill_dir" "$skills_root/$alias"
               if [ -f "$skills_root/$alias/SKILL.md" ]; then
@@ -273,7 +273,7 @@ generate_variants() {
             fi
           done
 
-          for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+          for synonym in $(echo "$synonyms" | grep -oE '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -d "$skills_root/$synonym" ]; then
               cp -R "$skill_dir" "$skills_root/$synonym"
               if [ -f "$skills_root/$synonym/SKILL.md" ]; then
@@ -301,14 +301,14 @@ generate_variants() {
           aliases=$(grep -E '^\s*aliases:' "$source_skill" 2>/dev/null || echo "")
           synonyms=$(grep -E '^\s*synonyms:' "$source_skill" 2>/dev/null || echo "")
 
-          for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+          for alias in $(echo "$aliases" | grep -oE '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -f "$commands_dir/${alias}.md" ]; then
               cp "$md_file" "$commands_dir/${alias}.md"
               ((variant_count++)) || true
             fi
           done
 
-          for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+          for synonym in $(echo "$synonyms" | grep -oE '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -f "$commands_dir/${synonym}.md" ]; then
               cp "$md_file" "$commands_dir/${synonym}.md"
               ((variant_count++)) || true
@@ -331,7 +331,7 @@ generate_variants() {
           aliases=$(grep -E '^\s*aliases:' "$source_skill" 2>/dev/null || echo "")
           synonyms=$(grep -E '^\s*synonyms:' "$source_skill" 2>/dev/null || echo "")
 
-          for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+          for alias in $(echo "$aliases" | grep -oE '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -d "$skills_root/$alias" ]; then
               cp -R "$skill_dir" "$skills_root/$alias"
               if [ -f "$skills_root/$alias/SKILL.md" ]; then
@@ -341,7 +341,7 @@ generate_variants() {
             fi
           done
 
-          for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+          for synonym in $(echo "$synonyms" | grep -oE '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -d "$skills_root/$synonym" ]; then
               cp -R "$skill_dir" "$skills_root/$synonym"
               if [ -f "$skills_root/$synonym/SKILL.md" ]; then
@@ -367,7 +367,7 @@ generate_variants() {
           aliases=$(grep -E '^\s*aliases:' "$source_skill" 2>/dev/null || echo "")
           synonyms=$(grep -E '^\s*synonyms:' "$source_skill" 2>/dev/null || echo "")
 
-          for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+          for alias in $(echo "$aliases" | grep -oE '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -d "$opencode_root/$alias" ]; then
               cp -R "$skill_dir" "$opencode_root/$alias"
               if [ -f "$opencode_root/$alias/SKILL.md" ]; then
@@ -377,7 +377,7 @@ generate_variants() {
             fi
           done
 
-          for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+          for synonym in $(echo "$synonyms" | grep -oE '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -d "$opencode_root/$synonym" ]; then
               cp -R "$skill_dir" "$opencode_root/$synonym"
               if [ -f "$opencode_root/$synonym/SKILL.md" ]; then
@@ -403,7 +403,7 @@ generate_variants() {
           aliases=$(grep -E '^\s*aliases:' "$source_skill" 2>/dev/null || echo "")
           synonyms=$(grep -E '^\s*synonyms:' "$source_skill" 2>/dev/null || echo "")
 
-          for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+          for alias in $(echo "$aliases" | grep -oE '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -d "$skills_root/$alias" ]; then
               cp -R "$skill_dir" "$skills_root/$alias"
               if [ -f "$skills_root/$alias/SKILL.md" ]; then
@@ -413,7 +413,7 @@ generate_variants() {
             fi
           done
 
-          for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+          for synonym in $(echo "$synonyms" | grep -oE '"/[^"]+"' | tr -d '"' | tr -d '/'); do
             if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -d "$skills_root/$synonym" ]; then
               cp -R "$skill_dir" "$skills_root/$synonym"
               if [ -f "$skills_root/$synonym/SKILL.md" ]; then
@@ -453,7 +453,7 @@ run_validation() {
       all_valid=false
     else
       local score
-      score=$(run_cace validate "$agent_dir" --quiet 2>&1 | grep -oP '\d+(?=%)' | tail -1 || echo "100")
+      score=$(run_cace validate "$agent_dir" --quiet 2>&1 | grep -oE '[0-9]+%' | sed 's/%//' | tail -1 || echo "100")
       total_score=$((total_score + score))
       agent_count=$((agent_count + 1))
       
