@@ -33,6 +33,18 @@ assert_skill_command() {
   fi
 }
 
+assert_first_nonempty_line() {
+  local file="$1"
+  local expected="$2"
+
+  local first
+  first="$(awk 'NF{print; exit}' "$file")"
+  if [ "$first" != "$expected" ]; then
+    echo -e "${RED}✗ FAIL${NC} - $file first non-empty line must be '${expected}' (got '${first}')" >&2
+    exit 1
+  fi
+}
+
 run_cace() {
   if [[ -f "$CACE_DIR/dist/cli/index.js" ]]; then
     node "$CACE_DIR/dist/cli/index.js" "$@"
@@ -104,6 +116,7 @@ for f in \
   "$OUTPUTS_DIR/windsurf/.windsurf/workflows/try-hard.md" \
   "$OUTPUTS_DIR/windsurf/.windsurf/workflows/dont-stop.md" \
   "$OUTPUTS_DIR/windsurf/.windsurf/workflows/ultrathink.md" \
+  "$OUTPUTS_DIR/windsurf/.windsurf/workflows/audit.md" \
   "$OUTPUTS_DIR/windsurf/.windsurf/skills/relentless/SKILL.md" \
   "$OUTPUTS_DIR/windsurf/.windsurf/skills/try-hard/SKILL.md" \
   "$OUTPUTS_DIR/windsurf/.windsurf/skills/dont-stop/SKILL.md" \
@@ -112,6 +125,7 @@ for f in \
 done
 assert_skill_name "$OUTPUTS_DIR/windsurf/.windsurf/skills/try-hard/SKILL.md" "try-hard"
 assert_skill_command "$OUTPUTS_DIR/windsurf/.windsurf/skills/try-hard/SKILL.md" "/try-hard"
+assert_first_nonempty_line "$OUTPUTS_DIR/windsurf/.windsurf/workflows/audit.md" "---"
 
 # Cursor commands (.md) + skills (directories)
 for f in \

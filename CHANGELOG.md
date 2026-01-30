@@ -30,6 +30,13 @@
 - **Fix skill alias variants so they actually load as skills** (e.g. `/understand`, `/docs`, `/research`):
   - When we generate alias skill directories, we now rewrite `name:` (and `command:`) to match the alias folder.
 
+## [3.1.4] - 2026-01-30
+
+### 🛠️ Fix Windsurf workflow loading (YAML frontmatter first)
+
+- **Strip CACE provenance HTML comments from generated outputs** so Windsurf workflow/tool loaders don’t choke on content before `---`.
+- Add regression test ensuring Windsurf `audit.md` starts with YAML frontmatter.
+
 ## [3.1.0] - 2026-01-30
 
 ### ✨ Cursor Skills Support + CACE v2.5.0 Upgrade
