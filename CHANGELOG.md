@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.1.1] - 2026-01-30
+
+### 🧩 Fix variant generation for Cursor/OpenCode/Windsurf
+
+- **Generate alias/synonym variants in the correct output surfaces**:
+  - Cursor: `.cursor/commands/*.md` (e.g. `/refine` for `/polish`)
+  - Windsurf: `.windsurf/workflows/*.md`
+  - OpenCode: `.opencode/<alias>/SKILL.md` (installer maps to `<alias>.md`)
+- **Fix variant counting/logging** (avoid subshell counter reset)
+
 ## [3.1.0] - 2026-01-30
 
 ### ✨ Cursor Skills Support + CACE v2.5.0 Upgrade
