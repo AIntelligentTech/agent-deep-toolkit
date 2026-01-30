@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
-CACE_VERSION="2.3.0"
+CACE_VERSION="2.5.0"
 CACE_DIR="/home/tony/business/tools/cross-agent-compatibility-engine"
 
 RED='\033[0;31m'
@@ -24,8 +24,8 @@ usage() {
   cat <<USAGE
 Usage: $SCRIPT_NAME [--agents <agents>] [--skip-variants] [--skip-validation] [--health-check] [--force-cace-install] [--dry-run]
 
-Agents (comma-separated, or 'all' for 6 agents):
-  claude,windsurf,cursor,opencode,codex,gemini
+Agents (comma-separated, or 'all' for toolkit-supported agents):
+  claude,windsurf,cursor,opencode
 
 Options:
   --agents <agents>       Agent list (default: claude,windsurf,cursor,opencode)
@@ -135,13 +135,19 @@ convert_skills() {
     local agent_output="$outputs_dir/$agent"
     mkdir -p "$agent_output"
     
-    # Windsurf uses dual-output strategy for Claude skill parity
+    # Some targets use dual-output strategy for parity/compatibility.
+    # - Windsurf: workflows (manual) + skills (auto)
+    # - Cursor: skills (auto/progressive) + commands (explicit manual)
     local strategy="direct"
     if [ "$agent" = "windsurf" ]; then
       strategy="dual-output"
       log_info "Using dual-output strategy for Windsurf (preserves auto-invocation + manual /command)"
       # Create skills directory structure for dual-output
       mkdir -p "$agent_output/.windsurf/skills"
+    elif [ "$agent" = "cursor" ]; then
+      strategy="dual-output"
+      log_info "Using dual-output strategy for Cursor (skills + commands)"
+      mkdir -p "$agent_output/.cursor/skills" "$agent_output/.cursor/commands"
     fi
     
     if run_cace convert-dir "$skills_dir" \
@@ -340,6 +346,11 @@ main() {
         ;;
     esac
   done
+
+  # Expand "all" to the agent set this toolkit ships/installs.
+  if [ "$AGENTS" = "all" ]; then
+    AGENTS="claude,windsurf,cursor,opencode"
+  fi
   
   log_section "Agent Deep Toolkit v3.0.0 - CACE Build System"
   log_info "CACE Version: $CACE_VERSION"

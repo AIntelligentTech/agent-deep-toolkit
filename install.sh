@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-CACE_VERSION="2.3.0"
+CACE_VERSION="2.5.0"
 CACE_DIR="/home/tony/business/tools/cross-agent-compatibility-engine"
 
 RED='\033[0;31m'
@@ -52,7 +52,8 @@ WINDSURF_WORKFLOWS_DIR="$SCRIPT_DIR/outputs/windsurf/.windsurf/workflows"
 WINDSURF_SKILLS_DIR="$SCRIPT_DIR/outputs/windsurf/.windsurf/skills"
 CLAUDE_SKILLS_DIR="$SCRIPT_DIR/outputs/claude/.claude/skills"
 CURSOR_COMMANDS_DIR="$SCRIPT_DIR/outputs/cursor/.cursor/commands"
-OPENCODE_COMMANDS_DIR="$SCRIPT_DIR/outputs/opencode/.opencode/commands"
+CURSOR_SKILLS_DIR="$SCRIPT_DIR/outputs/cursor/.cursor/skills"
+OPENCODE_COMMANDS_DIR="$SCRIPT_DIR/outputs/opencode/.opencode"
 TOOLKIT_VERSION="$(cat "$SCRIPT_DIR/VERSION" 2>/dev/null || echo "0.0.0")"
 
 usage() {
@@ -67,7 +68,7 @@ Agents:
                   Checks: ~/.codeium/windsurf-next
                   Installs to all detected Next installations
   claude          Install Claude Code skills (.claude/skills, ~/.claude/skills)
-  cursor          Install Cursor commands (.cursor/commands, ~/.cursor/commands)
+  cursor          Install Cursor skills + commands (.cursor/skills + .cursor/commands, ~/.cursor/skills + ~/.cursor/commands)
   opencode        Install OpenCode commands (.opencode/commands, ~/.config/opencode/commands)
   all             Install for all agents (intelligently detects all Windsurf installations)
 
@@ -365,6 +366,45 @@ copy_cursor_commands() {
   done
 }
 
+copy_cursor_skills() {
+  local dest_root="$1"
+
+  if [ ! -d "$CURSOR_SKILLS_DIR" ]; then
+    echo "[warn] Cursor skills directory not found: $CURSOR_SKILLS_DIR" >&2
+    return 0
+  fi
+
+  if [ "${DRY_RUN:-false}" = true ]; then
+    echo "[dry-run] would ensure directory exists: $dest_root"
+  else
+    mkdir -p "$dest_root"
+  fi
+
+  shopt -s nullglob
+  local skills=("$CURSOR_SKILLS_DIR"/*)
+  if [ "${#skills[@]}" -eq 0 ]; then
+    echo "[warn] no skills found in $CURSOR_SKILLS_DIR" >&2
+    return 0
+  fi
+
+  for skill_dir in "${skills[@]}"; do
+    if [ ! -d "$skill_dir" ]; then
+      continue
+    fi
+    local name
+    name="$(basename "$skill_dir")"
+    local dest_skill_dir="$dest_root/$name"
+    if [ "${DRY_RUN:-false}" = true ]; then
+      echo "[dry-run] would ensure directory exists: $dest_skill_dir"
+      echo "[dry-run] would install Cursor skill $name -> $dest_skill_dir"
+    else
+      mkdir -p "$dest_skill_dir"
+      cp -R "$skill_dir"/. "$dest_skill_dir"/
+      echo "[ok] installed Cursor skill $name -> $dest_skill_dir"
+    fi
+  done
+}
+
 copy_opencode_commands() {
   local dest="$1"
 
@@ -380,20 +420,20 @@ copy_opencode_commands() {
   fi
 
   shopt -s nullglob
-  local files=("$OPENCODE_COMMANDS_DIR"/*.md)
+  local files=("$OPENCODE_COMMANDS_DIR"/*/SKILL.md)
   if [ "${#files[@]}" -eq 0 ]; then
-    echo "[warn] no .md files found in $OPENCODE_COMMANDS_DIR" >&2
+    echo "[warn] no SKILL.md files found in $OPENCODE_COMMANDS_DIR/*/" >&2
     return 0
   fi
 
   for file in "${files[@]}"; do
-    local base
-    base="$(basename "$file")"
+    local skill_name
+    skill_name=$(basename "$(dirname "$file")")
     if [ "${DRY_RUN:-false}" = true ]; then
-      echo "[dry-run] would install OpenCode command $base -> $dest"
+      echo "[dry-run] would install OpenCode command $skill_name -> $dest"
     else
-      cp "$file" "$dest/$base"
-      echo "[ok] installed OpenCode command $base -> $dest"
+      cp "$file" "$dest/${skill_name}.md"
+      echo "[ok] installed OpenCode command ${skill_name}.md -> $dest"
     fi
   done
 }
@@ -467,7 +507,31 @@ install_cursor_to() {
     return 0
   fi
 
+  # Best-effort cleanup of legacy Cursor command names when forcing install.
+  # Older toolkit releases installed `deep-*.md` into ~/.cursor/commands. Those are no longer canonical.
+  if [ "${FORCE:-false}" = "true" ]; then
+    shopt -s nullglob
+    local legacy=("$dest"/deep-*.md)
+    if [ "${#legacy[@]}" -gt 0 ]; then
+      if [ "${DRY_RUN:-false}" = true ]; then
+        for f in "${legacy[@]}"; do
+          echo "[dry-run] would remove legacy Cursor command $(basename "$f") from $dest"
+        done
+      else
+        for f in "${legacy[@]}"; do
+          rm -f "$f"
+          echo "[ok] removed legacy Cursor command $(basename "$f") from $dest"
+        done
+      fi
+    fi
+  fi
+
   copy_cursor_commands "$dest"
+  # Also install Cursor skills (Cursor 2.4+ Agent Skills standard)
+  local cursor_root
+  cursor_root="$(dirname "$dest")"
+  local skills_dest="$cursor_root/skills"
+  copy_cursor_skills "$skills_dest"
   if [ "${DRY_RUN:-false}" = true ]; then
     echo "[dry-run] would record toolkit version $TOOLKIT_VERSION in $version_file"
   else

@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.1.0] - 2026-01-30
+
+### ✨ Cursor Skills Support + CACE v2.5.0 Upgrade
+
+- **Upgrade to CACE v2.5.0** (local) to reflect Cursor 2.4+ Agent Skills support.
+- **Cursor dual-output build**: generates both:
+  - `.cursor/skills/<name>/SKILL.md` (skills for progressive/auto invocation)
+  - `.cursor/commands/<name>.md` (explicit slash commands)
+- **Installer now installs Cursor skills + commands** at user/project level.
+
 ## [3.0.0] - 2026-01-30
 
 ### 🎉 Major Release - CACE Build System Integration
@@ -30,7 +40,7 @@ Claude skills can be both auto-invoked AND manually invoked via `/command`. Wind
 |-------|--------------|------|
 | Claude | Skills | `.claude/skills/<name>/SKILL.md` |
 | Windsurf | Workflows + Skills | `.windsurf/workflows/<name>.md` + `.windsurf/skills/<name>/SKILL.md` |
-| Cursor | Commands | `.cursor/commands/<name>/` |
+| Cursor | Skills + Commands | `.cursor/skills/<name>/SKILL.md` + `.cursor/commands/<name>.md` |
 | OpenCode | Commands | `.opencode/<name>/` |
 
 ### 🔧 Changes
