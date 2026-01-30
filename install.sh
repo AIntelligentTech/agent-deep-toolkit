@@ -11,11 +11,60 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
 NC='\033[0m'
+
+# Box drawing characters
+BOX_TL="╔"
+BOX_TR="╗"
+BOX_BL="╚"
+BOX_BR="╝"
+BOX_H="═"
+BOX_V="║"
+
+# Separator characters
+SEP_TL="┌"
+SEP_TR="┐"
+SEP_BL="└"
+SEP_BR="┘"
+SEP_H="─"
+SEP_V="│"
+
+# Status icons
+ICON_CHECK="✓"
+ICON_CROSS="✗"
+ICON_WARN="⚠"
+ICON_INFO="ⓘ"
+
+# Spinner animation
+SPINNER=("⣾" "⣽" "⣻" "⢿" "⡿" "⣟" "⣯" "⣷")
 
 log_info() { echo -e "${BLUE}[info]${NC} $*"; }
 log_warn() { echo -e "${YELLOW}[warn]${NC} $*"; }
 log_error() { echo -e "${RED}[error]${NC} $*" >&2; }
+log_success() { echo -e "${GREEN}[ok]${NC} $*"; }
+
+# Wizard mode state
+declare -g -A WIZARD_STATE=(
+  [agents]=""
+  [level]=""
+  [force]=false
+  [dry_run]=true
+  [project_dir]="$PWD"
+  [has_conflicts]=false
+)
+
+WIZARD_TEMP_DIR=""
+
+cleanup_wizard() {
+  if [ -n "$WIZARD_TEMP_DIR" ] && [ -d "$WIZARD_TEMP_DIR" ]; then
+    rm -rf "$WIZARD_TEMP_DIR"
+  fi
+  tput cnorm 2>/dev/null || true
+}
+
+trap cleanup_wizard EXIT INT TERM
 
 check_cace_prerequisites() {
   log_info "Checking CACE prerequisites..."
@@ -54,13 +103,479 @@ CLAUDE_SKILLS_DIR="$SCRIPT_DIR/outputs/claude/.claude/skills"
 CURSOR_COMMANDS_DIR="$SCRIPT_DIR/outputs/cursor/.cursor/commands"
 CURSOR_SKILLS_DIR="$SCRIPT_DIR/outputs/cursor/.cursor/skills"
 OPENCODE_COMMANDS_DIR="$SCRIPT_DIR/outputs/opencode/.opencode"
-TOOLKIT_VERSION="$(cat "$SCRIPT_DIR/VERSION" 2>/dev/null || echo "0.0.0")"
+TOOLKIT_VERSION="$(head -n 1 "$SCRIPT_DIR/VERSION" 2>/dev/null | cut -d'=' -f2 || echo "0.0.0")"
+
+# ============================================================================
+# UI Functions
+# ============================================================================
+
+draw_box() {
+  local title="$1"
+  local width="${2:-60}"
+
+  local title_line=""
+  if [ -n "$title" ]; then
+    local padding=$((width - ${#title} - 4))
+    title_line=" $title $(printf '%*s' $padding | tr ' ' "$BOX_H")"
+  else
+    title_line="$(printf '%*s' $width | tr ' ' "$BOX_H")"
+  fi
+
+  echo -e "${CYAN}${BOX_TL}${title_line}${BOX_TR}${NC}"
+}
+
+draw_box_close() {
+  local width="${1:-60}"
+  echo -e "${CYAN}${BOX_BL}$(printf '%*s' $width | tr ' ' "$BOX_H")${BOX_BR}${NC}"
+}
+
+draw_box_line() {
+  local text="$1"
+  local width="${2:-60}"
+
+  local padding=$((width - ${#text} - 2))
+  echo -e "${CYAN}${BOX_V}${NC} ${text}$(printf '%*s' $padding | tr ' ' ' ')${CYAN}${BOX_V}${NC}"
+}
+
+draw_separator() {
+  local width="${1:-60}"
+  echo -e "${CYAN}${SEP_BL}$(printf '%*s' $width | tr ' ' "$SEP_H")${SEP_BR}${NC}"
+}
+
+draw_table_header() {
+  local width="${1:-60}"
+  echo -e "${CYAN}${SEP_TL}$(printf '%*s' $width | tr ' ' "$SEP_H")${SEP_TR}${NC}"
+}
+
+show_spinner() {
+  local message="$1"
+  local spinner_idx=0
+
+  tput civis 2>/dev/null || true
+
+  while kill -0 $! 2>/dev/null; do
+    echo -ne "\r${SPINNER[$((spinner_idx % ${#SPINNER[@]}))]}  ${message}"
+    ((spinner_idx++))
+    sleep 0.1
+  done
+
+  wait $!
+  local exit_code=$?
+
+  tput cnorm 2>/dev/null || true
+  echo -ne "\r   "
+
+  return $exit_code
+}
+
+# ============================================================================
+# Wizard Selection Functions
+# ============================================================================
+
+wizard_select_agents() {
+  local has_fzf=false
+  if command -v fzf &>/dev/null; then
+    has_fzf=true
+  fi
+
+  if [ "$has_fzf" = true ]; then
+    wizard_select_agents_fzf
+  else
+    wizard_select_agents_fallback
+  fi
+}
+
+wizard_select_agents_fzf() {
+  local agents_file="$WIZARD_TEMP_DIR/agents.txt"
+
+  cat > "$agents_file" << 'EOF'
+windsurf|Windsurf Stable - ~/.windsurf/workflows
+windsurf-next|Windsurf Next - ~/.codeium/windsurf-next/
+claude|Claude Code - ~/.claude/skills
+cursor|Cursor - ~/.cursor/commands + skills
+opencode|OpenCode - ~/.config/opencode/commands
+EOF
+
+  local selected
+  selected=$( \
+    awk -F'|' '{print $1 " " $2}' "$agents_file" | \
+    fzf --multi \
+        --height 10 \
+        --border \
+        --margin 1 \
+        --padding 1 \
+        --header "Select Agents (TAB to select, ENTER to confirm)" \
+        --color="border:$CYAN,header:$BOLD" \
+        --preview-window hidden 2>&1 | \
+    awk '{print $1}' | \
+    paste -sd ',' - \
+  )
+
+  if [ -z "$selected" ]; then
+    return 1
+  fi
+
+  WIZARD_STATE[agents]="$selected"
+  return 0
+}
+
+wizard_select_agents_fallback() {
+  echo ""
+  draw_box "Select Agents" 60
+  draw_box_line "Select one or more agents:" 60
+  draw_box_line "" 60
+  draw_box_close 60
+  echo ""
+
+  local agents=("windsurf:Windsurf Stable" "windsurf-next:Windsurf Next" "claude:Claude Code" "cursor:Cursor" "opencode:OpenCode")
+  local selected_agents=()
+
+  for agent_spec in "${agents[@]}"; do
+    local agent="${agent_spec%%:*}"
+    local label="${agent_spec##*:}"
+
+    printf "  Install %s? (y/n) [n]: " "$label"
+    read -r -t 5 reply || reply="n"
+    if [[ "$reply" =~ ^[yY]$ ]]; then
+      selected_agents+=("$agent")
+    fi
+  done
+
+  if [ ${#selected_agents[@]} -eq 0 ]; then
+    log_error "No agents selected"
+    return 1
+  fi
+
+  local agents_str
+  agents_str=$(IFS=,; echo "${selected_agents[*]}")
+  WIZARD_STATE[agents]="$agents_str"
+  return 0
+}
+
+wizard_select_level() {
+  local has_fzf=false
+  if command -v fzf &>/dev/null; then
+    has_fzf=true
+  fi
+
+  if [ "$has_fzf" = true ]; then
+    wizard_select_level_fzf
+  else
+    wizard_select_level_fallback
+  fi
+}
+
+wizard_select_level_fzf() {
+  local level_file="$WIZARD_TEMP_DIR/levels.txt"
+
+  cat > "$level_file" << 'EOF'
+user|User Level - Install to home directory (all projects)
+project|Project Level - Install to current project only
+EOF
+
+  local selected
+  selected=$( \
+    awk -F'|' '{print $1 " " $2}' "$level_file" | \
+    fzf --height 5 \
+        --border \
+        --margin 1 \
+        --padding 1 \
+        --header "Select Installation Level" \
+        --color="border:$CYAN,header:$BOLD" \
+        --preview-window hidden 2>&1 | \
+    awk '{print $1}' \
+  )
+
+  if [ -z "$selected" ]; then
+    return 1
+  fi
+
+  WIZARD_STATE[level]="$selected"
+  return 0
+}
+
+wizard_select_level_fallback() {
+  echo ""
+  draw_box "Select Installation Level" 60
+  draw_box_close 60
+  echo ""
+
+  printf "  Install to [u]ser home or [p]roject directory? [u]: "
+  read -r -t 5 reply || reply="u"
+
+  case "$reply" in
+    p|P)
+      WIZARD_STATE[level]="project"
+      ;;
+    *)
+      WIZARD_STATE[level]="user"
+      ;;
+  esac
+
+  return 0
+}
+
+# ============================================================================
+# Wizard Validation Functions
+# ============================================================================
+
+wizard_validate_prerequisites() {
+  local errors=0
+
+  draw_box "Checking Prerequisites" 60
+
+  # Check Node.js
+  if command -v node &>/dev/null; then
+    local node_version
+    node_version=$(node --version 2>/dev/null | cut -d'v' -f2)
+    draw_box_line "${GREEN}${ICON_CHECK}${NC} Node.js $node_version" 60
+  else
+    draw_box_line "${RED}${ICON_CROSS}${NC} Node.js not found (required)" 60
+    ((errors++))
+  fi
+
+  # Check fzf
+  if command -v fzf &>/dev/null; then
+    local fzf_version
+    fzf_version=$(fzf --version 2>/dev/null | awk '{print $1}')
+    draw_box_line "${GREEN}${ICON_CHECK}${NC} fzf $fzf_version (optional, will fallback to bash)" 60
+  else
+    draw_box_line "${YELLOW}${ICON_INFO}${NC} fzf not found (optional, will use bash fallback)" 60
+  fi
+
+  # Check output directories
+  if [ -d "$SCRIPT_DIR/outputs" ]; then
+    draw_box_line "${GREEN}${ICON_CHECK}${NC} Output directory exists" 60
+  else
+    draw_box_line "${RED}${ICON_CROSS}${NC} Output directory not found" 60
+    ((errors++))
+  fi
+
+  # Check VERSION file
+  if [ -f "$SCRIPT_DIR/VERSION" ]; then
+    draw_box_line "${GREEN}${ICON_CHECK}${NC} Toolkit v$TOOLKIT_VERSION" 60
+  else
+    draw_box_line "${RED}${ICON_CROSS}${NC} VERSION file not found" 60
+    ((errors++))
+  fi
+
+  draw_box_close 60
+  echo ""
+
+  if [ $errors -gt 0 ]; then
+    log_error "Prerequisites check failed with $errors error(s)"
+    return 1
+  fi
+
+  log_success "All prerequisites satisfied"
+  echo ""
+  return 0
+}
+
+# ============================================================================
+# Main Wizard Flow
+# ============================================================================
+
+wizard_welcome() {
+  clear
+  echo ""
+  draw_box "Agent Deep Toolkit Installer" 60
+  draw_box_line "" 60
+  draw_box_line "Interactive Installation Wizard" 60
+  draw_box_line "Version $TOOLKIT_VERSION" 60
+  draw_box_line "" 60
+  draw_box_line "This wizard will guide you through installing agent" 60
+  draw_box_line "workflows and skills to your favorite code editors." 60
+  draw_box_line "" 60
+  draw_box_line "⚠  Backup your editor config before proceeding" 60
+  draw_box_line "" 60
+  draw_box_close 60
+  echo ""
+
+  printf "Press ENTER to continue..."
+  read -r
+  echo ""
+}
+
+wizard_show_summary() {
+  local agents="${WIZARD_STATE[agents]}"
+  local level="${WIZARD_STATE[level]}"
+
+  clear
+  draw_box "Installation Summary" 60
+  draw_box_line "" 60
+  draw_box_line "${BOLD}Configuration:${NC}" 60
+  draw_box_line "" 60
+
+  local agents_display=$(echo "$agents" | tr ',' ', ')
+  draw_box_line "  Selected Agents: $agents_display" 60
+  draw_box_line "  Installation Level: ${level^}" 60
+
+  if [ "${WIZARD_STATE[dry_run]}" = "true" ]; then
+    draw_box_line "  Mode: ${YELLOW}Dry-Run${NC} (preview only)" 60
+  else
+    draw_box_line "  Mode: ${GREEN}Install${NC} (will modify system)" 60
+  fi
+
+  draw_box_line "" 60
+  draw_box_close 60
+  echo ""
+
+  printf "Proceed? [y/N]: "
+  read -r reply
+
+  if [[ ! "$reply" =~ ^[yY]$ ]]; then
+    echo "Installation cancelled."
+    return 1
+  fi
+
+  return 0
+}
+
+run_wizard() {
+  WIZARD_TEMP_DIR=$(mktemp -d) || return 1
+
+  # Show welcome screen
+  wizard_welcome
+
+  # Check prerequisites
+  if ! wizard_validate_prerequisites; then
+    echo "Cannot continue due to missing prerequisites."
+    read -p "Press ENTER to exit..."
+    return 1
+  fi
+
+  # Select agents
+  clear
+  echo "Selecting agents..."
+  if ! wizard_select_agents; then
+    log_error "No agents selected"
+    read -p "Press ENTER to exit..."
+    return 1
+  fi
+
+  # Select level
+  clear
+  echo "Selecting installation level..."
+  if ! wizard_select_level; then
+    log_error "Installation level not selected"
+    read -p "Press ENTER to exit..."
+    return 1
+  fi
+
+  # Show summary and confirm
+  if ! wizard_show_summary; then
+    return 1
+  fi
+
+  # Convert comma-separated agents to array and process
+  local agents_list="${WIZARD_STATE[agents]}"
+  local level="${WIZARD_STATE[level]}"
+  local dry_run="${WIZARD_STATE[dry_run]}"
+
+  # Set global variables for install functions
+  LEVEL="$level"
+  PROJECT_DIR="${WIZARD_STATE[project_dir]}"
+  DRY_RUN="$dry_run"
+  FORCE=false
+  MODE="install"
+
+  echo ""
+  draw_box "Installation Progress" 60
+
+  # Install each agent using existing installation logic
+  local first_agent=true
+  for AGENT in $(echo "$agents_list" | tr ',' '\n'); do
+    if [ "$first_agent" = false ]; then
+      echo ""
+    fi
+    first_agent=false
+
+    case "$AGENT" in
+      windsurf)
+        STABLE_PATH="$(detect_windsurf_stable_installation)"
+        draw_box_line "Installing Windsurf (auto-detected)..." 60
+        install_windsurf_to "$STABLE_PATH" "windsurf user (auto-detected)"
+        ;;
+      windsurf-next)
+        draw_box_line "Detecting Windsurf Next installations..." 60
+        NEXT_PATHS=()
+        while IFS= read -r path; do
+          NEXT_PATHS+=("$path")
+        done < <(detect_windsurf_next_installations)
+
+        if [ "${#NEXT_PATHS[@]}" -eq 0 ]; then
+          NEXT_PATHS=("$HOME/.codeium/windsurf-next/global_workflows")
+        fi
+
+        for next_path in "${NEXT_PATHS[@]}"; do
+          LABEL="windsurf-next user ($(echo "$next_path" | sed "s|$HOME/||"))"
+          draw_box_line "Installing $LABEL..." 60
+          install_windsurf_to "$next_path" "$LABEL"
+        done
+        ;;
+      claude)
+        if [ "$LEVEL" = "project" ]; then
+          draw_box_line "Installing Claude (project)..." 60
+          install_claude_to "$PROJECT_DIR/.claude/skills" "claude project"
+        else
+          draw_box_line "Installing Claude (user)..." 60
+          install_claude_to "$HOME/.claude/skills" "claude user"
+        fi
+        ;;
+      cursor)
+        if [ "$LEVEL" = "project" ]; then
+          draw_box_line "Installing Cursor (project)..." 60
+          install_cursor_to "$PROJECT_DIR/.cursor/commands" "cursor project"
+        else
+          draw_box_line "Installing Cursor (user)..." 60
+          install_cursor_to "$HOME/.cursor/commands" "cursor user"
+        fi
+        ;;
+      opencode)
+        if [ "$LEVEL" = "project" ]; then
+          draw_box_line "Installing OpenCode (project)..." 60
+          install_opencode_to "$PROJECT_DIR/.opencode/commands" "opencode project"
+        else
+          draw_box_line "Installing OpenCode (user)..." 60
+          install_opencode_to "$HOME/.config/opencode/commands" "opencode user"
+        fi
+        ;;
+      *)
+        draw_box_line "${RED}${ICON_CROSS}${NC} Unknown agent: $AGENT" 60
+        ;;
+    esac
+  done
+
+  draw_box_close 60
+  echo ""
+  log_success "Installation complete!"
+  echo ""
+  draw_box "Next Steps" 60
+  draw_box_line "• Restart your editor to load new workflows/skills" 60
+  draw_box_line "• Test with editor commands (e.g., /think)" 60
+  draw_box_line "• See README.md for documentation" 60
+  draw_box_close 60
+  echo ""
+
+  echo "Press ENTER to exit..."
+  read -r
+
+  return 0
+}
 
 usage() {
   cat <<USAGE
-Usage: $SCRIPT_NAME --agent <agent> --level <level> [--project-dir <dir>] [--force] [--dry-run] [--uninstall] [--clean-up] [--detect-only] [--yes]
+Usage: $SCRIPT_NAME [--wizard] or $SCRIPT_NAME --agent <agent> --level <level> [options...]
 
-Agents:
+Interactive Mode (Recommended):
+  --wizard              Launch interactive installation wizard with guided setup
+
+CLI Mode (for automation):
+  --agent <agent>       Agent to install (windsurf|windsurf-next|claude|cursor|opencode|all)
+  --level <level>       Installation level (project|user)
+
+Agents (CLI mode):
   windsurf        Install Windsurf stable channel workflows (auto-detects installation path)
                   Checks: ~/.windsurf, ~/.codeium/.windsurf, ~/.codeium/windsurf
                   Default: ~/.windsurf/workflows if none found
@@ -76,7 +591,7 @@ Levels:
   project         Install into the specified project (default: current directory)
   user            Install into user-level locations for the chosen agent(s)
 
-Options:
+CLI Options:
   --project-dir <dir>  Project root to use for project-level installs (default: current directory)
   --force              Overwrite any existing agent-deep-toolkit installation at the destination
   --dry-run            Print what would be done without making any filesystem changes
@@ -87,19 +602,19 @@ Options:
                        Do not prompt for confirmation during uninstall; assume "yes" to prompts
 
 Examples:
-  # Install Windsurf workflows (auto-detects stable installation)
+  # Interactive wizard (recommended for first-time users)
+  $SCRIPT_NAME --wizard
+
+  # CLI mode: Install Windsurf workflows (auto-detects stable installation)
   $SCRIPT_NAME --agent windsurf --level user
 
-  # Install Windsurf Next workflows (auto-detects all Next installations)
-  $SCRIPT_NAME --agent windsurf-next --level user
-
-  # Install to all agents and all detected Windsurf installations
+  # CLI mode: Install to all agents and all detected Windsurf installations
   $SCRIPT_NAME --agent all --level user
 
-  # Detect existing installations without installing
+  # CLI mode: Detect existing installations without installing
   $SCRIPT_NAME --agent all --level user --detect-only
 
-  # Uninstall everything from all detected locations
+  # CLI mode: Uninstall everything from all detected locations
   $SCRIPT_NAME --agent all --level user --uninstall --yes
 USAGE
 }
@@ -568,6 +1083,7 @@ if [ "$#" -eq 0 ]; then
   exit 0
 fi
 
+WIZARD_MODE=false
 AGENT=""
 LEVEL=""
 PROJECT_DIR="$PWD"
@@ -580,6 +1096,10 @@ YES=false
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
+    --wizard)
+      WIZARD_MODE=true
+      shift 1
+      ;;
     --agent)
       AGENT="${2:-}"
       shift 2
@@ -628,8 +1148,15 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
+# Handle wizard mode
+if [ "$WIZARD_MODE" = true ]; then
+  run_wizard
+  exit $?
+fi
+
+# CLI mode validation
 if [ -z "$AGENT" ] || [ -z "$LEVEL" ]; then
-  echo "[error] --agent and --level are required" >&2
+  echo "[error] --agent and --level are required (or use --wizard)" >&2
   usage
   exit 1
 fi

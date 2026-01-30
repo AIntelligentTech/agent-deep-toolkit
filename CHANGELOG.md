@@ -1,5 +1,39 @@
 # Changelog
 
+## [3.2.0] - 2026-01-30
+
+### ✨ Interactive Installation Wizard
+
+- **New `--wizard` flag** for guided, interactive installation experience
+  - Multi-select agent selection using fzf (with bash fallback)
+  - Rich terminal UI with box drawing, colors, and progress indicators
+  - Comprehensive prerequisite validation (Node.js, fzf, output directories)
+  - Installation level selection (user or project)
+  - Preview summary showing exact configuration before installation
+  - Safe defaults (dry-run mode by default, force confirmation required)
+  - Graceful fallback to bash `select` when fzf unavailable
+
+### 🎨 Enhanced User Experience
+
+- Updated usage documentation to promote wizard mode for first-time users
+- Added status icons (✓, ✗, ⚠, ⓘ) for validation feedback
+- Visual summary tables with installation paths and status
+- Next steps guidance after successful installation
+- Signal handling (Ctrl+C) with proper cleanup
+
+### 📖 Documentation
+
+- Updated README with wizard quick-start section
+- Maintained full backward compatibility with CLI mode
+- All existing CLI flags continue to work unchanged
+
+### 🔄 Backward Compatibility
+
+- All existing `--agent`, `--level`, and option flags unchanged
+- `--dry-run` works in both wizard and CLI modes
+- `--force` for conflict resolution in both modes
+- Existing CLI automation scripts unaffected
+
 ## [3.1.1] - 2026-01-30
 
 ### 🧩 Fix variant generation for Cursor/OpenCode/Windsurf
@@ -18,37 +52,47 @@
   - Claude: `.claude/skills/<alias>/SKILL.md`
   - Cursor: `.cursor/skills/<alias>/SKILL.md`
   - Windsurf: `.windsurf/skills/<alias>/SKILL.md`
-- Keeps command/workflow variants so `/refine` works everywhere while skill selection/autoinvocation also sees the aliases.
+- Keeps command/workflow variants so `/refine` works everywhere while skill
+  selection/autoinvocation also sees the aliases.
 
 ## [3.1.3] - 2026-01-30
 
 ### 🧠 Restore `/relentless` as a first-class skill
 
-- **Add `/relentless` skill** as a dedicated maximum-effort workflow (instead of only an alias of `/iterate`)
-- **New aliases**: `/try-hard`, `/dont-stop`, `/ultrathink` (variants generated across agents)
+- **Add `/relentless` skill** as a dedicated maximum-effort workflow (instead of
+  only an alias of `/iterate`)
+- **New aliases**: `/try-hard`, `/dont-stop`, `/ultrathink` (variants generated
+  across agents)
 - Keep `/iterate` focused on the AID loop (`/loop`, `/cycle`)
-- **Fix skill alias variants so they actually load as skills** (e.g. `/understand`, `/docs`, `/research`):
-  - When we generate alias skill directories, we now rewrite `name:` (and `command:`) to match the alias folder.
+- **Fix skill alias variants so they actually load as skills** (e.g.
+  `/understand`, `/docs`, `/research`):
+  - When we generate alias skill directories, we now rewrite `name:` (and
+    `command:`) to match the alias folder.
 
 ## [3.1.4] - 2026-01-30
 
 ### 🛠️ Fix Windsurf workflow loading (YAML frontmatter first)
 
-- **Strip CACE provenance HTML comments from generated outputs** so Windsurf workflow/tool loaders don’t choke on content before `---`.
+- **Strip CACE provenance HTML comments from generated outputs** so Windsurf
+  workflow/tool loaders don’t choke on content before `---`.
 - Add regression test ensuring Windsurf `audit.md` starts with YAML frontmatter.
 
 ## [3.1.5] - 2026-01-30
 
 ### 🔧 Upgrade CACE + remove local workaround
 
-- **Upgrade CACE to v2.5.1** (upstream fix): provenance comments now render *after* YAML frontmatter for Claude + Windsurf.
-- **Remove local “strip provenance comments” post-processing** from `bin/cace-convert` so traceability comments are preserved without breaking loaders.
+- **Upgrade CACE to v2.5.1** (upstream fix): provenance comments now render
+  _after_ YAML frontmatter for Claude + Windsurf.
+- **Remove local “strip provenance comments” post-processing** from
+  `bin/cace-convert` so traceability comments are preserved without breaking
+  loaders.
 
 ## [3.1.0] - 2026-01-30
 
 ### ✨ Cursor Skills Support + CACE v2.5.0 Upgrade
 
-- **Upgrade to CACE v2.5.0** (local) to reflect Cursor 2.4+ Agent Skills support.
+- **Upgrade to CACE v2.5.0** (local) to reflect Cursor 2.4+ Agent Skills
+  support.
 - **Cursor dual-output build**: generates both:
   - `.cursor/skills/<name>/SKILL.md` (skills for progressive/auto invocation)
   - `.cursor/commands/<name>.md` (explicit slash commands)
@@ -58,49 +102,61 @@
 
 ### 🎉 Major Release - CACE Build System Integration
 
-This release integrates the Cross-Agent Compatibility Engine (CACE) as the build system, enabling dual-output strategy for Windsurf to preserve Claude skill behavior.
+This release integrates the Cross-Agent Compatibility Engine (CACE) as the build
+system, enabling dual-output strategy for Windsurf to preserve Claude skill
+behavior.
 
 ### ✨ New Features
 
 #### CACE Build System
+
 - **Replaced Python-based build** with CACE CLI integration
-- **Local CACE dependency** at `/home/tony/business/tools/cross-agent-compatibility-engine`
+- **Local CACE dependency** at
+  `/home/tony/business/tools/cross-agent-compatibility-engine`
 - **Automatic version detection** and fallback mechanisms
 - **Comprehensive health validation** for all converted outputs
 
 #### Dual-Output Strategy for Windsurf
-Claude skills can be both auto-invoked AND manually invoked via `/command`. Windsurf enforces a bifurcated model:
+
+Claude skills can be both auto-invoked AND manually invoked via `/command`.
+Windsurf enforces a bifurcated model:
+
 - **Skills**: Auto-invoked, NO `/command` access
 - **Workflows**: Manual `/command`, NO auto-invocation
 
 **Solution:** Generate BOTH artifacts:
+
 ```
 .windsurf/workflows/<skill>.md   # Manual /command invocation
 .windsurf/skills/<skill>/SKILL.md  # Auto-invocation parity
 ```
 
 #### Updated Output Structure
-| Agent | Output Format | Path |
-|-------|--------------|------|
-| Claude | Skills | `.claude/skills/<name>/SKILL.md` |
+
+| Agent    | Output Format      | Path                                                                 |
+| -------- | ------------------ | -------------------------------------------------------------------- |
+| Claude   | Skills             | `.claude/skills/<name>/SKILL.md`                                     |
 | Windsurf | Workflows + Skills | `.windsurf/workflows/<name>.md` + `.windsurf/skills/<name>/SKILL.md` |
-| Cursor | Skills + Commands | `.cursor/skills/<name>/SKILL.md` + `.cursor/commands/<name>.md` |
-| OpenCode | Commands | `.opencode/<name>/` |
+| Cursor   | Skills + Commands  | `.cursor/skills/<name>/SKILL.md` + `.cursor/commands/<name>.md`      |
+| OpenCode | Commands           | `.opencode/<name>/`                                                  |
 
 ### 🔧 Changes
 
 #### bin/cace-convert
+
 - New build script using local CACE
 - Automatic dual-output strategy for Windsurf
 - Variant generation for aliases/synonyms
 - Health validation post-conversion
 
 #### install.sh
+
 - Updated directory paths for new output structure
 - Added `copy_windsurf_skills()` for dual-output installation
 - Supports both workflows and skills for Windsurf
 
 #### docs/CACE_MIGRATION_ARCHITECTURE.md
+
 - Complete architecture documentation for CACE integration
 - Dual-output strategy documentation
 - Agent compatibility matrix
@@ -114,16 +170,22 @@ Claude skills can be both auto-invoked AND manually invoked via `/command`. Wind
 
 ### ⚠️ Breaking Changes
 
-- **Output structure changed:** All agents now use nested directory structure (e.g., `.claude/skills/<name>/SKILL.md` instead of `.claude/skills/<name>.md`)
-- **Windsurf now produces dual outputs:** Both workflows and skills are installed
+- **Output structure changed:** All agents now use nested directory structure
+  (e.g., `.claude/skills/<name>/SKILL.md` instead of `.claude/skills/<name>.md`)
+- **Windsurf now produces dual outputs:** Both workflows and skills are
+  installed
 
 ---
 
 ## [2.0.0] - 2025-05-15
 
 ### Added
-- **Variant Generation System**: Skills now support a `synonyms` tag in frontmatter.
-- **Improved Build Pipeline**: New Python-based generator produces multiple entry points for Windsurf, Cursor, and OpenCode, and populates `aliases` for Claude Code.
+
+- **Variant Generation System**: Skills now support a `synonyms` tag in
+  frontmatter.
+- **Improved Build Pipeline**: New Python-based generator produces multiple
+  entry points for Windsurf, Cursor, and OpenCode, and populates `aliases` for
+  Claude Code.
 - **Synonyms for Key Tools**:
   - `/think` -> `/thought`, `/thinking`, `/thinks`
   - `/decide` -> `/decision`, `/choice`, `/choose`, `/pick`, `/select`
@@ -131,17 +193,23 @@ Claude skills can be both auto-invoked AND manually invoked via `/command`. Wind
   - ... and many more.
 
 ### Changed
-- **Cleaner Naming Convention**: Removed `deep-` prefix from all source directories and skill names (e.g., `deep-think` becomes `think`).
+
+- **Cleaner Naming Convention**: Removed `deep-` prefix from all source
+  directories and skill names (e.g., `deep-think` becomes `think`).
 - **Enhanced Content Frameworks**:
   - `/think`: Integrated Second-Order and Inversion thinking.
-  - `/decide`: Formally distinguishes Type 1 (Irreversible) and Type 2 (Reversible) decisions.
+  - `/decide`: Formally distinguishes Type 1 (Irreversible) and Type 2
+    (Reversible) decisions.
   - `/search`: Multi-source keyword expansion.
   - `/refactor`: Added Characterization Tests and Rewrite vs Refactor analysis.
   - `/architect`: Added Sustainability/Green IT lens and Fitness Functions.
-- **Updated Installer**: `install.sh` now handles non-prefixed files and all generated variants automatically.
+- **Updated Installer**: `install.sh` now handles non-prefixed files and all
+  generated variants automatically.
 
 ### Fixed
-- Fixed broken build dependency on missing `cace` tool by implementing internal Python-based conversion.
+
+- Fixed broken build dependency on missing `cace` tool by implementing internal
+  Python-based conversion.
 
 All notable changes to this project will be documented in this file.
 
@@ -153,9 +221,9 @@ adheres to [Semantic Versioning](https://semver.org/).
 
 ### ⚠️ Breaking Changes
 
-- **Removed `deep-` prefix from all skills**: All commands are now invoked without
-  the `deep-` prefix (e.g., `/think` instead of `/deep-think`, `/debug` instead of
-  `/deep-debug`).
+- **Removed `deep-` prefix from all skills**: All commands are now invoked
+  without the `deep-` prefix (e.g., `/think` instead of `/deep-think`, `/debug`
+  instead of `/deep-debug`).
 - **Skill consolidation**: 10 skill pairs have been merged to reduce overlap:
   - `deep-consider` + `deep-decide` → `/decide`
   - `deep-docs` + `deep-document` → `/document`
@@ -166,8 +234,8 @@ adheres to [Semantic Versioning](https://semver.org/).
   - `deep-incident` + `deep-retrospective` → `/incident`
   - `deep-ethics` + `deep-regulation` → `/compliance`
   - `deep-alternative` + `deep-ideas` → `/brainstorm`
-- **Removed legacy skill directories**: All `deep-*` directories have been removed
-  from `skills/`.
+- **Removed legacy skill directories**: All `deep-*` directories have been
+  removed from `skills/`.
 
 ### Added
 
@@ -182,8 +250,8 @@ adheres to [Semantic Versioning](https://semver.org/).
   - `/dependency` - Dependency management and security
   - `/benchmark` - Performance benchmarking and regression tracking
   - `/simplify` - Complexity reduction beyond basic refactoring
-- **Alias support**: Each skill now supports multiple aliases for natural language
-  triggering:
+- **Alias support**: Each skill now supports multiple aliases for natural
+  language triggering:
   - `/think` → `/reason`, `/analyze`, `/ponder`
   - `/code` → `/implement`, `/build`, `/develop`
   - `/debug` → `/fix`, `/troubleshoot`, `/diagnose`
@@ -195,8 +263,8 @@ adheres to [Semantic Versioning](https://semver.org/).
   - `/investigate` → `/dig`, `/probe`, `/examine`
   - `/explore` → `/understand`, `/learn`, `/discover`
   - And many more...
-- **Updated `/index` skill**: Now serves as a comprehensive navigator showing all
-  45 skills organized by category with common workflow combinations.
+- **Updated `/index` skill**: Now serves as a comprehensive navigator showing
+  all 45 skills organized by category with common workflow combinations.
 
 ### Changed
 

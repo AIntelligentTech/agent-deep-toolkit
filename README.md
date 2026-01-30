@@ -2,92 +2,103 @@
 
 A portable, cross-agent meta-cognitive toolkit for development workflows.
 
-This directory is designed to become the **root of a standalone repo** that packages the full workflow suite for:
+This directory is designed to become the **root of a standalone repo** that
+packages the full workflow suite for:
 
 - **Windsurf** – `.windsurf/workflows`-style deep workflows.
 - **Claude Code** – SKILL-based slash commands using the Agent Skills standard.
 - **Cursor** – `.cursor/commands`-style slash commands.
-- **OpenCode** – `.opencode/commands`-style commands with native OpenCode frontmatter.
+- **OpenCode** – `.opencode/commands`-style commands with native OpenCode
+  frontmatter.
 
-The goal is to keep procedures conceptually identical across agents while keeping their implementations **independent** so you can install Windsurf, Claude Code, or Cursor tooling separately.
+The goal is to keep procedures conceptually identical across agents while
+keeping their implementations **independent** so you can install Windsurf,
+Claude Code, or Cursor tooling separately.
 
 ## Workflow Suite (v2.0)
 
 The toolkit provides **45 specialized workflows** organized into 7 categories:
 
 ### 🧠 Core Reasoning (5)
-| Command | Aliases | Purpose |
-|---------|---------|---------|
-| `/think` | `/reason`, `/analyze`, `/ponder` | Deep multi-perspective analysis |
-| `/decide` | `/consider`, `/choose`, `/weigh` | Structured decision-making with frameworks |
-| `/search` | `/find`, `/lookup`, `/locate`, `/research` | Local + web search combined |
-| `/investigate` | `/dig`, `/probe`, `/examine` | Root-cause analysis and hypothesis testing |
-| `/explore` | `/understand`, `/learn`, `/discover` | Build mental models of code/concepts |
+
+| Command        | Aliases                                    | Purpose                                    |
+| -------------- | ------------------------------------------ | ------------------------------------------ |
+| `/think`       | `/reason`, `/analyze`, `/ponder`           | Deep multi-perspective analysis            |
+| `/decide`      | `/consider`, `/choose`, `/weigh`           | Structured decision-making with frameworks |
+| `/search`      | `/find`, `/lookup`, `/locate`, `/research` | Local + web search combined                |
+| `/investigate` | `/dig`, `/probe`, `/examine`               | Root-cause analysis and hypothesis testing |
+| `/explore`     | `/understand`, `/learn`, `/discover`       | Build mental models of code/concepts       |
 
 ### 🏗️ Architecture & Design (9)
-| Command | Aliases | Purpose |
-|---------|---------|---------|
-| `/architect` | `/design-system`, `/structure`, `/blueprint` | System architecture design (C4, DDD) |
-| `/design` | - | Product and interaction design (Double Diamond) |
-| `/ux` | - | UX evaluation and improvement |
-| `/spec` | - | Write specifications and ADRs |
-| `/document` | `/docs`, `/write-docs`, `/docstring` | Documentation discovery and creation |
-| `/tokens` | `/design-tokens` | Extract and systematize design tokens |
-| `/svg` | - | Generate and validate SVGs |
-| `/onboard` | `/onboarding`, `/getting-started` | Developer onboarding materials |
-| `/api` | `/api-design`, `/endpoint` | API design, contracts, versioning |
+
+| Command      | Aliases                                      | Purpose                                         |
+| ------------ | -------------------------------------------- | ----------------------------------------------- |
+| `/architect` | `/design-system`, `/structure`, `/blueprint` | System architecture design (C4, DDD)            |
+| `/design`    | -                                            | Product and interaction design (Double Diamond) |
+| `/ux`        | -                                            | UX evaluation and improvement                   |
+| `/spec`      | -                                            | Write specifications and ADRs                   |
+| `/document`  | `/docs`, `/write-docs`, `/docstring`         | Documentation discovery and creation            |
+| `/tokens`    | `/design-tokens`                             | Extract and systematize design tokens           |
+| `/svg`       | -                                            | Generate and validate SVGs                      |
+| `/onboard`   | `/onboarding`, `/getting-started`            | Developer onboarding materials                  |
+| `/api`       | `/api-design`, `/endpoint`                   | API design, contracts, versioning               |
 
 ### 💻 Implementation (10)
-| Command | Aliases | Purpose |
-|---------|---------|---------|
-| `/code` | `/implement`, `/build`, `/develop` | High-quality code implementation |
-| `/debug` | `/fix`, `/troubleshoot`, `/diagnose` | Systematic debugging |
-| `/refactor` | `/prune`, `/cleanup`, `/restructure` | Safe refactoring and dead code removal |
-| `/test` | `/verify`, `/validate`, `/check` | Test strategy and implementation |
-| `/optimize` | `/perf`, `/performance`, `/speedup` | Performance improvement |
-| `/polish` | - | Final refinement to world-class quality |
-| `/review` | `/code-review`, `/cr` | Structured code review |
-| `/dependency` | `/deps`, `/dependencies` | Dependency management and security |
-| `/benchmark` | `/perf-test`, `/measure` | Performance benchmarking |
-| `/simplify` | `/reduce-complexity`, `/declutter` | Complexity reduction |
+
+| Command       | Aliases                              | Purpose                                 |
+| ------------- | ------------------------------------ | --------------------------------------- |
+| `/code`       | `/implement`, `/build`, `/develop`   | High-quality code implementation        |
+| `/debug`      | `/fix`, `/troubleshoot`, `/diagnose` | Systematic debugging                    |
+| `/refactor`   | `/prune`, `/cleanup`, `/restructure` | Safe refactoring and dead code removal  |
+| `/test`       | `/verify`, `/validate`, `/check`     | Test strategy and implementation        |
+| `/optimize`   | `/perf`, `/performance`, `/speedup`  | Performance improvement                 |
+| `/polish`     | -                                    | Final refinement to world-class quality |
+| `/review`     | `/code-review`, `/cr`                | Structured code review                  |
+| `/dependency` | `/deps`, `/dependencies`             | Dependency management and security      |
+| `/benchmark`  | `/perf-test`, `/measure`             | Performance benchmarking                |
+| `/simplify`   | `/reduce-complexity`, `/declutter`   | Complexity reduction                    |
 
 ### ⚙️ Operations (9)
-| Command | Aliases | Purpose |
-|---------|---------|---------|
-| `/bash` | `/shell`, `/cli`, `/terminal` | CLI automation and scripting |
-| `/git` | `/github`, `/vcs` | Git workflows and best practices |
-| `/data` | - | Data modeling and governance |
-| `/infra` | `/infrastructure`, `/devops`, `/platform` | Infrastructure design |
-| `/observe` | `/observability`, `/monitor`, `/metrics` | Logs, metrics, traces |
-| `/incident` | `/retrospective`, `/postmortem`, `/outage` | Incident response + retros |
-| `/inventory` | `/catalog`, `/enumerate` | Systematic enumeration |
-| `/migrate` | `/migration`, `/upgrade` | Safe data/schema migrations |
-| `/deploy` | `/release`, `/rollout` | Deployment strategy |
+
+| Command      | Aliases                                    | Purpose                          |
+| ------------ | ------------------------------------------ | -------------------------------- |
+| `/bash`      | `/shell`, `/cli`, `/terminal`              | CLI automation and scripting     |
+| `/git`       | `/github`, `/vcs`                          | Git workflows and best practices |
+| `/data`      | -                                          | Data modeling and governance     |
+| `/infra`     | `/infrastructure`, `/devops`, `/platform`  | Infrastructure design            |
+| `/observe`   | `/observability`, `/monitor`, `/metrics`   | Logs, metrics, traces            |
+| `/incident`  | `/retrospective`, `/postmortem`, `/outage` | Incident response + retros       |
+| `/inventory` | `/catalog`, `/enumerate`                   | Systematic enumeration           |
+| `/migrate`   | `/migration`, `/upgrade`                   | Safe data/schema migrations      |
+| `/deploy`    | `/release`, `/rollout`                     | Deployment strategy              |
 
 ### 📋 Governance (2)
-| Command | Aliases | Purpose |
-|---------|---------|---------|
+
+| Command       | Aliases                            | Purpose                       |
+| ------------- | ---------------------------------- | ----------------------------- |
 | `/compliance` | `/ethics`, `/regulation`, `/legal` | Ethics + regulatory alignment |
-| `/threat` | `/threat-model`, `/security` | Security threat modeling |
+| `/threat`     | `/threat-model`, `/security`       | Security threat modeling      |
 
 ### 🔄 Change Management (5)
-| Command | Aliases | Purpose |
-|---------|---------|---------|
-| `/impact` | - | Change impact analysis |
-| `/propagate` | - | Safe change rollout |
-| `/brainstorm` | `/ideas`, `/alternatives`, `/ideate` | Idea generation and evaluation |
-| `/followup` | `/next`, `/nextsteps` | Next steps planning |
-| `/experiment` | `/test-hypothesis`, `/ab-test` | Experiment design and execution |
+
+| Command       | Aliases                              | Purpose                         |
+| ------------- | ------------------------------------ | ------------------------------- |
+| `/impact`     | -                                    | Change impact analysis          |
+| `/propagate`  | -                                    | Safe change rollout             |
+| `/brainstorm` | `/ideas`, `/alternatives`, `/ideate` | Idea generation and evaluation  |
+| `/followup`   | `/next`, `/nextsteps`                | Next steps planning             |
+| `/experiment` | `/test-hypothesis`, `/ab-test`       | Experiment design and execution |
 
 ### 🔧 Meta (5)
-| Command | Aliases | Purpose |
-|---------|---------|---------|
-| `/iterate` | `/loop`, `/cycle` | Iterative development (AID methodology) |
+
+| Command       | Aliases                                  | Purpose                                        |
+| ------------- | ---------------------------------------- | ---------------------------------------------- |
+| `/iterate`    | `/loop`, `/cycle`                        | Iterative development (AID methodology)        |
 | `/relentless` | `/try-hard`, `/dont-stop`, `/ultrathink` | Multiply effort and depth for high-stakes work |
-| `/index` | `/help`, `/workflows`, `/skills` | Navigator for all workflows |
-| `/audit` | - | Comprehensive system review |
-| `/plan` | `/roadmap`, `/schedule` | Implementation planning |
-| `/estimate` | `/scope`, `/sizing` | Effort estimation |
+| `/index`      | `/help`, `/workflows`, `/skills`         | Navigator for all workflows                    |
+| `/audit`      | -                                        | Comprehensive system review                    |
+| `/plan`       | `/roadmap`, `/schedule`                  | Implementation planning                        |
+| `/estimate`   | `/scope`, `/sizing`                      | Effort estimation                              |
 
 ## Repository layout
 
@@ -123,11 +134,30 @@ agent-deep-toolkit/
 
 Each skill directory is structured according to the **Agent Skills** standard:
 
-- `SKILL.md` – YAML frontmatter (`name`, `description`, `command`, `aliases`, and policy fields) + concise instructions.
+- `SKILL.md` – YAML frontmatter (`name`, `description`, `command`, `aliases`,
+  and policy fields) + concise instructions.
 
 ## Installing
 
-From the `agent-deep-toolkit/` directory:
+### Interactive Wizard (Recommended)
+
+For first-time users, use the interactive wizard:
+
+```bash
+./install.sh --wizard
+```
+
+The wizard will guide you through:
+
+- Prerequisite validation (Node.js, fzf)
+- Multi-select agent selection
+- Installation level choice (user or project)
+- Preview of what will be installed
+- Safe dry-run mode by default
+
+### Command-Line Installation
+
+For automation or CLI-only environments:
 
 ```bash
 # Install for all agents at user level
@@ -138,16 +168,21 @@ From the `agent-deep-toolkit/` directory:
 
 # Force overwrite existing installation
 ./install.sh --agent all --level user --force
+
+# Dry-run preview (no filesystem changes)
+./install.sh --agent all --level user --dry-run
 ```
 
 ## Command naming
 
 All tools use **canonical command names** without the legacy `deep-` prefix:
+
 - `/think` instead of `/deep-think`
 - `/debug` instead of `/deep-debug`
 - etc.
 
 Commands also support **aliases** that trigger the same workflow:
+
 - `/fix` triggers `/debug`
 - `/perf` triggers `/optimize`
 - `/docs` triggers `/document`
@@ -169,7 +204,8 @@ You can install for just one agent without affecting others.
 
 ## Versioning
 
-Agent Deep Toolkit follows [Semantic Versioning](https://semver.org/). The canonical version is stored in the top-level `VERSION` file.
+Agent Deep Toolkit follows [Semantic Versioning](https://semver.org/). The
+canonical version is stored in the top-level `VERSION` file.
 
 ## Uninstalling
 
@@ -184,6 +220,7 @@ Agent Deep Toolkit follows [Semantic Versioning](https://semver.org/). The canon
 ## Contributing and support
 
 See:
+
 - `CONTRIBUTING.md` for contribution guidelines.
 - `CODE_OF_CONDUCT.md` for community standards.
 - `SECURITY.md` for reporting security issues.
