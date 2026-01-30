@@ -10,6 +10,16 @@
   - OpenCode: `.opencode/<alias>/SKILL.md` (installer maps to `<alias>.md`)
 - **Fix variant counting/logging** (avoid subshell counter reset)
 
+## [3.1.2] - 2026-01-30
+
+### 🔁 Variant parity across skills + commands/workflows
+
+- **Generate variants for skill surfaces too**:
+  - Claude: `.claude/skills/<alias>/SKILL.md`
+  - Cursor: `.cursor/skills/<alias>/SKILL.md`
+  - Windsurf: `.windsurf/skills/<alias>/SKILL.md`
+- Keeps command/workflow variants so `/refine` works everywhere while skill selection/autoinvocation also sees the aliases.
+
 ## [3.1.0] - 2026-01-30
 
 ### ✨ Cursor Skills Support + CACE v2.5.0 Upgrade

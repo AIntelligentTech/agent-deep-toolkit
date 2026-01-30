@@ -176,13 +176,18 @@ generate_variants() {
     log_info "Processing $agent..."
     local variant_count=0
 
-    # Variants must be generated in the *command* surfaces for each agent.
-    # Cursor: `.cursor/commands/<name>.md`
-    # Windsurf: `.windsurf/workflows/<name>.md`
-    # OpenCode: directory format `.opencode/<name>/SKILL.md` (installer maps to `<name>.md`)
+    # Variants must be generated in the user-visible surfaces for each agent:
+    #
+    # - Claude: `.claude/skills/<name>/SKILL.md` (skill directories)
+    # - Cursor: `.cursor/skills/<name>/SKILL.md` + `.cursor/commands/<name>.md`
+    # - Windsurf: `.windsurf/skills/<name>/SKILL.md` + `.windsurf/workflows/<name>.md`
+    # - OpenCode: `.opencode/<name>/SKILL.md` directories (installer maps to `<name>.md`)
     if [ "$agent" = "windsurf" ]; then
-      local output_dir="$agent_dir/.windsurf/workflows"
-      if [ -d "$output_dir" ]; then
+      local workflows_dir="$agent_dir/.windsurf/workflows"
+      local skills_root="$agent_dir/.windsurf/skills"
+
+      # Workflows (.md)
+      if [ -d "$workflows_dir" ]; then
         while read -r md_file; do
           local skill_name
           skill_name=$(basename "$md_file" .md)
@@ -195,23 +200,56 @@ generate_variants() {
           synonyms=$(grep -E '^\s*synonyms:' "$source_skill" 2>/dev/null || echo "")
 
           for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
-            if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -f "$output_dir/${alias}.md" ]; then
-              cp "$md_file" "$output_dir/${alias}.md"
+            if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -f "$workflows_dir/${alias}.md" ]; then
+              cp "$md_file" "$workflows_dir/${alias}.md"
               ((variant_count++)) || true
             fi
           done
 
           for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
-            if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -f "$output_dir/${synonym}.md" ]; then
-              cp "$md_file" "$output_dir/${synonym}.md"
+            if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -f "$workflows_dir/${synonym}.md" ]; then
+              cp "$md_file" "$workflows_dir/${synonym}.md"
               ((variant_count++)) || true
             fi
           done
-        done < <(find "$output_dir" -maxdepth 1 -name "*.md" 2>/dev/null)
+        done < <(find "$workflows_dir" -maxdepth 1 -name "*.md" 2>/dev/null)
+      fi
+
+      # Skills (directories)
+      if [ -d "$skills_root" ]; then
+        while read -r skill_file; do
+          local skill_dir skill_name
+          skill_dir="$(dirname "$skill_file")"
+          skill_name="$(basename "$skill_dir")"
+
+          local source_skill="$skills_dir/$skill_name/SKILL.md"
+          [ -f "$source_skill" ] || continue
+
+          local aliases synonyms
+          aliases=$(grep -E '^\s*aliases:' "$source_skill" 2>/dev/null || echo "")
+          synonyms=$(grep -E '^\s*synonyms:' "$source_skill" 2>/dev/null || echo "")
+
+          for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+            if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -d "$skills_root/$alias" ]; then
+              cp -R "$skill_dir" "$skills_root/$alias"
+              ((variant_count++)) || true
+            fi
+          done
+
+          for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+            if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -d "$skills_root/$synonym" ]; then
+              cp -R "$skill_dir" "$skills_root/$synonym"
+              ((variant_count++)) || true
+            fi
+          done
+        done < <(find "$skills_root" -maxdepth 2 -name "SKILL.md" 2>/dev/null)
       fi
     elif [ "$agent" = "cursor" ]; then
-      local output_dir="$agent_dir/.cursor/commands"
-      if [ -d "$output_dir" ]; then
+      local commands_dir="$agent_dir/.cursor/commands"
+      local skills_root="$agent_dir/.cursor/skills"
+
+      # Commands (.md)
+      if [ -d "$commands_dir" ]; then
         while read -r md_file; do
           local skill_name
           skill_name=$(basename "$md_file" .md)
@@ -224,19 +262,49 @@ generate_variants() {
           synonyms=$(grep -E '^\s*synonyms:' "$source_skill" 2>/dev/null || echo "")
 
           for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
-            if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -f "$output_dir/${alias}.md" ]; then
-              cp "$md_file" "$output_dir/${alias}.md"
+            if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -f "$commands_dir/${alias}.md" ]; then
+              cp "$md_file" "$commands_dir/${alias}.md"
               ((variant_count++)) || true
             fi
           done
 
           for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
-            if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -f "$output_dir/${synonym}.md" ]; then
-              cp "$md_file" "$output_dir/${synonym}.md"
+            if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -f "$commands_dir/${synonym}.md" ]; then
+              cp "$md_file" "$commands_dir/${synonym}.md"
               ((variant_count++)) || true
             fi
           done
-        done < <(find "$output_dir" -maxdepth 1 -name "*.md" 2>/dev/null)
+        done < <(find "$commands_dir" -maxdepth 1 -name "*.md" 2>/dev/null)
+      fi
+
+      # Skills (directories)
+      if [ -d "$skills_root" ]; then
+        while read -r skill_file; do
+          local skill_dir skill_name
+          skill_dir="$(dirname "$skill_file")"
+          skill_name="$(basename "$skill_dir")"
+
+          local source_skill="$skills_dir/$skill_name/SKILL.md"
+          [ -f "$source_skill" ] || continue
+
+          local aliases synonyms
+          aliases=$(grep -E '^\s*aliases:' "$source_skill" 2>/dev/null || echo "")
+          synonyms=$(grep -E '^\s*synonyms:' "$source_skill" 2>/dev/null || echo "")
+
+          for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+            if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -d "$skills_root/$alias" ]; then
+              cp -R "$skill_dir" "$skills_root/$alias"
+              ((variant_count++)) || true
+            fi
+          done
+
+          for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+            if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -d "$skills_root/$synonym" ]; then
+              cp -R "$skill_dir" "$skills_root/$synonym"
+              ((variant_count++)) || true
+            fi
+          done
+        done < <(find "$skills_root" -maxdepth 2 -name "SKILL.md" 2>/dev/null)
       fi
     elif [ "$agent" = "opencode" ]; then
       local opencode_root="$agent_dir/.opencode"
@@ -267,6 +335,36 @@ generate_variants() {
             fi
           done
         done < <(find "$opencode_root" -maxdepth 2 -name "SKILL.md" 2>/dev/null)
+      fi
+    elif [ "$agent" = "claude" ]; then
+      local skills_root="$agent_dir/.claude/skills"
+      if [ -d "$skills_root" ]; then
+        while read -r skill_file; do
+          local skill_dir skill_name
+          skill_dir="$(dirname "$skill_file")"
+          skill_name="$(basename "$skill_dir")"
+
+          local source_skill="$skills_dir/$skill_name/SKILL.md"
+          [ -f "$source_skill" ] || continue
+
+          local aliases synonyms
+          aliases=$(grep -E '^\s*aliases:' "$source_skill" 2>/dev/null || echo "")
+          synonyms=$(grep -E '^\s*synonyms:' "$source_skill" 2>/dev/null || echo "")
+
+          for alias in $(echo "$aliases" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+            if [ -n "$alias" ] && [ "$alias" != "$skill_name" ] && [ ! -d "$skills_root/$alias" ]; then
+              cp -R "$skill_dir" "$skills_root/$alias"
+              ((variant_count++)) || true
+            fi
+          done
+
+          for synonym in $(echo "$synonyms" | grep -oP '"/[^"]+"' | tr -d '"' | tr -d '/'); do
+            if [ -n "$synonym" ] && [ "$synonym" != "$skill_name" ] && [ ! -d "$skills_root/$synonym" ]; then
+              cp -R "$skill_dir" "$skills_root/$synonym"
+              ((variant_count++)) || true
+            fi
+          done
+        done < <(find "$skills_root" -maxdepth 2 -name "SKILL.md" 2>/dev/null)
       fi
     fi
 
