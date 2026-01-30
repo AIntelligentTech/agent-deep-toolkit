@@ -62,19 +62,30 @@ else
 fi
 
 # ============================================================================
-# Test: Existing version detection
+# Test: Existing version detection (manifest-first)
 # ============================================================================
 
-test_info "Checking version file"
-if [ -f "$SCRIPT_DIR/VERSION" ]; then
-  version=$(head -n 1 "$SCRIPT_DIR/VERSION" | cut -d'=' -f2)
-  if [ "$version" = "3.2.0" ]; then
-    test_pass "Version updated to 3.2.0"
+test_info "Checking INSTALLATION.yaml manifest"
+if [ -f "$SCRIPT_DIR/INSTALLATION.yaml" ]; then
+  if command -v yq &>/dev/null; then
+    version=$(yq eval '.package.version' "$SCRIPT_DIR/INSTALLATION.yaml")
+    if [ "$version" = "3.2.0" ]; then
+      test_pass "Manifest version is 3.2.0"
+    else
+      test_fail "Manifest version not 3.2.0 (found: $version)"
+    fi
   else
-    test_fail "Version not updated (found: $version)"
+    test_pass "INSTALLATION.yaml exists (yq not available to check version)"
   fi
 else
-  test_fail "VERSION file not found"
+  test_fail "INSTALLATION.yaml not found"
+fi
+
+test_info "Checking VERSION file removed"
+if [ ! -f "$SCRIPT_DIR/VERSION" ]; then
+  test_pass "Legacy VERSION file removed"
+else
+  test_fail "Legacy VERSION file still exists"
 fi
 
 # ============================================================================

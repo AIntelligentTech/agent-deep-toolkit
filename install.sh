@@ -195,7 +195,7 @@ CLAUDE_SKILLS_DIR="$SCRIPT_DIR/outputs/claude/.claude/skills"
 CURSOR_COMMANDS_DIR="$SCRIPT_DIR/outputs/cursor/.cursor/commands"
 CURSOR_SKILLS_DIR="$SCRIPT_DIR/outputs/cursor/.cursor/skills"
 OPENCODE_COMMANDS_DIR="$SCRIPT_DIR/outputs/opencode/.opencode"
-TOOLKIT_VERSION="$(head -n 1 "$SCRIPT_DIR/VERSION" 2>/dev/null | cut -d'=' -f2 || echo "0.0.0")"
+TOOLKIT_VERSION="$(yq eval '.package.version' "$SCRIPT_DIR/INSTALLATION.yaml" 2>/dev/null || echo "0.0.0")"
 
 # ============================================================================
 # UI Functions
