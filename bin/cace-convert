@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
-CACE_VERSION="2.5.0"
+CACE_VERSION="2.5.1"
 CACE_DIR="/home/tony/business/tools/cross-agent-compatibility-engine"
 
 RED='\033[0;31m'
@@ -432,53 +432,6 @@ generate_variants() {
   done
 }
 
-strip_cace_provenance_comments_in_file() {
-  local file="$1"
-  [ -f "$file" ] || return 0
-
-  local tmp
-  tmp="$(mktemp)"
-
-  # Some agent loaders (notably Windsurf workflows) require YAML frontmatter
-  # to be the first meaningful content in the file. CACE currently prefixes
-  # conversion provenance HTML comments, which can break loading.
-  awk '
-    BEGIN { skipping = 1 }
-    skipping == 1 {
-      # Drop only at the start of file:
-      # - CACE provenance comments
-      # - leading blank lines
-      if ($0 ~ /^<!--[[:space:]]*Converted from /) next
-      if ($0 ~ /^<!--[[:space:]]*Original:[[:space:]]*/) next
-      if ($0 ~ /^[[:space:]]*$/) next
-      skipping = 0
-    }
-    { print }
-  ' "$file" > "$tmp"
-
-  mv "$tmp" "$file"
-}
-
-strip_cace_provenance_comments_in_outputs() {
-  local outputs_dir="$REPO_ROOT/outputs"
-  [ -d "$outputs_dir" ] || return 0
-
-  log_section "Post-processing outputs (strip provenance comments)"
-
-  local file_count=0
-  while IFS= read -r file; do
-    strip_cace_provenance_comments_in_file "$file"
-    ((file_count++)) || true
-  done < <(
-    find "$outputs_dir" \
-      -type f \
-      \( -name "SKILL.md" -o -name "*.md" \) \
-      2>/dev/null
-  )
-
-  log_info "Stripped provenance comments from $file_count files"
-}
-
 run_validation() {
   local outputs_dir="$REPO_ROOT/outputs"
   
@@ -627,9 +580,6 @@ main() {
   if [ "$SKIP_VARIANTS" = false ]; then
     generate_variants
   fi
-
-  # Ensure agent loaders don't choke on conversion provenance comments.
-  strip_cace_provenance_comments_in_outputs
   
   if [ "$SKIP_VALIDATION" = false ]; then
     run_validation

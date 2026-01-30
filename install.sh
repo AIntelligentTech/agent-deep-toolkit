@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-CACE_VERSION="2.5.0"
+CACE_VERSION="2.5.1"
 CACE_DIR="/home/tony/business/tools/cross-agent-compatibility-engine"
 
 RED='\033[0;31m'

@@ -37,6 +37,13 @@
 - **Strip CACE provenance HTML comments from generated outputs** so Windsurf workflow/tool loaders don’t choke on content before `---`.
 - Add regression test ensuring Windsurf `audit.md` starts with YAML frontmatter.
 
+## [3.1.5] - 2026-01-30
+
+### 🔧 Upgrade CACE + remove local workaround
+
+- **Upgrade CACE to v2.5.1** (upstream fix): provenance comments now render *after* YAML frontmatter for Claude + Windsurf.
+- **Remove local “strip provenance comments” post-processing** from `bin/cace-convert` so traceability comments are preserved without breaking loaders.
+
 ## [3.1.0] - 2026-01-30
 
 ### ✨ Cursor Skills Support + CACE v2.5.0 Upgrade
