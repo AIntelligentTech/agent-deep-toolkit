@@ -4,10 +4,55 @@ set -euo pipefail
 SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-WINDSURF_WORKFLOWS_DIR="$SCRIPT_DIR/outputs/windsurf/workflows"
-CLAUDE_SKILLS_DIR="$SCRIPT_DIR/outputs/claude/skills"
-CURSOR_COMMANDS_DIR="$SCRIPT_DIR/outputs/cursor/commands"
-OPENCODE_COMMANDS_DIR="$SCRIPT_DIR/outputs/opencode/commands"
+CACE_VERSION="2.3.0"
+CACE_DIR="/home/tony/business/tools/cross-agent-compatibility-engine"
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+log_info() { echo -e "${BLUE}[info]${NC} $*"; }
+log_warn() { echo -e "${YELLOW}[warn]${NC} $*"; }
+log_error() { echo -e "${RED}[error]${NC} $*" >&2; }
+
+check_cace_prerequisites() {
+  log_info "Checking CACE prerequisites..."
+  
+  if ! command -v node &> /dev/null; then
+    log_error "Node.js is required for CACE-based conversion"
+    return 1
+  fi
+  
+  local node_version
+  node_version=$(node --version 2>/dev/null | cut -d'v' -f2 | cut -d'.' -f1)
+  if [ -z "$node_version" ] || [ "$node_version" -lt 18 ]; then
+    log_error "Node.js >= 18.0.0 required. Found: $(node --version 2>/dev/null || echo 'not installed')"
+    return 1
+  fi
+  
+  if [ -f "$CACE_DIR/dist/cli/index.js" ]; then
+    log_success "CACE available: $CACE_DIR"
+    return 0
+  fi
+  
+  log_warn "Local CACE not found at $CACE_DIR"
+  log_info "Using CACE from: $(command -v cace 2>/dev/null || echo 'not installed')"
+  
+  if ! command -v cace &> /dev/null; then
+    log_warn "CACE not found. Install with: npm install -g cace-cli"
+    log_info "Falling back to Python-based build (bin/build-all-agents)"
+  fi
+  
+  return 0
+}
+
+WINDSURF_WORKFLOWS_DIR="$SCRIPT_DIR/outputs/windsurf/.windsurf/workflows"
+WINDSURF_SKILLS_DIR="$SCRIPT_DIR/outputs/windsurf/.windsurf/skills"
+CLAUDE_SKILLS_DIR="$SCRIPT_DIR/outputs/claude/.claude/skills"
+CURSOR_COMMANDS_DIR="$SCRIPT_DIR/outputs/cursor/.cursor/commands"
+OPENCODE_COMMANDS_DIR="$SCRIPT_DIR/outputs/opencode/.opencode/commands"
 TOOLKIT_VERSION="$(cat "$SCRIPT_DIR/VERSION" 2>/dev/null || echo "0.0.0")"
 
 usage() {
@@ -208,6 +253,46 @@ copy_windsurf_workflows() {
   done
 }
 
+copy_windsurf_skills() {
+  local dest_root="$1"
+
+  if [ ! -d "$WINDSURF_SKILLS_DIR" ]; then
+    echo "[warn] Windsurf skills directory not found: $WINDSURF_SKILLS_DIR" >&2
+    echo "[info] This is expected if using single-output strategy (no dual-output)"
+    return 0
+  fi
+
+  if [ "${DRY_RUN:-false}" = true ]; then
+    echo "[dry-run] would ensure directory exists: $dest_root"
+  else
+    mkdir -p "$dest_root"
+  fi
+
+  shopt -s nullglob
+  local skills=("$WINDSURF_SKILLS_DIR"/*)
+  if [ "${#skills[@]}" -eq 0 ]; then
+    echo "[warn] no skills found in $WINDSURF_SKILLS_DIR" >&2
+    return 0
+  fi
+
+  for skill_dir in "${skills[@]}"; do
+    if [ ! -d "$skill_dir" ]; then
+      continue
+    fi
+    local name
+    name="$(basename "$skill_dir")"
+    local dest_skill_dir="$dest_root/$name"
+    if [ "${DRY_RUN:-false}" = true ]; then
+      echo "[dry-run] would ensure directory exists: $dest_skill_dir"
+      echo "[dry-run] would install Windsurf skill $name -> $dest_skill_dir"
+    else
+      mkdir -p "$dest_skill_dir"
+      cp -R "$skill_dir"/. "$dest_skill_dir"/
+      echo "[ok] installed Windsurf skill $name -> $dest_skill_dir"
+    fi
+  done
+}
+
 copy_claude_skills() {
   local dest_root="$1"
 
@@ -330,6 +415,11 @@ install_windsurf_to() {
   fi
 
   copy_windsurf_workflows "$dest"
+  
+  # Also install Windsurf skills for dual-output parity (auto-invocation support)
+  local skills_dest="$dest/.windsurf/skills"
+  copy_windsurf_skills "$skills_dest"
+  
   if [ "${DRY_RUN:-false}" = true ]; then
     echo "[dry-run] would record toolkit version $TOOLKIT_VERSION in $version_file"
   else

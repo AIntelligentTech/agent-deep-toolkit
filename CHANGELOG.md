@@ -1,5 +1,70 @@
 # Changelog
 
+## [3.0.0] - 2026-01-30
+
+### 🎉 Major Release - CACE Build System Integration
+
+This release integrates the Cross-Agent Compatibility Engine (CACE) as the build system, enabling dual-output strategy for Windsurf to preserve Claude skill behavior.
+
+### ✨ New Features
+
+#### CACE Build System
+- **Replaced Python-based build** with CACE CLI integration
+- **Local CACE dependency** at `/home/tony/business/tools/cross-agent-compatibility-engine`
+- **Automatic version detection** and fallback mechanisms
+- **Comprehensive health validation** for all converted outputs
+
+#### Dual-Output Strategy for Windsurf
+Claude skills can be both auto-invoked AND manually invoked via `/command`. Windsurf enforces a bifurcated model:
+- **Skills**: Auto-invoked, NO `/command` access
+- **Workflows**: Manual `/command`, NO auto-invocation
+
+**Solution:** Generate BOTH artifacts:
+```
+.windsurf/workflows/<skill>.md   # Manual /command invocation
+.windsurf/skills/<skill>/SKILL.md  # Auto-invocation parity
+```
+
+#### Updated Output Structure
+| Agent | Output Format | Path |
+|-------|--------------|------|
+| Claude | Skills | `.claude/skills/<name>/SKILL.md` |
+| Windsurf | Workflows + Skills | `.windsurf/workflows/<name>.md` + `.windsurf/skills/<name>/SKILL.md` |
+| Cursor | Commands | `.cursor/commands/<name>/` |
+| OpenCode | Commands | `.opencode/<name>/` |
+
+### 🔧 Changes
+
+#### bin/cace-convert
+- New build script using local CACE
+- Automatic dual-output strategy for Windsurf
+- Variant generation for aliases/synonyms
+- Health validation post-conversion
+
+#### install.sh
+- Updated directory paths for new output structure
+- Added `copy_windsurf_skills()` for dual-output installation
+- Supports both workflows and skills for Windsurf
+
+#### docs/CACE_MIGRATION_ARCHITECTURE.md
+- Complete architecture documentation for CACE integration
+- Dual-output strategy documentation
+- Agent compatibility matrix
+
+### 📊 Statistics
+
+- **Skills:** 46 canonical skills
+- **Agents:** 4 supported (Claude, Windsurf, Cursor, OpenCode)
+- **Health:** 100% across all agents
+- **Variants:** Auto-generated aliases/synonyms per agent
+
+### ⚠️ Breaking Changes
+
+- **Output structure changed:** All agents now use nested directory structure (e.g., `.claude/skills/<name>/SKILL.md` instead of `.claude/skills/<name>.md`)
+- **Windsurf now produces dual outputs:** Both workflows and skills are installed
+
+---
+
 ## [2.0.0] - 2025-05-15
 
 ### Added
