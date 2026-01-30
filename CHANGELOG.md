@@ -44,6 +44,14 @@
 - **Upgrade CACE to v2.5.1** (upstream fix): provenance comments now render *after* YAML frontmatter for Claude + Windsurf.
 - **Remove local “strip provenance comments” post-processing** from `bin/cace-convert` so traceability comments are preserved without breaking loaders.
 
+## [3.1.6] - 2026-01-30
+
+### 🛠️ Fix Windsurf skill install paths + ensure variants are built
+
+- **Fix Windsurf skills install destination**: install skills as a sibling of workflows (e.g. `~/.windsurf/skills`) instead of nesting under the workflows directory.
+- **Installer now generates `outputs/` when missing/incomplete** by running `./bin/cace-convert`, so alias/variant tools like `/understand` are available after install.
+- **Windsurf uninstall also removes installed skills** from the computed skills directory.
+
 ## [3.1.0] - 2026-01-30
 
 ### ✨ Cursor Skills Support + CACE v2.5.0 Upgrade
