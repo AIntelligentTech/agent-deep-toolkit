@@ -1,5 +1,45 @@
 # Changelog
 
+## [3.3.0] - 2026-01-31
+
+### ✨ Added
+
+- **`/integrate`** - New skill for holistic integration planning with systematic impact analysis and edge case evaluation
+  - 8-section workflow covering integration scope, surface mapping, compatibility requirements, and validation strategy
+  - Bridges the gap between `/decide` (choice) and `/propagate` (execution)
+  - Focuses on how changes fit cleanly into existing systems
+
+- **`/loop`** - New skill implementing Ralph Wiggum autonomous loop pattern for self-directed execution until completion
+  - 9-section workflow with prompt-based re-assessment (no hard hooks)
+  - Autonomous tool creation and problem resolution capabilities
+  - Safety mechanisms: 50-iteration limit, checkpoints, progress tracking
+  - Explicit completion criteria defined upfront
+  - Different from `/iterate`: Fully autonomous vs manual progression
+
+### 🔄 Changed
+
+- **`/iterate`** - Redesigned with emphasis on verification strategies and committable iterations
+  - **Breaking**: Removed `/loop` alias (now standalone skill)
+  - Added new aliases: `/chunk`, `/breakdown`, `/increment`
+  - New 9-section workflow focusing on programmatic and visual verification
+  - Explicit git-friendly atomic commit guidance
+  - Verification strategy classification (programmatic, visual, manual, contract, performance, security)
+  - Learning capture and plan adaptation sections
+
+- **`/relentless`** - Enhanced with specific effort amplification patterns
+  - Added quantified multipliers: 3-5x search depth, 3+ alternatives, 10+ edge cases
+  - Expanded operating principles with concrete examples
+  - Clarified when to use (high-stakes, high-risk, complex) vs when NOT to use (exploratory, time-sensitive, trivial)
+  - Added explicit thinking framework integration (first principles, pre-mortem, etc.)
+  - Quantified multipliers summary table
+
+### ⚠️ Breaking Changes
+
+- **`/loop` is no longer an alias for `/iterate`** - It is now a standalone autonomous execution skill
+  - Users invoking `/loop` expecting `/iterate` behavior should use `/iterate` or `/cycle` instead
+  - `/loop` now provides autonomous execution until completion with self-assessment
+  - Migration: Replace `/loop` with `/iterate` in existing workflows if manual progression is desired
+
 ## [3.2.1] - 2026-01-31
 
 ### 🔧 Dependency Updates
