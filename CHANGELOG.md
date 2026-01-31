@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.1] - 2026-01-31
+
+### 🔧 Dependency Updates
+
+- **Updated CACE dependency to >=2.5.5**: Ensures compatibility with latest CACE version that removes conversion header comments by default
+  - Fixes issues with strict parsers that reject comments between frontmatter and body
+  - Cleaner output files that match native agent formats
+
 ## [3.2.0] - 2026-01-30
 
 ### ✨ Interactive Installation Wizard

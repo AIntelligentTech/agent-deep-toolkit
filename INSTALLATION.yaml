@@ -1,24 +1,20 @@
 manifest_version: 2.0.0
 package:
   name: agent-deep-toolkit
-  version: 3.2.0
+  version: 3.2.1
   type: shell
   description: "Cross-agent skill toolkit with deep-work capabilities for Claude, Windsurf, Cursor, and OpenCode"
-
   runtime:
     node_version: ">=18.0.0"
     package_manager: bun
     package_manager_version: ">=1.0.0"
-
   repository:
     type: git
     url: "https://github.com/AIntelligentTech/agent-deep-toolkit"
     directory: "."
-
 release:
   script: release.sh
   changelog: CHANGELOG.md
-
 installation:
   pre_install:
     - name: "Verify Node.js version"
@@ -27,83 +23,68 @@ installation:
       validation:
         type: semver
         constraint: ">=18.0.0"
-
     - name: "Verify CACE CLI"
       type: command
       command: "cace --version"
       validation:
         type: semver
-        constraint: ">=2.5.1"
+        constraint: ">=2.5.5"
       optional: true
-
   install:
     - name: "Build outputs for all agents"
       type: command
       command: "./bin/build-all-agents"
       description: "Convert CACE skills to agent-specific formats"
-
     - name: "Install to selected agents"
       type: command
       command: "./install.sh --agent all --level user"
       description: "Install skills to all detected agents"
-
 configuration:
   optional:
     - name: AGENT
       description: "Target agent (windsurf, claude, cursor, opencode, all)"
       type: string
       default: "all"
-
     - name: LEVEL
       description: "Installation level (user, system)"
       type: string
       default: "user"
-
 dependencies:
   runtime:
     - name: cross-agent-compatibility-engine
-      version: ">=2.5.1"
+      version: ">=2.5.5"
       type: cli
       description: "CACE skill conversion engine"
-
   development: []
-
 testing:
   unit:
     - name: "Run wizard tests"
       command: "bash tests/test-wizard.sh"
       description: "Test installation wizard and CLI"
-
     - name: "Run CACE conversion tests"
       command: "bash tests/test-cace-conversion.sh"
       description: "Test skill conversion for all agents"
-
 health_checks:
   - name: "Build outputs exist"
     type: command
     command: "test -d outputs/claude && test -d outputs/windsurf && test -d outputs/cursor"
     interval: manual
-
   - name: "VERSION consistency"
     type: command
     command: "yq eval '.package.version' INSTALLATION.yaml"
     interval: manual
-
 metadata:
   maintainers:
     - name: "Tony Deverill"
       email: "tony.deverill@aintelligenttech.com"
       github: "tonydeverill"
-
   tags:
     - agent-skills
     - deep-work
     - cross-agent
     - productivity
-
   documentation:
     - url: "https://github.com/AIntelligentTech/agent-deep-toolkit/blob/main/README.md"
       type: readme
-
   changelog_url: "https://github.com/AIntelligentTech/agent-deep-toolkit/blob/main/CHANGELOG.md"
   license: MIT
