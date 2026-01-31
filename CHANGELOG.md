@@ -1,5 +1,29 @@
 # Changelog
 
+## [3.4.0] - 2026-01-31
+
+### ✨ Added
+
+- **`/prune`** - New skill for aggressive dead code and legacy removal
+  - Systematic detection of orphaned files, unused exports, dead functions, deprecated code, redundant implementations, orphaned tests/docs/config
+  - Impact analysis before deletion with dependency chain tracking
+  - Explicitly overrides AI agent deletion resistance (no renaming to `_unused`, no `// deprecated` comments, no `legacy/` folders)
+  - Language-specific detection patterns (TypeScript, Python, Go)
+  - Aliases: `/purge`, `/cleanup`, `/sweep`
+  - Integrates with `/impact` for change assessment
+
+### 🔄 Changed
+
+- **`/refactor`** - Removed `/prune` and `/cleanup` aliases (now standalone `/prune` skill)
+  - Updated aliases to: `/restructure`, `/reorganize`
+  - `/refactor` focuses on design improvement; `/prune` focuses on aggressive deletion
+
+### ⚠️ Breaking Changes
+
+- **`/prune` and `/cleanup` no longer invoke `/refactor`** — They now invoke the dedicated `/prune` skill
+  - `/prune` is now aggressive deletion-focused (vs `/refactor` which is design-improvement focused)
+  - Users who relied on `/prune` as a gentle refactor should use `/refactor` or `/restructure` instead
+
 ## [3.3.0] - 2026-01-31
 
 ### ✨ Added

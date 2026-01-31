@@ -1,9 +1,9 @@
 ---
 name: refactor
-description: Plan and execute safe, incremental refactors to improve design and maintainability, including pruning dead code
+description: Plan and execute safe, incremental refactors to improve design and maintainability
 command: /refactor
-aliases: ["/prune", "/cleanup", "/restructure"]
-synonyms: ["/refactoring", "/refactored", "/refactors", "/pruning", "/pruned", "/cleanup", "/restructuring", "/restructured", "/reorganizing", "/reorganized", "/reorganize"]
+aliases: ["/restructure", "/reorganize"]
+synonyms: ["/refactoring", "/refactored", "/refactors", "/restructuring", "/restructured", "/reorganizing", "/reorganized"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

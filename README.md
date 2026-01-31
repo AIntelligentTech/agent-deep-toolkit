@@ -17,7 +17,7 @@ Claude Code, or Cursor tooling separately.
 
 ## Workflow Suite (v2.0)
 
-The toolkit provides **47 specialized workflows** organized into 7 categories:
+The toolkit provides **48 specialized workflows** organized into 7 categories:
 
 ### 🧠 Core Reasoning (5)
 
@@ -43,20 +43,21 @@ The toolkit provides **47 specialized workflows** organized into 7 categories:
 | `/onboard`   | `/onboarding`, `/getting-started`            | Developer onboarding materials                  |
 | `/api`       | `/api-design`, `/endpoint`                   | API design, contracts, versioning               |
 
-### 💻 Implementation (10)
+### 💻 Implementation (11)
 
-| Command       | Aliases                              | Purpose                                 |
-| ------------- | ------------------------------------ | --------------------------------------- |
-| `/code`       | `/implement`, `/build`, `/develop`   | High-quality code implementation        |
-| `/debug`      | `/fix`, `/troubleshoot`, `/diagnose` | Systematic debugging                    |
-| `/refactor`   | `/prune`, `/cleanup`, `/restructure` | Safe refactoring and dead code removal  |
-| `/test`       | `/verify`, `/validate`, `/check`     | Test strategy and implementation        |
-| `/optimize`   | `/perf`, `/performance`, `/speedup`  | Performance improvement                 |
-| `/polish`     | -                                    | Final refinement to world-class quality |
-| `/review`     | `/code-review`, `/cr`                | Structured code review                  |
-| `/dependency` | `/deps`, `/dependencies`             | Dependency management and security      |
-| `/benchmark`  | `/perf-test`, `/measure`             | Performance benchmarking                |
-| `/simplify`   | `/reduce-complexity`, `/declutter`   | Complexity reduction                    |
+| Command       | Aliases                                | Purpose                                          |
+| ------------- | -------------------------------------- | ------------------------------------------------ |
+| `/code`       | `/implement`, `/build`, `/develop`     | High-quality code implementation                 |
+| `/debug`      | `/fix`, `/troubleshoot`, `/diagnose`   | Systematic debugging                             |
+| `/refactor`   | `/restructure`, `/reorganize`          | Safe refactoring and design improvement          |
+| `/prune`      | `/purge`, `/cleanup`, `/sweep`         | Aggressive dead code and legacy removal          |
+| `/test`       | `/verify`, `/validate`, `/check`       | Test strategy and implementation                 |
+| `/optimize`   | `/perf`, `/performance`, `/speedup`    | Performance improvement                          |
+| `/polish`     | -                                      | Final refinement to world-class quality          |
+| `/review`     | `/code-review`, `/cr`                  | Structured code review                           |
+| `/dependency` | `/deps`, `/dependencies`               | Dependency management and security               |
+| `/benchmark`  | `/perf-test`, `/measure`               | Performance benchmarking                         |
+| `/simplify`   | `/reduce-complexity`, `/declutter`     | Complexity reduction                             |
 
 ### ⚙️ Operations (9)
 
