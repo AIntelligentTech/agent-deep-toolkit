@@ -17,7 +17,7 @@ Claude Code, or Cursor tooling separately.
 
 ## Workflow Suite (v2.0)
 
-The toolkit provides **45 specialized workflows** organized into 7 categories:
+The toolkit provides **47 specialized workflows** organized into 7 categories:
 
 ### 🧠 Core Reasoning (5)
 
@@ -79,26 +79,28 @@ The toolkit provides **45 specialized workflows** organized into 7 categories:
 | `/compliance` | `/ethics`, `/regulation`, `/legal` | Ethics + regulatory alignment |
 | `/threat`     | `/threat-model`, `/security`       | Security threat modeling      |
 
-### 🔄 Change Management (5)
+### 🔄 Change Management (6)
 
 | Command       | Aliases                              | Purpose                         |
 | ------------- | ------------------------------------ | ------------------------------- |
+| `/integrate`  | `/integration`, `/integrate-plan`    | Holistic integration planning   |
 | `/impact`     | -                                    | Change impact analysis          |
 | `/propagate`  | -                                    | Safe change rollout             |
 | `/brainstorm` | `/ideas`, `/alternatives`, `/ideate` | Idea generation and evaluation  |
 | `/followup`   | `/next`, `/nextsteps`                | Next steps planning             |
 | `/experiment` | `/test-hypothesis`, `/ab-test`       | Experiment design and execution |
 
-### 🔧 Meta (5)
+### 🔧 Meta (7)
 
-| Command       | Aliases                                  | Purpose                                        |
-| ------------- | ---------------------------------------- | ---------------------------------------------- |
-| `/iterate`    | `/loop`, `/cycle`                        | Iterative development (AID methodology)        |
-| `/relentless` | `/try-hard`, `/dont-stop`, `/ultrathink` | Multiply effort and depth for high-stakes work |
-| `/index`      | `/help`, `/workflows`, `/skills`         | Navigator for all workflows                    |
-| `/audit`      | -                                        | Comprehensive system review                    |
-| `/plan`       | `/roadmap`, `/schedule`                  | Implementation planning                        |
-| `/estimate`   | `/scope`, `/sizing`                      | Effort estimation                              |
+| Command       | Aliases                                       | Purpose                                        |
+| ------------- | --------------------------------------------- | ---------------------------------------------- |
+| `/loop`       | `/ralph-loop`, `/autonomous`, `/self-directed`| Autonomous execution until completion          |
+| `/iterate`    | `/cycle`, `/increment`, `/chunk`              | Break tasks into verifiable iterations         |
+| `/relentless` | `/try-hard`, `/dont-stop`, `/ultrathink`      | Multiply effort and depth for high-stakes work |
+| `/index`      | `/help`, `/workflows`, `/skills`              | Navigator for all workflows                    |
+| `/audit`      | -                                             | Comprehensive system review                    |
+| `/plan`       | `/roadmap`, `/schedule`                       | Implementation planning                        |
+| `/estimate`   | `/scope`, `/sizing`                           | Effort estimation                              |
 
 ## Repository layout
 
