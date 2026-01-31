@@ -4,8 +4,8 @@ set -euo pipefail
 SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
-CACE_VERSION="2.5.1"
-CACE_DIR="/home/tony/business/tools/cross-agent-compatibility-engine"
+CACE_VERSION="2.5.4"
+CACE_DIR="/Users/tonydeverill/businesses/repositories/cross-agent-compatibility-engine"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -25,10 +25,10 @@ usage() {
 Usage: $SCRIPT_NAME [--agents <agents>] [--skip-variants] [--skip-validation] [--health-check] [--force-cace-install] [--dry-run]
 
 Agents (comma-separated, or 'all' for toolkit-supported agents):
-  claude,windsurf,cursor,opencode
+  claude,windsurf,cursor,opencode,gemini
 
 Options:
-  --agents <agents>       Agent list (default: claude,windsurf,cursor,opencode)
+  --agents <agents>       Agent list (default: claude,windsurf,cursor,opencode,gemini)
   --skip-variants         Skip alias/synonym variant generation
   --skip-validation       Skip CACE validation after conversion
   --health-check          Run health check and exit
@@ -36,7 +36,7 @@ Options:
   --dry-run               Preview without making changes
 
 Examples:
-  $SCRIPT_NAME --agents claude,windsurf,cursor,opencode
+  $SCRIPT_NAME --agents claude,windsurf,cursor,opencode,gemini
   $SCRIPT_NAME --agents all --health-check
   $SCRIPT_NAME --skip-validation
 USAGE
@@ -61,7 +61,12 @@ check_cace_installation() {
   log_info "Local CACE not found. Attempting npm install..."
   
   if command -v npm &> /dev/null; then
-    npm install -g "cace-cli@$CACE_VERSION" 2>/dev/null || {
+    # Configure GitHub Packages registry for @AIntelligentTech scope
+    npm config get @AIntelligentTech:registry &>/dev/null || {
+      log_info "Configuring GitHub Packages registry..."
+      npm config set @AIntelligentTech:registry https://npm.pkg.github.com
+    }
+    npm install -g "@AIntelligentTech/cace-cli@$CACE_VERSION" 2>/dev/null || {
       log_warn "npm install failed"
     }
   fi
@@ -86,7 +91,12 @@ install_cace() {
   log_info "Installing CACE v$CACE_VERSION via npm..."
   
   if command -v npm &> /dev/null; then
-    npm install -g "cace-cli@$CACE_VERSION" 2>/dev/null || {
+    # Configure GitHub Packages registry for @AIntelligentTech scope
+    npm config get @AIntelligentTech:registry &>/dev/null || {
+      log_info "Configuring GitHub Packages registry..."
+      npm config set @AIntelligentTech:registry https://npm.pkg.github.com
+    }
+    npm install -g "@AIntelligentTech/cace-cli@$CACE_VERSION" 2>/dev/null || {
       log_warn "npm install failed"
     }
   fi
@@ -510,7 +520,7 @@ run_health_check() {
 }
 
 main() {
-  AGENTS="claude,windsurf,cursor,opencode"
+  AGENTS="claude,windsurf,cursor,opencode,gemini"
   SKIP_VARIANTS=false
   SKIP_VALIDATION=false
   HEALTH_CHECK=false
@@ -557,7 +567,7 @@ main() {
 
   # Expand "all" to the agent set this toolkit ships/installs.
   if [ "$AGENTS" = "all" ]; then
-    AGENTS="claude,windsurf,cursor,opencode"
+    AGENTS="claude,windsurf,cursor,opencode,gemini"
   fi
   
   log_section "Agent Deep Toolkit v3.0.0 - CACE Build System"
