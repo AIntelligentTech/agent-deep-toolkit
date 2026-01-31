@@ -1,7 +1,7 @@
 manifest_version: 2.0.0
 package:
   name: agent-deep-toolkit
-  version: 3.2.1
+  version: 3.2.2
   type: shell
   description: "Cross-agent skill toolkit with deep-work capabilities for Claude, Windsurf, Cursor, and OpenCode"
   runtime:
@@ -64,6 +64,7 @@ testing:
     - name: "Run CACE conversion tests"
       command: "bash tests/test-cace-conversion.sh"
       description: "Test skill conversion for all agents"
+      test_fail "Manifest version not 3.2.2 (found: $version)"
 health_checks:
   - name: "Build outputs exist"
     type: command

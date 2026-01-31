@@ -69,10 +69,10 @@ test_info "Checking INSTALLATION.yaml manifest"
 if [ -f "$SCRIPT_DIR/INSTALLATION.yaml" ]; then
   if command -v yq &>/dev/null; then
     version=$(yq eval '.package.version' "$SCRIPT_DIR/INSTALLATION.yaml")
-    if [ "$version" = "3.2.1" ]; then
-      test_pass "Manifest version is 3.2.1"
+    if [ "$version" = "3.2.2" ]; then
+      test_pass "Manifest version is 3.2.2"
     else
-      test_fail "Manifest version not 3.2.1 (found: $version)"
+      test_fail "Manifest version not 3.2.2 (found: $version)"
     fi
   else
     test_pass "INSTALLATION.yaml exists (yq not available to check version)"
