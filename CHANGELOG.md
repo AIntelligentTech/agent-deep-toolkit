@@ -1,5 +1,30 @@
 # Changelog
 
+## [3.5.0] - 2026-02-01
+
+### ✨ Added
+
+- **British English spelling variants** across all applicable skills
+  - `/analyse`, `/analysing`, `/analysed` (think)
+  - `/optimise`, `/optimising`, `/optimised` (optimize)
+  - `/reorganise`, `/reorganising`, `/reorganised` (refactor)
+  - `/harmonise`, `/harmonising`, `/harmonised` (integrate)
+  - `/modelling` (architect, data)
+  - `/containerise`, `/containerising` (infra)
+  - `/cataloguing` (inventory)
+  - `/hypothesising` (experiment)
+  - `/threat-modelling` (threat)
+  - `/tokenising` (tokens)
+
+- **Missing tense/plural/adverb synonyms** added to 22 previously uncovered skills:
+  audit, benchmark, brainstorm, compliance, data, dependency, deploy, estimate,
+  experiment, followup, git, impact, infra, inventory, investigate, migrate,
+  onboard, propagate, relentless, svg, threat, tokens, index
+
+### 🔄 Changed
+
+- All 50 skills now have synonyms coverage for natural-language activation
+
 ## [3.4.0] - 2026-01-31
 
 ### ✨ Added
