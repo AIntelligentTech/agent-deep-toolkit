@@ -7,11 +7,32 @@ synonyms: ["/relentlessly", "/trying-hard", "/ultrathinking", "/deep-effort"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: skill
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # Relentless Mode - Effort and Depth Multiplier
 
-Apply maximum effort and depth to any task. Use when thoroughness, correctness, and completeness matter more than speed.
+<scope_constraints>
+Apply maximum effort and depth to any task. Multiplies research depth (3-5x sources), approach exploration (3+ alternatives), edge case testing (10+ cases), and verification methods (programmatic + visual + manual). Works as a prefix to any other skill.
+</scope_constraints>
+
+<context>
+Relentless mode is for high-stakes work where thoroughness matters more than speed. It overrides time-efficiency heuristics and commits to finding the best solution, not the first solution. Applies explicit thinking frameworks, explores alternatives comprehensively, and verifies rigorously across multiple dimensions.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Base task: Any skill or work (prefixed with `/relentless`)
+- Acceptance criteria: What constitutes "truly done"
+- Risk level: High-stakes (production-critical, security-sensitive, high-risk integration)?
+- Uncertainty: How uncertain are you about the best approach?
+
+## Overview
 
 ## What Relentless Mode Does
 
@@ -21,7 +42,7 @@ Apply maximum effort and depth to any task. Use when thoroughness, correctness, 
 
 **Works with any skill:** Prefix any skill with `/relentless` to amplify it
 
-## Core Amplification Patterns
+## Core Amplification Patterns (Relentless Methodology)
 
 ### 1. Search Depth (3-5x more sources)
 
@@ -213,38 +234,17 @@ Relentless:
 
 **Keep going** until the user's request is fully satisfied and verified.
 
-**Explore more options** before committing to an approach.
-- Generate 3+ alternatives
-- Evaluate pros/cons
-- Prototype when uncertain
+**Explore more options** before committing to an approach: 3+ alternatives, pros/cons, prototype when uncertain.
 
-**Go deeper on edge cases** (failure modes, weird inputs, compatibility).
-- Test 10+ corner cases
-- Boundary conditions
-- Error conditions
-- Concurrent access
-- Resource exhaustion
+**Go deeper on edge cases**: Test 10+ corner cases, boundary conditions, error conditions, concurrent access, resource exhaustion.
 
-**Try multiple approaches before selecting** (when there are plausible alternatives).
-- Implement 2 approaches if uncertain which is better
-- Measure and compare
-- Select based on evidence
+**Try multiple approaches before selecting**: Implement 2 approaches if uncertain, measure and compare, select based on evidence.
 
-**Increase validation rigor** (more checks/tests, tighter sanity checks).
-- Multiple verification methods (programmatic + visual + manual)
-- Test on multiple environments
-- Verify backwards compatibility
+**Increase validation rigor**: Multiple verification methods (programmatic + visual + manual), test on multiple environments.
 
-**Document more thoroughly** (what changed, why, how it was verified).
-- Explain reasoning for approach chosen
-- Document alternatives considered
-- Record verification results
-- Capture learnings for future
+**Document more thoroughly**: Reasoning, alternatives considered, verification results, learnings for future.
 
-**Avoid premature stopping**: don't end while uncertainty remains.
-- If unsure → investigate further
-- If verification incomplete → complete it
-- If edge cases untested → test them
+**Avoid premature stopping**: Don't end while uncertainty remains. If unsure → investigate. If verification incomplete → complete it.
 
 ## How to Apply Relentless Mode
 
@@ -259,14 +259,14 @@ Relentless:
 /relentless /iterate [complex multi-step task]
 ```
 
-**Follow the base skill workflow, but with amplification:**
+**Follow the base skill workflow, with amplification at every stage:**
 
-1. **Clarify** the end goal and acceptance criteria (spend 2-3x longer)
-2. **Plan** the approach (evaluate 3+ alternatives)
-3. **Execute** with high-quality discipline (test 10+ edge cases)
+1. **Clarify** end goal and acceptance criteria (spend 2-3x longer understanding)
+2. **Plan** approach (evaluate 3+ alternatives before committing)
+3. **Execute** with high-quality discipline (test 10+ edge cases, not just happy path)
 4. **Validate** with multiple verification methods (programmatic + visual + manual)
-5. **Document** thoroughly (reasoning, alternatives, verification)
-6. **Repeat** until truly complete (no uncertainty remains)
+5. **Document** thoroughly (reasoning, alternatives, verification results)
+6. **Repeat** until truly complete (no uncertainty remains, all verification passes)
 
 ## When to Use
 
@@ -455,17 +455,27 @@ Relentless:
 | **Time per phase** | Baseline | 2-3x baseline | 2-3x |
 | **Thinking frameworks** | Intuitive | Explicit (first principles, pre-mortem, etc.) | Deep |
 
-## Tips
+## Error Handling
 
-✅ **Use for high-stakes work** (production-critical, security-sensitive)
-✅ **Evaluate 3+ approaches** before selecting
-✅ **Test 10+ edge cases** (boundaries, errors, concurrency)
-✅ **Apply multiple verification methods** (programmatic + visual + manual)
-✅ **Invest 2-3x time per phase** (research, implement, test)
-✅ **Apply explicit thinking frameworks** from `/think`
-✅ **Document thoroughly** (reasoning, alternatives, verification)
-✅ **Don't use for trivial tasks** (overkill on typo fixes)
-✅ **Don't use when time-constrained** (hotfixes, urgent work)
+- **Uncertainty remains after first pass:** Continue investigation, test more edge cases, try additional approaches
+- **Multiple approaches tie in evaluation:** Prototype both, measure in realistic conditions, choose based on data
+- **Verification incomplete:** Don't declare done until all verification methods pass (programmatic + visual + manual)
+- **Alternatives discovered late:** Document all options, re-evaluate if better alternative exists
+
+</instructions>
+
+<output_format>
+
+Provide comprehensive documentation of the relentless effort as the output:
+
+1. **Clarification Summary**: End goal, acceptance criteria, risk level, uncertainties
+2. **Approaches Explored**: 3+ alternatives with pros/cons and estimated impact
+3. **Edge Cases Tested**: 10+ corner cases (boundaries, errors, concurrency, compatibility)
+4. **Verification Results**: Programmatic tests, visual verification, manual validation
+5. **Decision Rationale**: Why selected approach was chosen over alternatives, evidence-based
+6. **Thorough Documentation**: Reasoning, alternatives considered, verification, learnings
+
+</output_format>
 
 ---
 

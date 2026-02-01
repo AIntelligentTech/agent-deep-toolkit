@@ -7,13 +7,34 @@ synonyms: ["/reviewing", "/reviewed", "/reviews", "/critique"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: code-quality
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # Review Workflow
 
 This workflow instructs Cascade to perform thorough, constructive code reviews that improve code quality and share knowledge.
 
-## 1. Understand the Context
+<scope_constraints>
+Review scope: Pull requests, code changes, architecture fit, and implementation quality. Not applicable to design reviews, product decisions, or business logic.
+</scope_constraints>
+
+<context>
+Code review is a foundational practice for quality, knowledge sharing, and risk mitigation. This workflow combines structured assessment across multiple dimensions: correctness, security, performance, maintainability, and consistency.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Pull request or code change with description
+- Linked issues/tickets (if available)
+- Project standards and architecture documentation
+- Security requirements and compliance constraints
+
+### Step 1: Understand the Context
 
 - Review the PR/change description:
   - What problem is being solved?
@@ -22,7 +43,7 @@ This workflow instructs Cascade to perform thorough, constructive code reviews t
 - Understand the scope:
   - Is this a focused change or broad refactor?
 
-## 2. High-Level Assessment
+### Step 2: High-Level Assessment
 
 - Does the change make sense overall?
   - Does the approach fit the problem?
@@ -33,7 +54,7 @@ This workflow instructs Cascade to perform thorough, constructive code reviews t
 - Review architecture fit:
   - Does this align with system design?
 
-## 3. Correctness Review
+### Step 3: Correctness Review
 
 - Does the code work?
   - Verify logic handles all cases.
@@ -44,7 +65,7 @@ This workflow instructs Cascade to perform thorough, constructive code reviews t
 - Look for bugs:
   - Off-by-one errors, null handling, race conditions.
 
-## 4. Security Review
+### Step 4: Security Review
 
 - Apply `/threat` principles:
   - Input validation.
@@ -54,7 +75,7 @@ This workflow instructs Cascade to perform thorough, constructive code reviews t
   - Injection, XSS, CSRF, etc.
 - Review secrets and sensitive data handling.
 
-## 5. Performance Review
+### Step 5: Performance Review
 
 - Identify potential hotspots:
   - Loops, database queries, API calls.
@@ -63,7 +84,7 @@ This workflow instructs Cascade to perform thorough, constructive code reviews t
   - Memory leaks, resource cleanup.
   - Scalability concerns.
 
-## 6. Maintainability Review
+### Step 6: Maintainability Review
 
 - Code clarity:
   - Is the code readable and self-documenting?
@@ -75,7 +96,7 @@ This workflow instructs Cascade to perform thorough, constructive code reviews t
   - Are complex parts explained?
   - Are public APIs documented?
 
-## 7. Consistency Review
+### Step 7: Consistency Review
 
 - Style and conventions:
   - Does it match project standards?
@@ -84,7 +105,7 @@ This workflow instructs Cascade to perform thorough, constructive code reviews t
   - Does it use established patterns?
   - Any unnecessary novelty?
 
-## 8. Provide Constructive Feedback
+### Step 8: Provide Constructive Feedback
 
 - Be specific and actionable:
   - Point to exact lines.
@@ -96,8 +117,21 @@ This workflow instructs Cascade to perform thorough, constructive code reviews t
 - Explain the "why" behind feedback.
 - Acknowledge good work.
 
-## 9. Follow Up
+### Step 9: Follow Up
 
 - Verify fixes address feedback.
 - Approve when satisfied.
 - Don't block on minor issues.
+
+## Error Handling
+
+- If PR is unclear, ask for clarification before proceeding.
+- If tests are missing, flag as blocker and suggest test strategy.
+- If security issues are found, treat as high-priority blockers.
+- If scope is too broad, request a split into smaller PRs.
+
+</instructions>
+
+<output_format>
+Provide structured feedback organized by review dimension (Correctness, Security, Performance, Maintainability, Consistency). Use severity indicators (🔴 Blocker, 🟡 Suggestion, 🟢 Nitpick) and provide specific, actionable recommendations with line references.
+</output_format>

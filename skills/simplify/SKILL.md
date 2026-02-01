@@ -7,13 +7,34 @@ synonyms: ["/simplifying", "/simplified", "/simplifies", "/simplification", "/de
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: refactoring
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # Simplify Workflow
 
 This workflow instructs Cascade to reduce complexity systematically, going beyond refactoring to achieve fundamental simplification.
 
-## 1. Understand Current Complexity
+<scope_constraints>
+Simplification scope: Code structure, abstractions, data models, control flow, interfaces, and dependencies. Must preserve existing behavior and test coverage.
+</scope_constraints>
+
+<context>
+Complexity is the enemy of maintainability, correctness, and velocity. This workflow distinguishes between essential complexity (inherent to the problem) and accidental complexity (from poor structure), targeting elimination of the latter while preserving the former.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Codebase section or system to simplify
+- Current complexity metrics (optional: cyclomatic complexity, LOC, module count)
+- Constraints (backward compatibility, performance requirements)
+- Team context (onboarding pain points, frequent bugs)
+
+### Step 1: Understand Current Complexity
 
 - Measure complexity indicators:
   - Lines of code, cyclomatic complexity.
@@ -24,7 +45,7 @@ This workflow instructs Cascade to reduce complexity systematically, going beyon
   - Frequent bugs in certain areas.
   - Long onboarding time for new developers.
 
-## 2. Map Complexity Sources
+### Step 2: Map Complexity Sources
 
 Identify where complexity lives:
 
@@ -34,56 +55,56 @@ Identify where complexity lives:
 - **Accidental complexity**: Poor structure, not inherent difficulty.
 - **Over-engineering**: Handling hypothetical cases.
 
-## 3. Apply Simplification Principles
+### Step 3: Apply Simplification Principles
 
-### Remove What's Not Needed
+#### Remove What's Not Needed
 - Delete dead code.
 - Remove unused features.
 - Eliminate redundant abstractions.
 
-### Consolidate What's Scattered
+#### Consolidate What's Scattered
 - Merge similar concepts.
 - Reduce the number of moving parts.
 - Centralize related logic.
 
-### Flatten What's Too Deep
+#### Flatten What's Too Deep
 - Reduce inheritance hierarchies.
 - Simplify deeply nested structures.
 - Favor composition over inheritance.
 
-### Inline What's Over-Abstracted
+#### Inline What's Over-Abstracted
 - Bring together what was artificially separated.
 - Reduce indirection.
 - Make code paths more obvious.
 
-## 4. Simplify Interfaces
+### Step 4: Simplify Interfaces
 
 - Reduce API surface area.
 - Make defaults do the right thing.
 - Hide complexity from consumers.
 - Provide good error messages.
 
-## 5. Simplify Data Structures
+### Step 5: Simplify Data Structures
 
 - Use simpler data representations.
 - Eliminate unnecessary normalization.
 - Reduce state that needs to be tracked.
 - Make state transitions explicit.
 
-## 6. Simplify Flow Control
+### Step 6: Simplify Flow Control
 
 - Reduce conditional complexity.
 - Make happy paths obvious.
 - Handle errors consistently.
 - Eliminate unnecessary async.
 
-## 7. Simplify Dependencies
+### Step 7: Simplify Dependencies
 
 - Reduce external dependencies.
 - Replace complex libraries with simpler solutions.
 - Consider building vs buying trade-offs.
 
-## 8. Validate Simplification
+### Step 8: Validate Simplification
 
 - Verify behavior is unchanged.
 - Confirm complexity metrics improved.
@@ -92,9 +113,22 @@ Identify where complexity lives:
   - Is it easier to modify?
 - Ensure tests still pass.
 
-## 9. Prevent Complexity Creep
+### Step 9: Prevent Complexity Creep
 
 - Document why things are now simple.
 - Add lint rules or architecture tests.
 - Review PRs for unnecessary complexity.
 - Regularly revisit and simplify.
+
+## Error Handling
+
+- If simplification breaks tests, revert and identify minimal safe changes.
+- If removing code uncovers hidden dependencies, document and address before removal.
+- If team disagrees on what's "simple," facilitate discussion and document decision.
+- If complexity is essential, document why and explore alternative simplifications.
+
+</instructions>
+
+<output_format>
+Provide a complexity audit with metrics, identify root causes, propose specific simplifications with reasoning, and validate that behavior is preserved. Include refactoring steps and before/after comparisons where possible.
+</output_format>

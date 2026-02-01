@@ -7,13 +7,54 @@ synonyms: ["/architecting", "/architected", "/architecture", "/modeling", "/blue
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: design
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # Architect Workflow
 
 This workflow instructs Cascade to think and act like a principal engineer / software architect, applying modern architecture practices, computer science fundamentals, and structured trade-off analysis.
 
-## 1. Clarify Problem, Context, and Constraints
+<scope_constraints>
+- Focuses on software architecture and system design
+- Applies design patterns, quality attributes, and trade-off analysis
+- Considers scalability, reliability, security, and maintainability
+- Works across layered, microservice, event-driven, and modular monolith architectures
+- Includes domain-driven design, CQRS, and evolutionary architecture thinking
+- Not a replacement for detailed implementation planning or capacity planning
+</scope_constraints>
+
+<context>
+**Dependencies:**
+- Understanding of system design fundamentals and design patterns
+- Knowledge of cloud platforms and distributed systems concepts
+- Familiarity with quality attributes and trade-off analysis techniques
+- Domain-driven design principles
+- C4 model thinking for system decomposition
+
+**Prerequisites:**
+- Clear problem statement and business goals
+- Identified stakeholders and quality attribute priorities
+- Constraints (team, technology stack, regulatory, budget)
+- Existing system context or greenfield scenario
+</context>
+
+<instructions>
+
+## Inputs
+
+- System purpose and business goals
+- Primary user journeys and use cases
+- Target quality attributes (performance, scalability, reliability, security, etc.)
+- Constraints and dependencies (existing systems, team skills, regulations, budget)
+- Assumptions and open questions about scale and load
+- Time and resource constraints
+
+## Steps
+
+### Step 1: Clarify Problem, Context, and Constraints
 
 - Restate the problem or task in architectural terms.
 - Identify business goals and primary user journeys this work serves.
@@ -25,7 +66,7 @@ This workflow instructs Cascade to think and act like a principal engineer / sof
   - Team skills, tech stack preferences, hosting/platform constraints.
 - Classify the problem space using the Cynefin lens (simple, complicated, complex, chaotic) to decide whether to favor best practices, analysis, experimentation, or stabilization.
 
-## 2. Understand the Domain and Boundaries (DDD-Inspired)
+### Step 2: Understand the Domain and Boundaries (DDD-Inspired)
 
 - Build a concise domain model from the description and available artifacts:
   - Identify core entities, value objects, aggregates, and key workflows.
@@ -34,7 +75,7 @@ This workflow instructs Cascade to think and act like a principal engineer / sof
 - Note where data and language differ between contexts (ubiquitous language and translation boundaries).
 - Map external systems and upstream/downstream dependencies.
 
-## 3. System Decomposition Using the C4 Model
+### Step 3: System Decomposition Using the C4 Model
 
 - Think through the system at three main C4 levels (textual, no diagrams required):
   - **System Context**
@@ -47,7 +88,7 @@ This workflow instructs Cascade to think and act like a principal engineer / sof
     - Within key containers, sketch major components/modules and their responsibilities (e.g., application services, domain services, repositories, adapters, gateways).
 - Highlight layering or hexagonal boundaries (UI / application / domain / infrastructure) and how dependencies should flow.
 
-## 4. Choose Architectural Styles and Key Patterns
+### Step 4: Choose Architectural Styles and Key Patterns
 
 - Enumerate candidate architectural styles (e.g., layered monolith, modular monolith, microservices, event-driven, CQRS+ES) and briefly assess:
   - Fit to domain complexity and team size.
@@ -62,7 +103,7 @@ This workflow instructs Cascade to think and act like a principal engineer / sof
   - Behavioral (Strategy, Observer, Command) for variability and workflows.
   - Integration/resilience patterns (Circuit Breaker, Retry, Bulkhead, Saga, Outbox) for distributed systems.
 
-## 5. Analyze Algorithms, Data, and Scaling
+### Step 5: Analyze Algorithms, Data, and Scaling
 
 - Identify hot paths and data-intensive workflows.
 - For critical operations, reason explicitly about:
@@ -72,7 +113,7 @@ This workflow instructs Cascade to think and act like a principal engineer / sof
 - Consider caching layers (client, edge, application, database) and invalidation strategies.
 - Outline horizontal vs vertical scaling strategies and where statefulness may constrain scaling.
 
-## 6. Cross-Cutting Concerns: Security, Reliability, and Observability
+### Step 6: Cross-Cutting Concerns: Security, Reliability, and Observability
 
 - **Security / Privacy**
   - Perform a lightweight STRIDE-style pass over major data flows (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege).
@@ -85,7 +126,7 @@ This workflow instructs Cascade to think and act like a principal engineer / sof
   - Describe logging, metrics, and tracing strategy.
   - Specify key health checks and dashboards required for safe operation and incident response.
 
-## 7. Trade-off Evaluation and Option Comparison
+### Step 7: Trade-off Evaluation and Option Comparison
 
 - When there are competing architecture options, apply a structured comparison:
   - Use a simple **decision matrix** or RICE/ICE-style scoring across criteria like value, risk, complexity, cost, and reversibility.
@@ -94,7 +135,7 @@ This workflow instructs Cascade to think and act like a principal engineer / sof
   - What are we optimizing for now vs later?
   - What debts are we intentionally taking on, and how will we service them?
 
-## 8. Incremental Delivery, Risks, and Documentation
+### Step 8: Incremental Delivery, Risks, and Documentation
 
 - Propose an incremental path:
   - Identify a "walking skeleton" or thin vertical slices to validate the architecture early.
@@ -104,7 +145,7 @@ This workflow instructs Cascade to think and act like a principal engineer / sof
   - Context, decision, options considered, rationale, and consequences.
 - Summarize the recommended architecture in clear language for both technical and non-technical stakeholders, including open questions to clarify with the user.
 
-## 9. Evolve and Safeguard the Architecture
+### Step 9: Evolve and Safeguard the Architecture
 
 - Treat the architecture as **evolutionary**, not static.
 - **Architectural Fitness Functions**: Define automated checks or metrics that continuously assert architectural properties (e.g., dependency rules, performance thresholds, security baselines, latency budgets).
@@ -115,3 +156,46 @@ This workflow instructs Cascade to think and act like a principal engineer / sof
 - Use code-level safeguards:
   - Enforce boundaries with module/dependency rules.
   - Watch for erosion indicators (growing God modules, cyclic dependencies).
+
+## Error Handling
+
+**Common architecture pitfalls:**
+- Over-engineering for hypothetical scale
+- Coupling domain logic to infrastructure
+- Insufficient consideration of operational complexity
+- Ignoring team constraints and capability gaps
+- Creating architectures that are hard to test or debug
+
+**Mitigation strategies:**
+- Base architectural decisions on actual or well-researched scale requirements
+- Use layers or hexagonal boundaries to isolate domain from frameworks
+- Include operational and test complexity in architectural decisions
+- Engage the team early; architecture decisions must be implementable
+- Prototype or spike risky architectural choices
+
+</instructions>
+
+<output_format>
+
+The output of this skill is a **comprehensive architectural design document** that includes:
+
+1. **Problem & Context** — Business goals, constraints, quality attributes
+2. **Domain Model** — Bounded contexts, aggregates, and key workflows
+3. **System Decomposition** — C4 views (context, containers, components)
+4. **Architectural Style** — Chosen style with justification and trade-offs
+5. **Key Patterns & Design Decisions** — Cross-cutting concerns, resilience, observability
+6. **Data & Scaling Strategy** — Data models, caching, scaling approach
+7. **Security & Reliability Design** — STRIDE analysis, SLOs, failure modes
+8. **Implementation Path** — Walking skeleton, spikes, incremental phases
+9. **Architecture Risks & Mitigations** — Known risks and proposed mitigations
+10. **ADR Summary** — Architectural Decision Record(s)
+
+Deliverables typically include:
+- Textual design document or wiki pages
+- C4 diagrams (context, container, component levels)
+- Technology radar or stack choices
+- Prototypes or proof-of-concept code
+- Implementation checklist
+- Risk register with mitigations
+
+</output_format>

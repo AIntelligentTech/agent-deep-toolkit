@@ -7,13 +7,35 @@ synonyms: ["/threat-modelling", "/threat-modeling", "/securing", "/secured", "/s
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: security
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # Threat Workflow
 
 This workflow instructs Cascade to assess security and privacy risks in a structured, repeatable way.
 
-## 1. Define Scope, Assets, and Stakeholders
+<scope_constraints>
+Threat modeling scope: Systems, services, features, and data flows. Identifies STRIDE-class threats, OWASP vulnerabilities, and mitigation strategies. Not applicable to security policy, compliance audits, or incident response.
+</scope_constraints>
+
+<context>
+Threat modeling is proactive risk management that shifts security left, preventing vulnerabilities before they're built. This workflow uses STRIDE and OWASP frameworks to systematically identify threats, assess risk, and propose mitigations at design, implementation, and operational layers.
+</context>
+
+<instructions>
+
+## Inputs
+
+- System, service, or feature to model
+- Scope boundaries and assets to protect
+- Known stakeholders and threat actors
+- Existing architecture or data flows
+- Compliance requirements and risk tolerance
+
+### Step 1: Define Scope, Assets, and Stakeholders
 
 - Clarify what is being modeled:
   - System, service, feature, or specific data flow.
@@ -22,7 +44,7 @@ This workflow instructs Cascade to assess security and privacy risks in a struct
 - Note stakeholders and threat actors:
   - End users, admins, internal services, external partners, attackers.
 
-## 2. Map Architecture and Data Flows
+### Step 2: Map Architecture and Data Flows
 
 - Outline components and trust boundaries:
   - Clients, services, databases, third-party APIs, message queues.
@@ -30,7 +52,7 @@ This workflow instructs Cascade to assess security and privacy risks in a struct
   - What data moves where, over which protocols, and under what authentication.
 - Use a simple textual C4-style description if diagrams are not available.
 
-## 3. Identify Threats (STRIDE and OWASP-Inspired)
+### Step 3: Identify Threats (STRIDE and OWASP-Inspired)
 
 - Apply a STRIDE-style lens to each component and data flow:
   - **S**poofing: Can an attacker impersonate a user or system?
@@ -42,7 +64,7 @@ This workflow instructs Cascade to assess security and privacy risks in a struct
 - Cross-check with known vulnerability classes (e.g., OWASP Top 10) relevant to the stack.
 - Record concrete threat scenarios, not just categories.
 
-## 4. Assess Risk and Prioritize
+### Step 4: Assess Risk and Prioritize
 
 - For each identified threat, estimate:
   - Likelihood (how easy is it to exploit?).
@@ -50,7 +72,7 @@ This workflow instructs Cascade to assess security and privacy risks in a struct
 - Use simple qualitative ratings (e.g., High/Medium/Low) if detailed quantification is not practical.
 - Prioritize threats that are both high-impact and likely.
 
-## 5. Define Mitigations and Controls
+### Step 5: Define Mitigations and Controls
 
 - For prioritized threats, propose mitigations at appropriate layers:
   - **Design**: isolate components, least privilege, defense in depth.
@@ -58,10 +80,23 @@ This workflow instructs Cascade to assess security and privacy risks in a struct
   - **Operations**: monitoring, alerts, rate limits, WAF rules, incident response.
 - Consider privacy and data-minimization strategies where applicable.
 
-## 6. Capture, Integrate, and Revisit
+### Step 6: Capture, Integrate, and Revisit
 
 - Summarize the threat model:
   - Scope, assets, key threats, mitigations, and residual risk.
 - Link findings to tickets, backlog items, or security requirements.
 - Plan periodic updates:
   - Re-run or extend the model when introducing new features, integrations, or data flows.
+
+## Error Handling
+
+- If threats are too vague, ask for concrete attack scenarios.
+- If mitigations are incomplete, identify gaps and residual risk explicitly.
+- If risk is unacceptable and can't be mitigated, escalate for architectural redesign.
+- If scope creeps, refocus on high-value assets and likely threat vectors.
+
+</instructions>
+
+<output_format>
+Provide structured threat model with scope/assets/stakeholders, architecture diagram or textual description, enumerated STRIDE threats with concrete scenarios, risk assessment (likelihood × impact), prioritized mitigations at design/implementation/operational layers, and summary of residual risk.
+</output_format>

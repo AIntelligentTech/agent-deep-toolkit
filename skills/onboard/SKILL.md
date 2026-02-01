@@ -7,13 +7,33 @@ synonyms: ["/onboarding", "/onboarded", "/getting-started"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: skill
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # Onboard Workflow
 
-This workflow instructs Cascade to create or improve developer onboarding materials that get new contributors productive quickly.
+<scope_constraints>
+This workflow instructs Cascade to create or improve developer onboarding materials that get new contributors productive quickly. Covers environment setup, architecture understanding, key workflows, navigation, and cultural context.
+</scope_constraints>
 
-## 1. Understand the Target Audience
+<context>
+Good onboarding reduces time-to-productivity from weeks to days. It builds confidence, establishes patterns, and creates a shared vocabulary. Effective onboarding covers multiple learning styles and is continuously updated based on new contributor feedback.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Target audience: Who is being onboarded (new hires, open source contributors, contractors)?
+- Project scope: Codebase size, complexity, technology stack
+- Current state: What onboarding materials exist?
+- Pain points: What do new contributors struggle with?
+- Context: Key milestones, learning progression, success criteria
+
+## Step 1: Understand the Target Audience
 
 - Identify who is being onboarded:
   - New team members.
@@ -24,7 +44,7 @@ This workflow instructs Cascade to create or improve developer onboarding materi
   - Familiarity with the domain.
 - Note common gaps or challenges.
 
-## 2. Map the Learning Journey
+### Step 2: Map the Learning Journey
 
 - Define learning progression:
   - Day 1: Environment setup, first build.
@@ -35,7 +55,7 @@ This workflow instructs Cascade to create or improve developer onboarding materi
   - First passing test.
   - First PR merged.
 
-## 3. Create Setup Guide
+### Step 3: Create Setup Guide
 
 - Document environment setup:
   - Required tools and versions.
@@ -46,7 +66,7 @@ This workflow instructs Cascade to create or improve developer onboarding materi
   - Where to get help.
 - Verify on a fresh machine.
 
-## 4. Create Architecture Overview
+### Step 4: Create Architecture Overview
 
 - Explain the system at a high level:
   - Purpose and main use cases.
@@ -55,7 +75,7 @@ This workflow instructs Cascade to create or improve developer onboarding materi
 - Include architecture diagrams if helpful.
 - Point to deeper documentation for details.
 
-## 5. Document Key Workflows
+### Step 5: Document Key Workflows
 
 - Explain how to do common tasks:
   - Running the application locally.
@@ -64,7 +84,7 @@ This workflow instructs Cascade to create or improve developer onboarding materi
   - Deploying (if applicable).
 - Include examples and commands.
 
-## 6. Create Codebase Navigation Guide
+### Step 6: Create Codebase Navigation Guide
 
 - Explain the directory structure:
   - What's where and why.
@@ -72,7 +92,7 @@ This workflow instructs Cascade to create or improve developer onboarding materi
 - Document naming conventions and patterns.
 - Identify good "starting points" for exploration.
 
-## 7. Provide Learning Resources
+### Step 7: Provide Learning Resources
 
 - Link to relevant documentation:
   - Internal docs, ADRs, specs.
@@ -80,7 +100,7 @@ This workflow instructs Cascade to create or improve developer onboarding materi
 - Suggest good first issues or tasks.
 - Identify mentors or points of contact.
 
-## 8. Include Cultural and Process Info
+### Step 8: Include Cultural and Process Info
 
 - Explain team practices:
   - Code review expectations.
@@ -89,10 +109,33 @@ This workflow instructs Cascade to create or improve developer onboarding materi
 - Document decision-making processes.
 - Share relevant history and context.
 
-## 9. Test and Iterate
+### Step 9: Test and Iterate
 
 - Have someone new follow the guide.
 - Gather feedback:
   - What was confusing?
   - What was missing?
 - Keep the guide updated as things change.
+
+## Error Handling
+
+- **Setup fails on fresh machine:** Document error, provide solution, update guide
+- **Contributor stuck early:** Review guide for gaps, pair with experienced contributor
+- **Outdated documentation:** Version docs, create update schedule, assign ownership
+- **Missing prerequisites:** Add to setup guide with version requirements
+
+</instructions>
+
+<output_format>
+
+Provide complete onboarding materials as the output:
+
+1. **Quick Start Guide**: 15-minute setup to first build
+2. **Architecture Overview**: System purpose, key components, data flow
+3. **Codebase Navigation**: Directory structure, naming conventions, starting points
+4. **Key Workflows**: Run app, run tests, make changes, submit PR, deploy
+5. **Learning Resources**: Links to docs, frameworks, good first issues
+6. **Cultural Context**: Team practices, communication, decision-making
+7. **Troubleshooting Guide**: Common issues and solutions
+
+</output_format>

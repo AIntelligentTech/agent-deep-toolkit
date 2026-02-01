@@ -6,13 +6,35 @@ synonyms: ["/usability", "/interface", "/design", "/interaction", "/interfacing"
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: user-experience
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # UX Workflow
 
 This workflow instructs Cascade to evaluate and improve user experience systematically, grounded in modern UX practice.
 
-## 1. Understand Users, Tasks, and Contexts
+<scope_constraints>
+UX scope: User research, journey mapping, heuristic evaluation, accessibility review, AI content assessment, visual/interaction design, and implementation feasibility. Not applicable to user research methodology, user testing facilitation, or market strategy.
+</scope_constraints>
+
+<context>
+User experience is the holistic outcome of how people interact with a product. This workflow combines research insights, established heuristics, accessibility best practices, and visual design principles to identify issues and propose improvements that are grounded in user goals and modern design standards.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Interface, feature, or product to evaluate
+- User research, personas, or user segments (if available)
+- Existing analytics or usage data
+- Design system or brand guidelines
+- Accessibility requirements and compliance standards
+
+### Step 1: Understand Users, Tasks, and Contexts
 
 - Identify key user segments and their primary goals.
 - List critical tasks and scenarios this interface must support.
@@ -20,14 +42,14 @@ This workflow instructs Cascade to evaluate and improve user experience systemat
 - Note environmental factors:
   - Devices, assistive technologies, network conditions, time pressure.
 
-## 2. Map Journeys and Flows
+### Step 2: Map Journeys and Flows
 
 - Outline end-to-end user journeys for critical goals.
 - For each step, identify:
   - User intent, system response, and potential friction points.
 - Distinguish between journeys (high-level across touchpoints) and flows (detailed UI steps) and use both where helpful.
 
-## 3. Heuristic Evaluation
+### Step 3: Heuristic Evaluation
 
 - Evaluate the interface against recognized usability heuristics (e.g., Nielsen's 10):
   - Visibility of system status.
@@ -42,7 +64,7 @@ This workflow instructs Cascade to evaluate and improve user experience systemat
   - Help and documentation.
 - Note concrete issues with severity and supporting examples.
 
-## 4. Accessibility and Inclusive Design
+### Step 4: Accessibility and Inclusive Design
 
 - Check for basic accessibility practices:
   - Semantic HTML/roles, focus order, keyboard navigation, contrast, text sizing.
@@ -51,7 +73,7 @@ This workflow instructs Cascade to evaluate and improve user experience systemat
   - Different abilities, cultural contexts, and levels of expertise.
 - Where appropriate, reference relevant guidelines (e.g., WCAG) when evaluating issues.
 
-## 5. Synthesize Issues and Opportunities
+### Step 5: Synthesize Issues and Opportunities
 
 - Group findings by flow or UI area.
 - Prioritize based on:
@@ -60,14 +82,14 @@ This workflow instructs Cascade to evaluate and improve user experience systemat
   - Ease of remediation.
 - Propose UX improvements that are concrete and implementation-aware.
 
-## 6. Plan Validation
+### Step 6: Plan Validation
 
 - Suggest ways to validate proposed UX changes:
   - Remote or in-person usability tests.
   - Prototype testing, A/B tests, or feature flags.
 - Recommend instrumentation to capture UX signals in production (e.g., drop-off points, completion rates).
 
-## 7. Detect and Avoid AI Slop in AI-Driven UX
+### Step 7: Detect and Avoid AI Slop in AI-Driven UX
 
 - When AI-generated content or AI-powered features are present, explicitly evaluate them for **signal vs. noise**:
   - Check that AI output is relevant, concise, and clearly advances the user's task.
@@ -76,7 +98,7 @@ This workflow instructs Cascade to evaluate and improve user experience systemat
   - Ensure AI output is clearly labeled as such, with access to explanations, sources, or uncertainty cues where appropriate.
   - Provide user controls to opt out, refine, or correct AI suggestions instead of flooding the interface with unsolicited content.
 
-## 8. Apply World-Class Visual and Interaction Design
+### Step 8: Apply World-Class Visual and Interaction Design
 
 - Ground visual and interaction decisions in established, high-quality design systems and guidelines (e.g., Apple Human Interface Guidelines, Material Design 3, Fluent 2, Carbon).
 - Evaluate **layout and spacing** deliberately:
@@ -85,7 +107,7 @@ This workflow instructs Cascade to evaluate and improve user experience systemat
 - Design **components and affordances** to match user intent.
 - Use **motion and microinteractions** purposefully.
 
-## 9. Use Whimsy and Delight Responsibly
+### Step 9: Use Whimsy and Delight Responsibly
 
 - Start from **usability, reliability, and accessibility** as non-negotiable foundations. Only add whimsy once core flows are fast, clear, and robust.
 - Treat whimsical elements as **microinteractions and moments**, not permanent decoration.
@@ -93,9 +115,22 @@ This workflow instructs Cascade to evaluate and improve user experience systemat
 - Safeguard **clarity and focus**.
 - Ensure **accessibility and control**.
 
-## 10. Bridge UX to Frontend Implementation
+### Step 10: Bridge UX to Frontend Implementation
 
 - When proposing UX changes, think through how they will be realized in the frontend stack.
 - Favor implementation patterns that keep UI concerns modular and testable.
 - Consider responsiveness and platform specifics at implementation time.
 - Anticipate performance characteristics of the implementation.
+
+## Error Handling
+
+- If user research is unavailable, make evidence-based assumptions and flag for validation.
+- If heuristic evaluation reveals conflicting guidance, document trade-offs and choose based on user impact.
+- If accessibility compliance is not met, identify gaps and propose concrete remediation.
+- If proposed changes have high implementation complexity, offer phased alternatives.
+
+</instructions>
+
+<output_format>
+Provide comprehensive UX review organized by journey/flow, detailed heuristic findings with severity levels, accessibility assessment with WCAG references, AI content assessment (if applicable), visual and interaction design recommendations, and implementation-aware improvement proposals with validation strategy.
+</output_format>

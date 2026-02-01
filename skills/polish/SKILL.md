@@ -7,13 +7,32 @@ synonyms: ["/polishing", "/polished", "/polishes", "/refining", "/refined", "/re
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: skill
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # Polish Workflow
 
-This workflow instructs Cascade to apply craft, attention to detail, and systematic refinement to elevate a product or interface to world-class quality.
+<scope_constraints>
+This workflow instructs Cascade to apply craft, attention to detail, and systematic refinement to elevate a product or interface to world-class quality. Covers visual design, interaction, copy, performance feel, and brand alignment.
+</scope_constraints>
 
-## 1. Clarify What "Polish" Means Here
+<context>
+Polish is the difference between "working" and "delightful." It requires systematic walking through experiences, identifying rough edges, and refining with intention. Polish is never an afterthought—it's built in from the beginning through consistent tokens, clear patterns, and thoughtful feedback.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Scope: What's being polished (component, feature, page, entire product)?
+- Design system: Available tokens, components, and guidelines
+- Target experience: What should the polished result feel like?
+- Constraints: Timeline, design system boundaries, platform limitations
+
+## Step 1: Clarify What "Polish" Means Here
 
 - Define the scope:
   - A single component, a feature surface, a full page, or the entire product.
@@ -22,7 +41,7 @@ This workflow instructs Cascade to apply craft, attention to detail, and systema
 - Note constraints:
   - Timeline, design system boundaries, platform limitations.
 
-## 2. Diagnose Rough Edges and Jank
+### Step 2: Diagnose Rough Edges and Jank
 
 - Walk through the experience systematically:
   - Inspect each element for alignment, spacing, sizing, color consistency, and animation smoothness.
@@ -31,7 +50,7 @@ This workflow instructs Cascade to apply craft, attention to detail, and systema
 - Capture friction in flows:
   - Confusing states, unclear actions, ambiguous feedback.
 
-## 3. Polish Layout, Spacing, and Visual Hierarchy
+### Step 3: Polish Layout, Spacing, and Visual Hierarchy
 
 - Apply a consistent grid and spacing scale derived from `/tokens`.
 - Ensure visual hierarchy clearly guides attention:
@@ -39,7 +58,7 @@ This workflow instructs Cascade to apply craft, attention to detail, and systema
 - Refine alignment:
   - Text baselines, icon/button centers, card edges.
 
-## 4. Refine States, Transitions, and Feedback
+### Step 4: Refine States, Transitions, and Feedback
 
 - Review component states:
   - Default, hover, focus, active, disabled, loading, empty, error.
@@ -48,34 +67,55 @@ This workflow instructs Cascade to apply craft, attention to detail, and systema
 - Verify feedback clarity:
   - Users always know what happened and what to do next.
 
-## 5. Polish Microcopy and Labels
+### Step 5: Polish Microcopy and Labels
 
 - Review every piece of text:
   - Buttons, labels, placeholders, errors, empty states, tooltips.
 - Apply consistent voice and terminology.
 - Eliminate jargon, ambiguity, and redundancy.
 
-## 6. Address Behavioral, Performance, and Responsiveness Issues
+### Step 6: Address Behavioral, Performance, and Responsiveness Issues
 
 - Ensure snappy interactions:
   - No visible lag between user action and feedback.
 - Test across devices, breakpoints, and input modes.
 - Verify touch targets, scroll behavior, and resize behavior.
 
-## 7. Ensure Cohesion with Design System and Brand
+### Step 7: Ensure Cohesion with Design System and Brand
 
 - Cross-check all elements against design tokens and guidelines.
 - Ensure brand expression is consistent and intentional.
 - Flag deviations for intentional exceptions or fixes.
 
-## 8. Validate with Users and Stakeholders
+### Step 8: Validate with Users and Stakeholders
 
 - If possible, observe real users interacting with the polished surface.
 - Collect feedback on feel, clarity, and delight.
 - Iterate based on observations.
 
-## 9. Capture and Institutionalize Polish Patterns
+### Step 9: Capture and Institutionalize Polish Patterns
 
 - Document successful polish patterns for reuse.
 - Update component libraries where improvements should propagate.
 - Add polish-related checks to review checklists.
+
+## Error Handling
+
+- **Design system tokens unavailable:** Document assumptions, establish conventions, use consistent ratios
+- **Performance jank:** Profile animations, identify bottlenecks, optimize rendering or simplify transitions
+- **Copy is unclear:** Simplify language, test with users, align with established voice
+- **Accessibility issues detected:** Ensure adequate contrast, focus states, label clarity, and keyboard navigation
+
+</instructions>
+
+<output_format>
+
+Provide a complete polish report and deliverables as the output:
+
+1. **Polish Diagnosis**: Identified rough edges, inconsistencies, and friction points
+2. **Refinement Plan**: Priorities for visual, interaction, copy, and performance improvements
+3. **Updated Design**: Refined layouts, states, copy, and interactions
+4. **Polish Patterns**: Reusable patterns for consistency across surface
+5. **Validation Results**: User feedback, accessibility verification, cross-browser testing
+
+</output_format>

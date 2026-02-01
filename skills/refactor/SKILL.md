@@ -7,13 +7,32 @@ synonyms: ["/refactoring", "/refactored", "/refactors", "/restructuring", "/rest
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: skill
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # Refactor Workflow
 
-This workflow instructs Cascade to refactor codebases safely, evolving design while preserving behavior. It includes pruning dead code as a specialized refactoring activity.
+<scope_constraints>
+This workflow instructs Cascade to refactor codebases safely, evolving design while preserving behavior. Includes incremental refactoring, seam identification, characterization testing, staged pruning, and design validation.
+</scope_constraints>
 
-## 1. Understand Context and Constraints
+<context>
+Refactoring improves internal structure without changing external behavior. Success requires comprehensive tests, clear step sequences, and disciplined git practices. Refactoring and pruning are complementary—refactoring reveals dead code, pruning removes it.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Motivation: Why refactor (complexity, testability, performance, changed requirements)?
+- Current state: Code smells, hotspots, pain points
+- Constraints: Timebox, risk tolerance, test coverage, deployment cadence
+- Success criteria: Improved complexity, testability, or performance metrics
+
+## Step 1: Understand Context and Constraints
 
 - Clarify the motivation for refactoring:
   - Pain points (hard to change, bugs clustering, performance issues).
@@ -23,7 +42,7 @@ This workflow instructs Cascade to refactor codebases safely, evolving design wh
   - Timebox, risk tolerance, deployment cadence, availability of tests.
 - Confirm that behavior must remain functionally equivalent except where explicitly stated.
 
-## 2. Identify Smells, Hotspots, and Seams
+### Step 2: Identify Smells, Hotspots, and Seams
 
 - Use `code_search` and `grep_search` plus any metrics to locate:
   - Complex or frequently changed modules.
@@ -32,7 +51,7 @@ This workflow instructs Cascade to refactor codebases safely, evolving design wh
   - Existing interfaces, adapters, modules, or test boundaries.
   - Places where dependencies could be inverted or responsibilities split.
 
-## 3. Discover Candidates for Removal (Pruning Mode)
+### Step 3: Discover Candidates for Removal (Pruning Mode)
 
 When pruning dead code:
 - Use static analysis and search to find:
@@ -45,7 +64,7 @@ When pruning dead code:
   - Covered by tests vs untested.
   - Recently touched vs long-stable.
 
-## 4. Design an Incremental Refactor Plan
+### Step 4: Design an Incremental Refactor Plan
 
 - Define a series of **small, reversible steps** rather than a big-bang change.
 - **Characterization Tests**: Before making changes, ensure that current behavior is documented with tests (even if it's "broken" or has quirks you want to preserve).
@@ -57,14 +76,14 @@ When pruning dead code:
   - Strangler Fig (new structure coexists with old until migration is complete).
   - Branch-by-abstraction (introduce abstraction, move implementations behind it, then remove old usage).
 
-## 5. Plan Staged Pruning (for removals)
+### Step 5: Plan Staged Pruning (for removals)
 
 - For higher-risk items:
   - Introduce deprecation warnings or feature flags.
   - Add logging around potential removal points to confirm lack of use over a defined window.
 - Define clear cut-over dates and communication needs (e.g., for external consumers).
 
-## 6. Execute with Test and Git Discipline
+### Step 6: Execute with Test and Git Discipline
 
 - Before each step:
   - Ensure tests are passing and there is a clean working tree.
@@ -75,7 +94,7 @@ When pruning dead code:
   - Run relevant tests (unit + integration) before proceeding.
   - Fix issues or adjust the plan as needed.
 
-## 7. Validate Design Improvements
+### Step 7: Validate Design Improvements
 
 - After the main refactor steps:
   - Reassess complexity (smaller functions, fewer responsibilities per module).
@@ -83,13 +102,13 @@ When pruning dead code:
   - Review dependency direction and boundaries (reduced coupling, clearer layering).
 - Optionally perform a brief code review pass using agreed coding and architecture standards.
 
-## 8. Validate and Monitor (for removals)
+### Step 8: Validate and Monitor (for removals)
 
 - Run the full relevant test suite (including integration/e2e where available).
 - Perform targeted smoke tests around the cleaned areas.
 - Monitor logs, error rates, and user feedback after deployment for unexpected regressions.
 
-## 9. Institutionalize and Follow Up
+### Step 9: Institutionalize and Follow Up
 
 - Capture key refactoring patterns and lessons learned:
   - What worked well, what was risky or noisy.
@@ -97,3 +116,26 @@ When pruning dead code:
   - Lint rules, architecture tests, or CI checks to prevent regression into old patterns.
   - Automated checks that flag unused code, imports, and dependencies.
 - Identify adjacent areas that would benefit from similar incremental refactors and schedule them appropriately.
+
+## Error Handling
+
+- **Test fails during refactor:** Stop, understand failure, adjust refactor approach or fix test, do NOT silence failures
+- **Behavior changes unexpectedly:** Use characterization tests, understand the change, document if intentional
+- **Performance regresses:** Profile before and after, identify bottleneck, try alternative approach
+- **Complexity increases instead of decreases:** Stop, reassess, may indicate the refactor isn't the right approach
+
+</instructions>
+
+<output_format>
+
+Provide a complete refactoring plan and validation as the output:
+
+1. **Code Smells Analysis**: Identified hotspots, complexity metrics, pain points
+2. **Seam Identification**: Natural boundaries for refactoring, extraction points
+3. **Incremental Plan**: Small, reversible steps with characterization tests
+4. **Refactoring Patterns**: Strangler Fig, Branch-by-Abstraction, Extract Function, etc.
+5. **Validation Results**: Test status, complexity improvements, design validation
+6. **Pruning Plan**: Dead code candidates identified, staged removal if applicable
+7. **Regression Prevention**: New lint rules, architecture tests, monitoring
+
+</output_format>

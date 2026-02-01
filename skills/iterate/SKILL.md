@@ -7,7 +7,37 @@ synonyms: ["/iterating", "/iterated", "/iterations", "/incrementing", "/incremen
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: execution
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
+
+<scope_constraints>
+This skill focuses on breaking complex work into independently verifiable iterations with clear verification at each step. It guides implementation and testing but requires user confirmation between iterations for progression decisions.
+</scope_constraints>
+
+<context>
+This workflow breaks complex tasks into independently verifiable, committable iterations that build progressively toward clearly-defined goals. Each iteration is a complete, testable unit of progress with its own verification strategy.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Complex task or goal to be decomposed
+- Success criteria for the overall goal
+- Verification preferences (programmatic, visual, manual)
+- Constraints (time, dependencies, resource limits)
+
+## Scope
+
+- **Complex multi-step tasks**: Can be broken into smaller pieces
+- **Uncertain path**: Don't know exact approach upfront
+- **Need verification at each step**: Want to confirm correctness before proceeding
+- **Git-friendly workflow**: Want atomic, reviewable commits
+- **Learning as you go**: Each iteration informs the next
+- **Risk management**: Want to catch issues early
 
 # Iterate - Verified Incremental Development
 
@@ -29,6 +59,27 @@ Break complex tasks into independently verifiable, committable iterations that b
 - **Already clear sequence**: Use `/plan` for predetermined steps
 - **Exploration**: Use `/explore` for open-ended investigation
 - **High effort needed**: Prefix with `/relentless` for deeper work
+
+## Error Handling
+
+- **Iteration too large**: Split into smaller chunks with intermediate verification points
+- **Verification failure**: Fix issues in current iteration before proceeding
+- **Dependency discovered**: Reorder iterations to handle prerequisites first
+- **Scope creep**: Defer non-essential changes to later iterations
+- **Approach not working**: Pivot strategy and adjust remaining iterations
+
+</instructions>
+
+<output_format>
+- **Iteration decomposition**: Numbered list of independent chunks with success criteria
+- **Verification strategy**: For each iteration, how it will be verified
+- **Iteration sequence**: Ordered by dependencies and risk
+- **Execution checklist**: Per-iteration implementation guidelines
+- **Verification results**: Pass/fail status for each iteration
+- **Commits**: One per iteration with clear commit messages
+- **Learnings**: Patterns, anti-patterns, impediments discovered
+- **Completion summary**: All iterations done with verification evidence
+</output_format>
 
 ## Core Iteration Workflow
 

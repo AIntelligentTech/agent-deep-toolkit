@@ -7,13 +7,33 @@ synonyms: ["/planning", "/planned", "/plans", "/strategy"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: skill
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # Plan Workflow
 
-This workflow instructs Cascade to create comprehensive, actionable implementation plans that guide complex work from start to completion.
+<scope_constraints>
+This workflow instructs Cascade to create comprehensive, actionable implementation plans that guide complex work from start to completion. Covers goal clarification, phasing, dependency mapping, estimation, resource allocation, milestone definition, and risk management.
+</scope_constraints>
 
-## 1. Clarify Goals and Success Criteria
+<context>
+Good plans reduce uncertainty, align stakeholders, and enable tracking. Plans should be detailed enough to guide work but flexible enough to accommodate learning. They balance optimism with contingency and expose dependencies early.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Objective: What needs to be accomplished?
+- Current state: Where are we starting from?
+- Constraints: Timeline, budget, resources, dependencies
+- Success criteria: What does "done" look like?
+- Stakeholders: Who is affected and needs alignment?
+
+## Step 1: Clarify Goals and Success Criteria
 
 - Restate the objective clearly:
   - What are we trying to achieve?
@@ -24,7 +44,7 @@ This workflow instructs Cascade to create comprehensive, actionable implementati
 - Identify constraints:
   - Timeline, budget, resources, dependencies.
 
-## 2. Break Down into Phases
+### Step 2: Break Down into Phases
 
 - Divide work into logical phases:
   - Each phase has a clear deliverable.
@@ -36,7 +56,7 @@ This workflow instructs Cascade to create comprehensive, actionable implementati
   - Polish and documentation phase.
   - Rollout phase.
 
-## 3. Identify Dependencies and Sequencing
+### Step 3: Identify Dependencies and Sequencing
 
 - Map dependencies between tasks:
   - What must happen before what?
@@ -46,7 +66,7 @@ This workflow instructs Cascade to create comprehensive, actionable implementati
 - Note external dependencies:
   - Other teams, third parties, approvals.
 
-## 4. Estimate Effort and Duration
+### Step 4: Estimate Effort and Duration
 
 - For each task, estimate:
   - Effort (person-hours or story points).
@@ -56,7 +76,7 @@ This workflow instructs Cascade to create comprehensive, actionable implementati
   - Three-point estimation (optimistic, likely, pessimistic).
 - Build in buffer for uncertainty.
 
-## 5. Assign Resources and Ownership
+### Step 5: Assign Resources and Ownership
 
 - Identify who will do what:
   - Skills required for each task.
@@ -65,7 +85,7 @@ This workflow instructs Cascade to create comprehensive, actionable implementati
   - One person accountable per task.
 - Consider parallel workstreams.
 
-## 6. Define Milestones and Checkpoints
+### Step 6: Define Milestones and Checkpoints
 
 - Set key milestones:
   - Meaningful achievements, not just dates.
@@ -73,7 +93,7 @@ This workflow instructs Cascade to create comprehensive, actionable implementati
   - When to assess progress and adjust.
 - Identify go/no-go decision points.
 
-## 7. Identify Risks and Mitigations
+### Step 7: Identify Risks and Mitigations
 
 - List potential risks:
   - Technical, resource, dependency, timeline risks.
@@ -83,7 +103,7 @@ This workflow instructs Cascade to create comprehensive, actionable implementati
   - Contingency plan.
 - Identify early warning signs.
 
-## 8. Create the Plan Artifact
+### Step 8: Create the Plan Artifact
 
 - Document the plan in appropriate format:
   - Gantt chart, task list, timeline view.
@@ -95,7 +115,7 @@ This workflow instructs Cascade to create comprehensive, actionable implementati
   - Risk register.
   - Assumptions and dependencies.
 
-## 9. Communicate and Track
+### Step 9: Communicate and Track
 
 - Share the plan with stakeholders.
 - Set up tracking:
@@ -103,3 +123,27 @@ This workflow instructs Cascade to create comprehensive, actionable implementati
   - Progress reporting cadence.
 - Plan for updates:
   - How and when will the plan be revised?
+
+## Error Handling
+
+- **Plan is too vague:** Add more detail to phases and tasks, break down larger items
+- **Estimates are consistently wrong:** Adjust estimation technique, calibrate against actual results
+- **Dependencies discovered late:** Add dependency mapping earlier, ask "what must happen first?"
+- **Critical path is unclear:** Use CPM analysis, identify tasks that impact timeline directly
+- **Resources unavailable as planned:** Identify slack time, parallelize work, adjust timeline
+
+</instructions>
+
+<output_format>
+
+Provide a complete implementation plan as the output:
+
+1. **Goal Summary**: Objective, success criteria, constraints
+2. **Phase Breakdown**: 3-5 phases with deliverables and sequence
+3. **Detailed Task List**: Tasks per phase with effort estimates and dependencies
+4. **Timeline**: Gantt chart or timeline view with milestones
+5. **Resource Plan**: Who does what, skill requirements, availability
+6. **Risk Register**: Identified risks, likelihood, impact, mitigations
+7. **Assumptions and Dependencies**: External factors, decision points
+
+</output_format>

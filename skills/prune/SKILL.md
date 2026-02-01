@@ -7,11 +7,32 @@ synonyms: ["/pruning", "/pruned", "/prunes", "/purging", "/purged", "/purges", "
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: false
+category: skill
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # Prune - Aggressive Codebase Cleanup
 
-Systematically identify and remove legacy, deprecated, redundant, duplicate, and orphaned code. This skill operates with an aggressive-by-default posture: if code is committed and changes leave behind dead weight, **delete it**.
+<scope_constraints>
+Systematically identify and remove legacy, deprecated, redundant, duplicate, and orphaned code. This skill operates with an aggressive-by-default posture: if code is committed and changes leave behind dead weight, **delete it**. Includes detection, impact analysis, and safe execution patterns.
+</scope_constraints>
+
+<context>
+Dead code is technical debt with negative value. It confuses future agents, bloats context windows, and creates false dependencies. Committed code is recoverable via git. Deletion is reversible. The cost of dead code grows over time; the cost of deletion is fixed.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Trigger: What change created the dead code (refactor, feature removal, dependency upgrade)?
+- Scope: Files, directories, or modules to scan for dead code
+- Constraints: Any code that MUST be preserved (public APIs, active consumers)
+- Tools available: Language-specific dead code detectors (ts-prune, knip, vulture, etc.)
+
+## Overview
 
 ## Philosophy
 
@@ -19,33 +40,30 @@ AI agents resist deletion. They hedge, they preserve "just in case", they add ba
 
 **Core principles:**
 
-- **Dead code is technical debt with zero value** — It confuses future agents, bloats context windows, and creates false dependencies
-- **Committed code is recoverable** — Git exists. Deletion is reversible. There is no risk in removing code that's in version history
-- **Backward compatibility is for public consumers only** — Internal code, private APIs, unused exports, and unreferenced modules get no protection
-- **Aggressive pruning is cheap with AI agents** — If something breaks, an agent can fix it faster than a human can maintain dead code
+- **Dead code is technical debt with zero value**
+- **Committed code is recoverable** — Git exists. Deletion is reversible
+- **Backward compatibility is for public consumers only** — Internal code gets no protection
+- **Aggressive pruning is cheap with AI agents** — Breakage is fast to fix
 - **Less code = fewer bugs, faster builds, clearer intent**
 
 ## When to Use
 
 - **After any significant change** — New features, refactors, and redesigns leave orphaned code
-- **After dependency upgrades** — Old compatibility shims, polyfills, and workarounds become dead weight
+- **After dependency upgrades** — Old compatibility shims, polyfills, and workarounds
 - **After feature removal** — Related utilities, types, tests, and docs linger
 - **Periodic maintenance** — Codebases accumulate cruft over time
 - **After `/integrate` or `/propagate`** — Integration changes often obsolete old implementations
-- **When context windows are bloated** — Dead code wastes agent context budget
 
 ## When NOT to Prune
 
-- **Public API with external consumers** — Libraries, SDKs, or APIs with users you don't control
+- **Public API with external consumers** — Libraries, SDKs, or APIs you don't control
 - **Uncommitted work** — Always commit or stash before pruning
-- **Active feature flags** — Code behind flags that are still being evaluated
-- **Shared monorepo modules** — Unless you've verified all consumers
+- **Active feature flags** — Code being evaluated
+- **Shared monorepo modules** — Unless all consumers verified
 
-**Important:** "Someone might need this" is not a valid reason to keep dead code. "An external user depends on this" is.
+## Step 0: Core Prune Workflow
 
-## Core Prune Workflow
-
-### 1. Establish Prune Scope
+### Step 1: Establish Prune Scope
 
 **Define what triggered the prune and what's in scope:**
 
@@ -66,7 +84,7 @@ AI agents resist deletion. They hedge, they preserve "just in case", they add ba
 
 **If no public consumers exist: prune aggressively. No exceptions.**
 
-### 2. Detect Dead Code
+### Step 2: Detect Dead Code
 
 **Systematically scan for every category of dead code:**
 
@@ -135,7 +153,7 @@ done
 - Feature flags for shipped/removed features
 - Build targets for removed code
 
-### 3. Assess Impact
+### Step 3: Assess Impact
 
 **Before deleting, run impact analysis on each candidate:**
 
@@ -181,7 +199,7 @@ done
 | Re-export with no transformation | **DELETE, update import paths** |
 | Referenced by live code | **PRESERVE (but investigate if reference is dead too)** |
 
-### 4. Execute the Prune
+### Step 4: Execute the Prune
 
 **Delete aggressively, in dependency order:**
 
@@ -240,7 +258,7 @@ Impact: No public API changes. All removed code was internal/unreferenced.
 "
 ```
 
-### 5. Verify the Prune
+### Step 5: Verify the Prune
 
 **Confirm nothing broke:**
 
@@ -262,7 +280,7 @@ Impact: No public API changes. All removed code was internal/unreferenced.
 2. If live code broke, the reference analysis missed something — fix the reference
 3. Do NOT restore deleted code "just in case" — fix the actual dependency
 
-### 6. Report What Was Pruned
+### Step 6: Report What Was Pruned
 
 **Document the cleanup for transparency:**
 
@@ -339,7 +357,14 @@ Periodic full-codebase sweep:
 5. Find duplicate implementations across modules
 6. Delete everything that has no live consumer
 
-## Agent Anti-Patterns to Override
+## Error Handling
+
+- **Something broke after prune:** Check if it's also dead code, fix reference, do NOT restore deleted code
+- **Public API was deleted:** Restore and deprecate properly, verify consumers before deletion
+- **Reference analysis missed something:** Extend search (string references, dynamic imports), fix dependency, retry prune
+- **Build still failing after fixes:** Revert prune, analyze more carefully, prune in smaller increments
+
+## Agent Anti-Patterns to Override (Behavioral Overrides)
 
 AI agents commonly resist deletion in these ways. This skill explicitly overrides each:
 
@@ -505,6 +530,21 @@ done
 ✅ **Don't preserve internal code for "backward compatibility"**
 ✅ **Git is your safety net** — deletion is always reversible
 ✅ **When in doubt, delete** — if something breaks, fix the reference, don't restore the dead code
+
+</instructions>
+
+<output_format>
+
+Provide a comprehensive prune report as the output:
+
+1. **Prune Scope**: What triggered the prune, scope of scan, public consumer constraints
+2. **Dead Code Detected**: Categorized findings (orphaned files, unused exports, deprecated code, duplicates, orphaned tests)
+3. **Impact Assessment**: For each candidate: references found, dependency chain, verdict (DELETE/PRESERVE)
+4. **Execution Plan**: Deletion sequence (leaf nodes first), verification steps
+5. **Prune Report**: What was deleted (files, lines, symbols), verification results (build, tests, lint)
+6. **Anti-patterns Applied**: Which agent resistance patterns were overridden
+
+</output_format>
 
 ---
 

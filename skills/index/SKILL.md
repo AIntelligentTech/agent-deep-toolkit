@@ -7,7 +7,74 @@ synonyms: ["/help", "/listing", "/navigating"]
 activation-mode: contextual
 user-invocable: true
 disable-model-invocation: true
+category: meta
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
+
+<scope_constraints>
+This skill provides navigation and discovery for all available workflows. It helps users understand the purpose of each skill, when to use it, and how skills combine. It does not execute work but rather directs users to appropriate skills.
+</scope_constraints>
+
+<context>
+This skill serves as a navigator for all available workflows, helping you understand when to use each and how they connect. It provides a comprehensive index of capabilities organized by domain and use case.
+</context>
+
+<instructions>
+
+## Inputs
+
+- User question or stated objective
+- Current context or problem to solve
+- Prior workflows used (for sequencing recommendations)
+
+## Step 1: Understand the User's Need
+
+- What are they trying to accomplish?
+- What domain is the work in (reasoning, architecture, implementation, operations)?
+- Have they used related skills before?
+
+## Step 2: Identify Relevant Skills
+
+- Match the objective to appropriate skills
+- Consider skill combinations and sequences
+- Identify prerequisite or follow-up skills
+
+## Step 3: Present Skill Options
+
+- List relevant skills with brief descriptions
+- Highlight when to use each (decision criteria)
+- Show common workflow sequences
+
+## Step 4: Guide Toward Appropriate Skills
+
+- Explain why a particular skill is recommended
+- Suggest skill combinations for complex work
+- Provide examples of effective patterns
+
+## Step 5: Support Skill Discovery
+
+- Help users explore the skill catalog
+- Suggest skills based on problem patterns
+- Connect related domains and workflows
+
+## Error Handling
+
+- **Unclear objective**: Ask clarifying questions about the goal
+- **Multiple applicable skills**: Explain differences and sequencing
+- **Missing skill**: Identify gaps and suggest alternatives
+- **Skill misunderstanding**: Clarify purpose and scope
+
+</instructions>
+
+<output_format>
+- **Skill recommendations**: List of relevant skills with rationale
+- **Skill descriptions**: Purpose and primary use case for each
+- **Workflow sequences**: Recommended skill ordering for complex work
+- **Decision criteria**: When to choose each skill
+- **Examples**: Concrete scenarios showing skill application
+</output_format>
 
 # Workflow Index
 

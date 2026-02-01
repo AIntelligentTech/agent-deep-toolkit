@@ -7,13 +7,35 @@ synonyms: ["/svgs", "/vector", "/vectors"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: design
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # SVG Workflow
 
 This workflow instructs Cascade to generate, validate, and refine high-quality SVGs using AI, ready for frontend or design-system integration.
 
-## 1. Clarify SVG Requirements
+<scope_constraints>
+SVG scope: Icons, illustrations, diagrams, logos, and vector graphics for web and design systems. Assumes valid SVG output and integration with design tokens and component systems.
+</scope_constraints>
+
+<context>
+SVGs are scalable, accessible vector graphics that form the backbone of modern design systems. This workflow combines AI generation with rigorous validation and optimization to produce production-ready assets that integrate seamlessly with design tokens and accessibility requirements.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Specification of what SVG should represent (icon, illustration, diagram, etc.)
+- Style requirements (palette, size, flat/gradient/outlined)
+- Target usage context (inline, background, sprite sheet, component)
+- Design system or brand guidelines (if applicable)
+- Integration requirements (token references, accessibility needs)
+
+### Step 1: Clarify SVG Requirements
 
 - Define what the SVG needs to represent:
   - Icon, illustration, diagram, logo, or decorative element.
@@ -23,7 +45,7 @@ This workflow instructs Cascade to generate, validate, and refine high-quality S
 - Note integration context:
   - Design system, brand guidelines, accessibility requirements.
 
-## 2. Generate Initial SVG
+### Step 2: Generate Initial SVG
 
 - Use AI image generation or SVG-specific tools to create initial versions.
 - Generate multiple variations to explore options.
@@ -32,7 +54,7 @@ This workflow instructs Cascade to generate, validate, and refine high-quality S
   - Consistency with existing visual language.
   - Semantic meaning and recognizability.
 
-## 3. Validate SVG Quality
+### Step 3: Validate SVG Quality
 
 - Check technical quality:
   - Valid SVG markup.
@@ -43,7 +65,7 @@ This workflow instructs Cascade to generate, validate, and refine high-quality S
   - Appropriate stroke widths and spacing.
   - Color accuracy.
 
-## 4. Optimize for Production
+### Step 4: Optimize for Production
 
 - Run through SVG optimization:
   - Remove metadata, comments, and unused definitions.
@@ -53,7 +75,7 @@ This workflow instructs Cascade to generate, validate, and refine high-quality S
   - Add appropriate `title` and `desc` elements.
   - Consider `aria-label` for interactive contexts.
 
-## 5. Integrate with Design System
+### Step 5: Integrate with Design System
 
 - Apply design tokens:
   - Replace hard-coded colors with CSS custom properties or token references.
@@ -62,9 +84,22 @@ This workflow instructs Cascade to generate, validate, and refine high-quality S
   - Props for size, color, and accessibility.
   - Support for dark mode and theming.
 
-## 6. Document and Catalog
+### Step 6: Document and Catalog
 
 - Add the SVG to the icon/illustration catalog.
 - Document usage guidelines:
   - When to use, size recommendations, color variations.
 - Link to related components that use this SVG.
+
+## Error Handling
+
+- If AI generation produces invalid SVG, request regeneration with corrected specifications.
+- If SVG doesn't render crisply at target sizes, adjust paths or simplify design.
+- If accessibility elements are missing, add descriptive title and desc elements.
+- If integration with design tokens fails, validate token references and naming.
+
+</instructions>
+
+<output_format>
+Provide optimized SVG code with accessibility metadata, integration notes for design system, and usage documentation. Include before/after visual comparison and performance metrics (file size, rendering quality at different scales).
+</output_format>

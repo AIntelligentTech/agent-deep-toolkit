@@ -7,13 +7,45 @@ synonyms: ["/decision", "/choice", "/choose", "/choosing", "/chose", "/chosen", 
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: skill
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # Decide Workflow
 
 This workflow combines deep consideration with decisive action. It instructs Cascade to apply structured decision-making techniques, then move from options to a clear, justified decision.
 
-## 1. Frame the Decision and Purpose
+<scope_constraints>
+**Operational Boundaries:**
+- Scope: Complex decisions with multiple options and trade-offs
+- Modes: Structured analysis, risk assessment, reversibility evaluation
+- Defaults: Apply Cynefin framework; use weighted matrices for multi-criteria decisions
+- Not in scope: Implementation planning (defer to /deploy or /estimate skills)
+</scope_constraints>
+
+<context>
+**Dependencies and Prerequisites:**
+- Clear decision statement and time horizon
+- Available options and relevant constraints
+- Access to data, metrics, or evidence about options
+- Stakeholder input where appropriate
+- Understanding of organizational strategy and values
+</context>
+
+<instructions>
+
+## Inputs
+- Decision statement (what choice needs to be made)
+- Available options and context
+- Success criteria or decision constraints
+- Relevant metrics or evidence
+- Stakeholder perspectives (if applicable)
+
+## Steps
+
+### Step 1: Frame the Decision and Purpose
 
 - Restate the decision as a concrete question (including time horizon and scope).
 - Apply a **Golden Circle** pass:
@@ -24,7 +56,7 @@ This workflow combines deep consideration with decisive action. It instructs Cas
   - The status quo (do nothing/change nothing).
   - At least one "minimal" and one "maximal" option where applicable.
 
-## 2. Map Context, Uncertainty, and Complexity
+### Step 2: Map Context, Uncertainty, and Complexity
 
 - Build a quick **CSD Matrix**:
   - Certainties (facts, constraints, invariants).
@@ -41,14 +73,14 @@ This workflow combines deep consideration with decisive action. It instructs Cas
   - Complex: run safe-to-fail experiments and probe-sense-respond.
   - Chaotic: act to stabilize first, then reassess.
 
-## 3. Define Evaluation Criteria
+### Step 3: Define Evaluation Criteria
 
 - Co-create or infer criteria aligned with the **Why**:
   - Value/impact, cost, risk, reversibility, strategic alignment, learning potential, user experience, team health.
 - Distinguish **must-have** vs **nice-to-have** criteria.
 - Weight criteria where necessary to reflect priorities.
 
-## 4. Evaluate Options with Structured Tools
+### Step 4: Evaluate Options with Structured Tools
 
 - For multi-criteria choices, use a **decision matrix**:
   - List options vs criteria.
@@ -58,7 +90,7 @@ This workflow combines deep consideration with decisive action. It instructs Cas
   - Reach, Impact, Confidence, Effort (RICE) or Impact, Confidence, Ease (ICE).
 - When economics dominate, outline a **Cost-Benefit Analysis**.
 
-## 5. Explore Edge Cases and Failure Modes
+### Step 5: Explore Edge Cases and Failure Modes
 
 - Perform a lightweight **pre-mortem**:
   - Assume the chosen option failed badly in 6–12 months – list reasons why.
@@ -67,7 +99,7 @@ This workflow combines deep consideration with decisive action. It instructs Cas
   - Organizational and product impacts (team workload, UX, customer trust, legal/compliance).
   - Second-order effects and path dependence (lock-in, opportunity cost, future flexibility).
 
-## 6. Choose and Record the Decision
+### Step 6: Choose and Record the Decision
 
 - Select the preferred option based on the chosen framework and evidence.
 - Make trade-offs explicit:
@@ -75,15 +107,34 @@ This workflow combines deep consideration with decisive action. It instructs Cas
 - Record the decision in a durable form (e.g., ADR, decision log) with:
   - Context, options, criteria, rationale, and expected outcomes.
 
-## 7. Plan Implementation and Guardrails
+### Step 7: Plan Implementation and Guardrails
 
 - Define concrete next steps, owners, and timelines.
 - Set leading indicators and guardrails to detect if the decision is going badly.
 - Decide on review checkpoints and conditions that would trigger reconsideration.
 
-## 8. Review and Learn from Decisions
+### Step 8: Review and Learn from Decisions
 
 - At review time, compare outcomes with expectations:
   - What worked, what surprised, and what assumptions were wrong.
 - Capture lessons for future decision-making.
 - Update documentation based on what was learned.
+
+## Error Handling
+
+- **Insufficient data**: Note gaps explicitly and make decision conditionally; plan to revisit with more data
+- **Stakeholder disagreement**: Surface competing priorities transparently; document rationale for chosen direction
+- **Decision becomes irreversible sooner than expected**: Escalate review and reconsideration timeline
+- **Multiple equally valid options**: Document trade-offs clearly and commit to one; plan monitoring to validate choice
+
+</instructions>
+
+<output_format>
+**Deliverables:**
+- Decision statement with clear options evaluated
+- CSD matrix and Cynefin classification
+- Evaluation criteria with weights and scoring
+- Pre-mortem analysis of failure modes
+- Decision record with rationale, trade-offs, and guardrails
+- Implementation plan and review timeline
+</output_format>

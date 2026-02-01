@@ -7,7 +7,36 @@ synonyms: ["/looping", "/looped", "/loops"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: false
+category: execution
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
+
+<scope_constraints>
+This skill enables autonomous execution within defined completion criteria and iteration limits. It creates tools and adapts strategy independently but respects resource limits and escalation triggers. Safety mechanisms prevent runaway execution.
+</scope_constraints>
+
+<context>
+This workflow enables the agent to execute work autonomously in a persistent loop until clearly-defined completion criteria are met. The agent operates independently, creating tools and capabilities as needed, with prompt-based self-assessment after each iteration and built-in safety guardrails.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Clear completion criteria (measurable, observable)
+- Current state and environment setup
+- Tool creation permissions and constraints
+- Escalation triggers and safety limits
+
+## Scope
+
+- **Clear end state**: You know exactly what "done" looks like
+- **Unpredictable path**: The approach may need to evolve as you learn
+- **Tool creation needed**: May need to build utilities or scripts along the way
+- **Self-directed execution**: Want the agent to work until truly complete
+- **Iterative refinement**: Each cycle improves toward the goal
 
 # Loop - Ralph Wiggum Autonomous Pattern
 
@@ -29,6 +58,14 @@ Execute work autonomously in a persistent loop until clearly-defined completion 
 - **Simple linear tasks**: One-shot execution is sufficient
 - **High-risk operations**: Need manual oversight at each step
 
+## Error Handling
+
+- **Blocker encountered**: Attempt autonomous resolution (tool creation, strategy pivot)
+- **Same error repeated**: Escalate after 3 consecutive failures
+- **No progress detected**: Request human guidance or pivot approach after 5 iterations
+- **Resource exhaustion**: Stop gracefully and document state for manual recovery
+- **Iteration limit reached**: Document final state and hand off for review
+
 ## The Ralph Wiggum Pattern
 
 Named after the character who persists until truly done, this pattern enables autonomous execution with:
@@ -38,6 +75,19 @@ Named after the character who persists until truly done, this pattern enables au
 - **Tool creation autonomy** to build what's needed
 - **Self-adaptive strategy** that pivots based on learning
 - **Safety mechanisms** to prevent runaway execution
+
+## Core Loop Workflow
+
+</instructions>
+
+<output_format>
+- **Loop contract**: Clear completion criteria and success indicators
+- **Execution log**: Per-iteration assessment (status, changes, tests, next action)
+- **Tool artifacts**: Created scripts, utilities, validation procedures
+- **Progress tracking**: Iteration count, completion percentage, blockers encountered
+- **Checkpoint artifacts**: Timestamped state snapshots for rollback
+- **Completion summary**: Final status, achievements, learnings, recommendations
+</output_format>
 
 ## Core Loop Workflow
 

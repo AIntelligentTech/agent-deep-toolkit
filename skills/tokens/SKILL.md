@@ -7,13 +7,35 @@ synonyms: ["/design-tokens", "/tokenising", "/tokenizing"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: design-systems
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
 
 # Tokens Workflow
 
 This workflow instructs Cascade to reverse-engineer and codify a UI's visual language as robust design tokens, ready for use in design tools and frontend code.
 
-## 1. Clarify Scope, Targets, and Goals
+<scope_constraints>
+Tokens scope: Design token extraction, codification, and system integration for colors, typography, spacing, sizing, motion, and elevation. Includes primitive and semantic token layers, multi-mode support (light/dark, themes). Not applicable to component design, UX strategy, or brand identity creation.
+</scope_constraints>
+
+<context>
+Design tokens are the bridge between design and code, encoding the visual language of a product. This workflow systematically extracts tokens from existing interfaces, organizes them into coherent scales and semantic mappings, and integrates them with design tools and frontend frameworks.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Existing design files, screenshots, or live interfaces
+- Scope (component, page, flow, product surface, or full system)
+- Goals (consistency, theming, cross-platform reuse, migration)
+- Target platforms (web, iOS, Android, desktop)
+- Frontend tech stack and design tools available
+
+### Step 1: Clarify Scope, Targets, and Goals
 
 - Define what you are extracting tokens from:
   - Single component, page, flow, product surface, or full design system.
@@ -22,7 +44,7 @@ This workflow instructs Cascade to reverse-engineer and codify a UI's visual lan
 - Note constraints:
   - Platforms in scope (web, iOS, Android, desktop), existing design tools, and frontend stacks.
 
-## 2. Inventory the Existing Visual Language
+### Step 2: Inventory the Existing Visual Language
 
 - Using design files and/or frontend inspection tools, systematically capture:
   - **Color**: background, foreground, accent, border, states (hover, focus, active, disabled), semantic roles (success, warning, error, info).
@@ -32,7 +54,7 @@ This workflow instructs Cascade to reverse-engineer and codify a UI's visual lan
   - **Motion and timing**: durations, easing curves, common animation patterns.
 - Look for implicit scales (e.g., 4/8/12px spacing, typographic steps) rather than one-off values.
 
-## 3. Derive Primitive Token Scales
+### Step 3: Derive Primitive Token Scales
 
 - Normalize raw values into **primitive tokens**:
   - E.g., `color.blue.50/100/500`, `space.0/1/2/3`, `radius.sm/md/lg`, `shadow.xs/sm/md/lg`, `duration.fast/normal/slow`.
@@ -40,7 +62,7 @@ This workflow instructs Cascade to reverse-engineer and codify a UI's visual lan
   - Prefer a small set of well-chosen steps over many near-duplicates.
 - Capture these primitives in a tool-agnostic format (e.g., JSON/YAML) to support multiple platforms.
 
-## 4. Define Semantic Tokens and Modes
+### Step 4: Define Semantic Tokens and Modes
 
 - Map primitives to **semantic tokens** that express UI meaning:
   - E.g., `color.bg.surface`, `color.text.muted`, `color.border.focus`, `color.action.primary`, `color.feedback.success.bg`.
@@ -48,7 +70,7 @@ This workflow instructs Cascade to reverse-engineer and codify a UI's visual lan
   - Keep semantic names stable while swapping underlying primitive values per mode.
 - Use naming that aligns with how designers and engineers describe the UI, not implementation details.
 
-## 5. Validate Tokens by Rebuilding Key Surfaces
+### Step 5: Validate Tokens by Rebuilding Key Surfaces
 
 - Choose representative components and screens:
   - Primary buttons, inputs, alerts, cards, navigation, and at least one complex page.
@@ -57,7 +79,7 @@ This workflow instructs Cascade to reverse-engineer and codify a UI's visual lan
 - Capture gaps revealed during this exercise:
   - Missing tokens, ambiguous names, or overly broad semantics.
 
-## 6. Plan Frontend Implementation and Tooling
+### Step 6: Plan Frontend Implementation and Tooling
 
 - Decide how tokens will be represented in code:
   - CSS variables, theme objects, Style Dictionary pipelines, platform-specific exports (iOS, Android), or a combination.
@@ -66,7 +88,7 @@ This workflow instructs Cascade to reverse-engineer and codify a UI's visual lan
 - Consider build and distribution strategy:
   - Versioning, package boundaries, and how teams adopt token updates.
 
-## 7. Integrate with Components, UX, and Tests
+### Step 7: Integrate with Components, UX, and Tests
 
 - Ensure components use tokens rather than hard-coded values:
   - Map semantic tokens to component props, variants, and states.
@@ -75,7 +97,7 @@ This workflow instructs Cascade to reverse-engineer and codify a UI's visual lan
 - Incorporate tokens into `/test` strategy where relevant:
   - Visual regression tests, snapshot tests, or contract tests for theming.
 
-## 8. Govern Token Evolution
+### Step 8: Govern Token Evolution
 
 - Define contribution and review processes for token changes:
   - Who can add/modify tokens, how proposals are evaluated, and how breaking changes are managed.
@@ -83,3 +105,16 @@ This workflow instructs Cascade to reverse-engineer and codify a UI's visual lan
   - Identify unused tokens and hard-coded values that should be migrated.
 - Keep documentation current:
   - Token catalogs, usage guidelines, and examples for designers and engineers.
+
+## Error Handling
+
+- If token inventory is incomplete, iterate and expand coverage.
+- If semantic mappings are ambiguous, refine naming and documentation.
+- If tokens don't reconstruct key surfaces, adjust primitives or add missing tokens.
+- If integration with frontend tools fails, validate tooling compatibility and adjust format.
+
+</instructions>
+
+<output_format>
+Provide comprehensive token system with primitives and semantic layers, multi-mode configurations (light/dark/themes), JSON/YAML source of truth, validation report showing key surfaces rebuilt with tokens, implementation guide for frontend/design tools, and governance guidelines.
+</output_format>

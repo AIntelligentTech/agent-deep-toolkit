@@ -7,7 +7,37 @@ synonyms: ["/integrating", "/integrated", "/integrates", "/seamless", "/harmoniz
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
+category: planning
+model: inherit
+created: 2026-01-15
+updated: 2026-02-01
 ---
+
+<scope_constraints>
+This skill focuses on integration planning for changes that fit into existing systems. It analyzes compatibility requirements, integration surfaces, sequencing, and edge cases. It produces integration plans but does not execute deployment—that's for the propagate skill.
+</scope_constraints>
+
+<context>
+This workflow plans how new changes fit cleanly into existing systems with systematic analysis of impact surfaces, compatibility requirements, edge cases, and rollout sequencing. It sits between architectural design and safe propagation.
+</context>
+
+<instructions>
+
+## Inputs
+
+- Change description (feature, API update, schema migration, library upgrade)
+- Current system architecture and dependencies
+- Version constraints and compatibility requirements
+- Deployment window and rollout constraints
+
+## Scope
+
+- **Fitting changes into existing systems**: New feature needs to work with current architecture
+- **Multi-component updates**: Changes touch multiple services or layers
+- **Version compatibility concerns**: Need to maintain backward compatibility
+- **Data migration required**: Schema or API changes affect existing data
+- **Cross-team coordination**: Integration spans multiple ownership boundaries
+- **High-risk integrations**: Breaking changes or critical path modifications
 
 # Integrate - Holistic Integration Planning
 
@@ -30,6 +60,14 @@ Plan how new changes fit cleanly into existing systems with systematic analysis 
 - **Pure refactoring**: Internal changes with identical external behavior
 - **Already in `/propagate`**: Use `/integrate` BEFORE `/propagate`, not during
 
+## Error Handling
+
+- **Unclear integration scope**: Ask for specific systems and connection points
+- **Incompatible requirements**: Surface trade-offs and recommend mitigation
+- **Edge case discovery**: Document all failure scenarios with recovery paths
+- **Missing dependencies**: Identify and reorder sequencing to address prerequisites
+- **Rollback uncertainty**: Require explicit rollback procedures before proceeding
+
 ## Position in Workflow Chain
 
 ```
@@ -37,7 +75,7 @@ Plan how new changes fit cleanly into existing systems with systematic analysis 
     ↓
 /decide (choice + rationale)
     ↓
-/integrate (NEW - integration planning) ← YOU ARE HERE
+/integrate (integration planning) ← YOU ARE HERE
     ↓
 /impact (downstream assessment)
     ↓
@@ -53,6 +91,19 @@ Plan how new changes fit cleanly into existing systems with systematic analysis 
 | **`/integrate`** | **How changes fit into existing system** | **Integration plan + sequencing** |
 | `/impact` | What breaks downstream | Impact report + mitigation |
 | `/propagate` | Safe rollout execution | Deployment steps + verification |
+
+</instructions>
+
+<output_format>
+- **Integration scope**: What's being integrated and where
+- **Integration surface map**: Direct, indirect, external, and data integrations
+- **Compatibility matrix**: Version requirements and breaking changes
+- **Integration points**: Detailed analysis of each connection
+- **Sequencing plan**: Phased approach with dependencies and rollback points
+- **Edge cases**: Failure scenarios and recovery procedures
+- **Validation strategy**: Testing and monitoring approach
+- **Integration patterns**: Reusable patterns and anti-patterns identified
+</output_format>
 
 ## Core Integration Workflow
 
