@@ -3,7 +3,7 @@ name: refactor
 description: Plan and execute safe, incremental refactors to improve design and maintainability
 command: /refactor
 aliases: ["/restructure", "/reorganize"]
-synonyms: ["/refactoring", "/refactored", "/refactors", "/restructuring", "/restructured", "/reorganizing", "/reorganized"]
+synonyms: ["/refactoring", "/refactored", "/refactors", "/restructuring", "/restructured", "/reorganizing", "/reorganized", "/reorganising", "/reorganised"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

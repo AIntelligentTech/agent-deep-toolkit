@@ -3,6 +3,7 @@ name: benchmark
 description: Performance benchmarking, comparison, and regression tracking
 command: /benchmark
 aliases: ["/perf-test", "/measure"]
+synonyms: ["/benchmarking", "/benchmarked", "/benchmarks", "/measuring", "/measured", "/measures"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

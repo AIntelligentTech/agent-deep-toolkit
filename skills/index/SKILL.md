@@ -3,6 +3,7 @@ name: index
 description: Navigator for all workflows - understand when to use each skill and how they relate
 command: /index
 aliases: ["/help", "/workflows", "/skills"]
+synonyms: ["/help", "/listing", "/navigating"]
 activation-mode: contextual
 user-invocable: true
 disable-model-invocation: true

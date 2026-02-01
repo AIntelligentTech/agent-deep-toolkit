@@ -2,6 +2,8 @@
 name: data
 description: Design trustworthy data models, quality controls, and governance for analytics and AI
 command: /data
+aliases: []
+synonyms: ["/modelling", "/modeling", "/modeled", "/modelled"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

@@ -3,6 +3,7 @@ name: followup
 description: Propose, refine, and prioritize follow-up work based on current tasks, progress, and roadmap
 command: /followup
 aliases: ["/next", "/nextsteps"]
+synonyms: ["/following-up", "/followed-up", "/next-steps"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

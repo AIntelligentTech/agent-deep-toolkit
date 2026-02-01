@@ -2,6 +2,8 @@
 name: impact
 description: Deeply assess the impact of a proposed change across code, performance, UX, security, governance, and cost
 command: /impact
+aliases: []
+synonyms: ["/impacting", "/impacted", "/impacts", "/impact-analysis", "/assessing-impact"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

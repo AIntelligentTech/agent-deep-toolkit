@@ -3,6 +3,7 @@ name: deploy
 description: Deployment strategy, rollout planning, canary, and blue-green patterns
 command: /deploy
 aliases: ["/release", "/rollout"]
+synonyms: ["/deploying", "/deployed", "/deploys", "/releasing", "/released", "/releases", "/rolling-out"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

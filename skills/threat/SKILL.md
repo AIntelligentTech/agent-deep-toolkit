@@ -3,6 +3,7 @@ name: threat
 description: Systematically identify and mitigate security and privacy threats using modern threat-modeling practices
 command: /threat
 aliases: ["/threat-model", "/security"]
+synonyms: ["/threat-modelling", "/threat-modeling", "/securing", "/secured", "/security-review"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

@@ -3,6 +3,7 @@ name: dependency
 description: Analyze, audit, and manage project dependencies for security and maintainability
 command: /dependency
 aliases: ["/deps", "/dependencies"]
+synonyms: ["/deps", "/dependencies", "/managing-deps"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

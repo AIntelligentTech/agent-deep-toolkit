@@ -3,6 +3,7 @@ name: inventory
 description: Systematically enumerate and characterize items within a target area to produce a rich, actionable inventory
 command: /inventory
 aliases: ["/catalog", "/enumerate"]
+synonyms: ["/inventorying", "/inventoried", "/cataloguing", "/cataloging", "/catalogued", "/enumerating", "/enumerated"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

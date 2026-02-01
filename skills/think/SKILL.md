@@ -3,7 +3,7 @@ name: think
 description: Perform deep reasoning and analysis on a subject, considering patterns, edge cases, and multiple perspectives
 command: /think
 aliases: ["/reason", "/analyze", "/ponder"]
-synonyms: ["/thought", "/thinking", "/thinks", "/reasoning", "/pondering", "/pondered", "/analysis"]
+synonyms: ["/thought", "/thinking", "/thinks", "/reasoning", "/pondering", "/pondered", "/analysis", "/analysing", "/analysed", "/analyse"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

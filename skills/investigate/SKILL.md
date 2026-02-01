@@ -3,6 +3,7 @@ name: investigate
 description: Conduct rigorous, multi-method investigations into issues, claims, ideas, and feasibility using structured problem-solving frameworks
 command: /investigate
 aliases: ["/dig", "/probe", "/examine"]
+synonyms: ["/investigating", "/investigated", "/investigates", "/investigation", "/digging", "/probing", "/probed", "/examining", "/examined"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

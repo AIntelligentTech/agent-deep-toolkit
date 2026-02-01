@@ -3,6 +3,7 @@ name: compliance
 description: Evaluate and address ethical, regulatory, and legal obligations for software and AI systems
 command: /compliance
 aliases: ["/ethics", "/regulation", "/legal"]
+synonyms: ["/complying", "/complied", "/complies"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

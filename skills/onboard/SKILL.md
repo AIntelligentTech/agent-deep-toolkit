@@ -3,6 +3,7 @@ name: onboard
 description: Create onboarding materials for developers joining a codebase
 command: /onboard
 aliases: ["/onboarding", "/getting-started"]
+synonyms: ["/onboarding", "/onboarded", "/getting-started"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

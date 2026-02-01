@@ -3,6 +3,7 @@ name: brainstorm
 description: Generate and evaluate innovative ideas, alternatives, and creative solutions grounded in context and constraints
 command: /brainstorm
 aliases: ["/ideas", "/alternatives", "/ideate"]
+synonyms: ["/brainstorming", "/brainstormed", "/brainstorms", "/ideating", "/ideated", "/ideates"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

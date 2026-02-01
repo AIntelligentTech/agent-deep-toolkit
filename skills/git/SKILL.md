@@ -3,6 +3,7 @@ name: git
 description: Expert Git/GitHub partner for clean history, branches, PRs, and repo best practices
 command: /git
 aliases: ["/github", "/vcs"]
+synonyms: ["/committing", "/committed", "/commits", "/branching", "/branched", "/merging", "/merged"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

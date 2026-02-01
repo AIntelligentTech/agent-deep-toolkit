@@ -3,6 +3,7 @@ name: estimate
 description: Effort estimation, complexity analysis, and time/resource planning
 command: /estimate
 aliases: ["/scope", "/sizing"]
+synonyms: ["/estimating", "/estimated", "/estimates", "/estimation", "/scoping", "/scoped", "/sizing"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

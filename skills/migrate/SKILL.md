@@ -3,6 +3,7 @@ name: migrate
 description: Safely plan and execute data, schema, or API migrations with rollback strategies
 command: /migrate
 aliases: ["/migration", "/upgrade"]
+synonyms: ["/migrating", "/migrated", "/migrates", "/upgrading", "/upgraded", "/upgrades"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

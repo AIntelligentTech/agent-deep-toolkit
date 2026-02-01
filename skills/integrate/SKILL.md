@@ -3,7 +3,7 @@ name: integrate
 description: Plan clean, holistic integration of changes with systematic analysis of impact surfaces, edge cases, and compatibility requirements
 command: /integrate
 aliases: ["/integration", "/integrate-plan", "/fit"]
-synonyms: ["/integrating", "/integrated", "/integrates", "/seamless", "/harmonize", "/compatibility", "/fit-check"]
+synonyms: ["/integrating", "/integrated", "/integrates", "/seamless", "/harmonize", "/compatibility", "/fit-check", "/harmonise", "/harmonising", "/harmonised"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

@@ -3,6 +3,7 @@ name: relentless
 description: Multiply effort and depth; iterate until the goal is truly done
 command: /relentless
 aliases: ["/try-hard", "/dont-stop", "/ultrathink"]
+synonyms: ["/relentlessly", "/trying-hard", "/ultrathinking", "/deep-effort"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

@@ -2,6 +2,8 @@
 name: svg
 description: Generate, validate, and refine high-quality SVGs using modern AI models
 command: /svg
+aliases: []
+synonyms: ["/svgs", "/vector", "/vectors"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

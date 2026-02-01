@@ -3,6 +3,7 @@ name: experiment
 description: Design and run high-quality experiments to validate ideas with evidence
 command: /experiment
 aliases: ["/test-hypothesis", "/ab-test"]
+synonyms: ["/experimenting", "/experimented", "/experiments", "/hypothesising", "/hypothesizing", "/ab-testing"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

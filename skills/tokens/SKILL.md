@@ -3,6 +3,7 @@ name: tokens
 description: Extract and systematize design tokens from existing interfaces into a reliable design system foundation
 command: /tokens
 aliases: ["/design-tokens"]
+synonyms: ["/design-tokens", "/tokenising", "/tokenizing"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

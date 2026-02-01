@@ -3,7 +3,7 @@ name: architect
 description: Act as a world-class software architect and principal engineer to design robust systems using modern best practices
 command: /architect
 aliases: ["/design-system", "/structure", "/blueprint"]
-synonyms: ["/architecting", "/architected", "/architecture", "/modeling", "/blueprint", "/structuring", "/structured"]
+synonyms: ["/architecting", "/architected", "/architecture", "/modeling", "/blueprint", "/structuring", "/structured", "/modelling"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

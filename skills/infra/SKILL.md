@@ -3,6 +3,7 @@ name: infra
 description: Design and operate resilient, secure, and automatable infrastructure
 command: /infra
 aliases: ["/infrastructure", "/devops", "/platform"]
+synonyms: ["/provisioning", "/provisioned", "/scaling", "/containerising", "/containerizing"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

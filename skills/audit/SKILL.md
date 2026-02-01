@@ -2,6 +2,8 @@
 name: audit
 description: Perform structured audits of codebases or systems across multiple dimensions
 command: /audit
+aliases: []
+synonyms: ["/auditing", "/audited", "/audits"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true

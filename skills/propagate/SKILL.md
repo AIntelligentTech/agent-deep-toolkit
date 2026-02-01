@@ -2,6 +2,8 @@
 name: propagate
 description: Safely propagate an approved change across code, tests, docs, infrastructure, and external systems in small, validated increments
 command: /propagate
+aliases: []
+synonyms: ["/propagating", "/propagated", "/propagates", "/rolling-out", "/rolled-out"]
 activation-mode: auto
 user-invocable: true
 disable-model-invocation: true
