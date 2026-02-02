@@ -15,6 +15,83 @@ The goal is to keep procedures conceptually identical across agents while
 keeping their implementations **independent** so you can install Windsurf,
 Claude Code, or Cursor tooling separately.
 
+## Quick Start (5 Minutes)
+
+### 1️⃣ Install
+
+```bash
+# Clone repository
+git clone https://github.com/AIntelligentTech/agent-deep-toolkit.git
+cd agent-deep-toolkit
+
+# Interactive wizard (recommended for first-time users)
+./install.sh --wizard
+
+# Or direct install for all detected agents
+./install.sh --agent all --level user
+```
+
+### 2️⃣ Choose Your Agent
+
+The installer automatically detects:
+- **Claude Code** → Skills installed to `~/.claude/skills/`
+- **Windsurf Cascade** → Workflows installed to `~/.windsurf/workflows/`
+- **Cursor** → Commands installed to `~/.cursor/commands/`
+- **OpenCode** → Commands installed to `~/.opencode/commands/`
+
+### 3️⃣ Try Your First Skill
+
+**Claude Code:** Type in chat
+```bash
+/think "How should I architect a real-time notification system?"
+```
+
+**Windsurf:** Type in chat (auto-suggests contextually)
+```bash
+/architect
+```
+
+**Cursor:** Command Palette (`Cmd+K` or `Ctrl+K`)
+```text
+think <Enter>
+```
+
+**OpenCode:** Type in chat
+```bash
+/think "notification system design"
+```
+
+### 4️⃣ Explore 50 Skills
+
+- Type `/index` (Claude/OpenCode) or `/help` to see all skills
+- Read [EXAMPLES.md](EXAMPLES.md) for practical recipes
+- Review [ARCHITECTURE.md](ARCHITECTURE.md) to understand the system
+
+## How It Works
+
+```
+┌──────────────────────────────────────────┐
+│   Single CACE Source (skills/*.md)       │  ← One skill definition
+│   Frontmatter + XML-tagged instructions  │
+└──────────────┬───────────────────────────┘
+               │
+               ▼
+       ┌───────────────┐
+       │ Build Pipeline │  ← Convert to agent formats
+       └───────┬────────┘
+               │
+    ┌──────────┼──────────┬──────────┐
+    ▼          ▼          ▼          ▼
+ Windsurf   Claude     Cursor    OpenCode   ← Agent-specific outputs
+ Workflows  Skills     Commands  Commands
+```
+
+**Key Benefits:**
+- **Portable:** One skill, four agent formats
+- **Deep Work:** Strategic thinking, not just code completion
+- **Battle-Tested:** 50 skills refined over real-world projects
+- **Open Source:** MIT licensed, community-driven
+
 ## Workflow Suite (v2.0)
 
 The toolkit provides **48 specialized workflows** organized into 7 categories:
