@@ -1,0 +1,193 @@
+{
+    "repo": "agent-deep-toolkit",
+    "version": "0.1.0",
+    "doc_standard_version": "1",
+    "docs_generated_at": "2026-02-02T16:22:23Z",
+    "docs": {
+        "API.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "3ac4cfd99205b3d6cc6dd162d5f38eea18e43ecc08e3f29d840ed1427e3f0e09"
+        },
+        "ARCHITECTURE.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "dd4acf6f43fc29deeec65198e29ae2690a6cd94196bbf9bc9d85a696f4f9bf20"
+        },
+        "CONTRIBUTING.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "6c8d3551457a26e15c64de94f6eb388334f1537b05f72de751118d78e399655d"
+        },
+        "README.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "aca1ce64be8c512b9c26c5294159435c28071a7379b4cd55edb07adc1b8c2feb"
+        },
+        "archive/pre-v2-reorg/BUILD-TIME-CACE-ANALYSIS.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "2181072fee4e62c454f16d389968b245d4ec56d838b2cb6905da0a9ae475d1aa"
+        },
+        "archive/pre-v2-reorg/CACE-EVALUATION.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "de32acdaf5e8ab073018b8b5e4479bb3834458bb07a2aa930e964437cb0ec0e8"
+        },
+        "archive/pre-v2-reorg/CACE_MIGRATION_ARCHITECTURE.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "51512484f1a3e753e0c19f9408e965f0257177bc0649753bc561eaa8e9f9996e"
+        },
+        "archive/pre-v2-reorg/MIGRATION-TO-CACE.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "819ce0ffc089a45e6104abd4a062f847472985378535f19e38546307c39491b6"
+        },
+        "archive/pre-v2-reorg/OPTION-D-ANALYSIS.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "2df41d2acbf5675291ed0d837977523c7ca8555f97c6c7647f78d054ab75421f"
+        },
+        "archive/pre-v2-reorg/RELEASE-SYSTEM-ASSESSMENT.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "9faea838175728042558ef0614af91d59ee7526a4e7b15640aec442cb225fe6f"
+        },
+        "archive/pre-v2-reorg/WINDSURF-INSTALLATION-DETECTION.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "4be7cf5109b88cb816d8d3a7e54897ced487a42d3f393c0297e42a3e633d7783"
+        },
+        "archive/pre-v2-reorg/architecture/cross-agent-compatibility-engine.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "633b9cc1bdef44936a6b283d1698b4e5f1a6cbf09bdbd5f95cc3864a48d3941a"
+        },
+        "archive/pre-v2-reorg/architecture/cross-agent-compatibility-system-design.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "9f656f604006cb9085e8d6cb1db5c8c82040ad767a651d26875f1de403540dfb"
+        },
+        "concepts/core-concepts.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "3035ed6e7da79c05c1a48ec96fc70ebc92b860396bb3271b2d7f1ec0ad571079"
+        },
+        "concepts/data-model.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "a9e66a42f901eddac6aa2f66aded4944f88fc1c0106f490630af5933b7ef8e0a"
+        },
+        "concepts/execution-model.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "753815ccb75816f86faf1aace5fdb073f93b3c883bd71bc99f66dc53146e074f"
+        },
+        "concepts/security-model.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "6d2faa1a1ef6eebe6e883be92cdc539b1f7b8d925fccb53c5f7dc28b85fcddcd"
+        },
+        "development/contributing.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "26cf0c51e74b9a79bb506ced2b3be0f4504c2e187fde9a33c37d5675fc98d749"
+        },
+        "development/release-process.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "26a5412db67904113a0f09c090efff232529fa2631eb715591bbf9e6f72c25eb"
+        },
+        "development/setup.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "d3c585f1b372fa371284a61853838e4ac4e9bd372f37c5fe9445af2dbdec6c01"
+        },
+        "development/testing.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "b7f858273b2cbb0c750bbd80bc77e88e6db53726ba476958aa7393a5da1586d2"
+        },
+        "examples/advanced.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "6214d1f8c74d1506ba072c446586902924a03215d485a8d45e18a34f79c10734"
+        },
+        "examples/basic.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "5971c0ff8cca669e6d8c7296ab28c9465f72195f3bd84b8ba210cd9df0f27a61"
+        },
+        "examples/troubleshooting.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "6453ee2f1ec6fc1fa231bf20b07e09375afdb4033bea99cd91bcb93d482bb106"
+        },
+        "guides/configuration.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "a1d5c88145f0bd85f180ecc06b215b5bcab2e37d3899714c9774c4b328e82185"
+        },
+        "guides/installation.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "c2435c5fb2e418add550f783366159c4b2499c7569c00ccb523aac3089d708a4"
+        },
+        "guides/quick-start.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "7ef8da1fbfa7952ba050949ebb9d7f0746484cf7746807a0b766a028511fe412"
+        },
+        "guides/troubleshooting.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "cdbbc1811872b2b54b317235924489d38dfbefade68b40b58e558c1f3a72d8ef"
+        },
+        "guides/upgrading.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "337f0870bc9f5df91b9b5599b14228f09704fe4fef4f7d0a70deeb66cfa803d6"
+        },
+        "overview/architecture.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "b0230b4c9a2b11d9a035ab38695fca3a574d4eb2edfe07dd5972a048d4645b35"
+        },
+        "overview/introduction.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "708e2f14354f2964b3352b0c0c848448686b6ece34138586501b820e95b894b3"
+        },
+        "overview/philosophy.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "c3fe0a79b0628bd85b2ce733038c1260fd89a6e5cf19d3a4b57e26f9c8ac0f8b"
+        },
+        "overview/roadmap.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "45e64d0dcc21e0074612a0ac8b2a5a9defc0aad7bb7f88c351daebac81105da9"
+        },
+        "reference/api/index.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "fed3da565da68543c9a1512ad1574979b1d5ac1341367886b8014ab4340cbdae"
+        },
+        "reference/cli.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "b53edbed18801e8c521598d412561c49f2d0054b30df1d37e8c10d8386022828"
+        },
+        "reference/configuration.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "495886ca2d992154106e0dd17a8b1a61e0d3a41c3a0f11bcd1d165c28d2f49c0"
+        },
+        "reference/environment-variables.md": {
+            "last_updated": "2026-02-02T16:22:23Z",
+            "applies_to": ">=0.1.0",
+            "sha256": "e2adb13169378b53c57512bdd153078cfb7a1dd1d0100850f876435b0f0bde4c"
+        }
+    }
+}

@@ -1,3 +1,16 @@
+---
+title: "Option D Analysis: Claude-First + External CACE"
+version: "0.1.0"
+doc_version: "1"
+generated_at: "2026-02-02T16:22:23Z"
+generated_by: "llm-doc-system"
+last_verified: "2026-02-02T16:22:23Z"
+applies_to_version: ">=0.1.0"
+status: "current"
+toc: true
+progressive_disclosure: true
+---
+
 # Option D Analysis: Claude-First + External CACE
 
 **Date:** 2026-01-26 **Version:** 1.0 **Status:** Critical Architectural
